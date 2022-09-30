@@ -1,0 +1,43 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+
+{% block content %}
+  {% include 'templates/menu.twig' %}
+  <h1>Jogando - {{ deck.name }}</h1>
+  <section class="flash-cards-playing">
+  <h2>Verso</h2>
+    <h3>{{flashCard}}</h3>
+    <a href="/organizacoes/{{ organization.id }}/despesas/categorias/criar">+ categoria</a>
+    <ul class="mdcr-model-list">
+      {% for category in expenseCategories %}
+        <li>
+          <span>{{ category.category }}</span>
+          <div class="actions">
+            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/editar">{{ icon('edit', 'green') }}</a>
+            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/excluir">{{ icon('delete', 'red') }}</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="expenses">
+    <h2>Despesas</h2>
+    <a href="/organizacoes/{{ organization.id }}/despesas/criar">+ despesa</a>
+    <ul class="mdcr-model-list">
+      {% for expense in expenses %}
+        <li>
+          <span>{{ expense.description }}</span>
+          <span>{{ expense.category.category }}</span>
+          <span class="amount">R$ {{ expense.amount }}</span>
+          <div class="actions">
+            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/editar">{{ icon('edit', 'green') }}</a>
+            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/excluir">{{ icon('delete', 'red') }}</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+  <a class="add-new-float" href="/organizacoes/criar">+</a>
+{% endblock %}

@@ -1,0 +1,13 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "Src/",
+      "MDCR\\": "Src/MDCR/",
+      "MDCR\\Models\\": "Src/Models/"
+    }
+  },
+  "require": {
+    "twig/twig": "^3.3",
+    "symfony/asset": "^5.3"
+  }
+}

@@ -1,0 +1,21 @@
+{%extends 'templates/base.twig'%}
+{% use 'templates/head.twig'%}
+
+{% block content %}
+  <link rel="stylesheet" href="{{ asset('css/MDCR_404.css') }}">
+  <div id="sun"></div>
+  <div id="not-found">
+    <div>
+      <h1>404</h1>
+      <h5>Página não encontrada</h5>
+    </div>
+  </div>
+  <div id="ground" class="fixed-bottom">
+    <div id="cactus01">
+      <div id="cactus02"></div>
+      <div id="cactus03"></div>
+      <div id="cactus04"></div>
+      <div id="cactus05"></div>
+    </div>
+  </div>
+{% endblock %}

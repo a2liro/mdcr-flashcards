@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Controllers;
+
+class HelloController extends Controller
+{
+  // public function index($id, $name)
+  public function index()
+  {
+    $helloWorld = "Hello World! Mandacaru!";
+    $this->view('index.twig', ['helloWorld' => $helloWorld]);
+    // return $this->redirect('/casamento/josilene-e-andre');
+  }
+
+  public function hello() {
+    echo "hello";
+  }
+
+  public function api()
+  {
+    $arr = array();
+    $arr['name'] = 'André';
+    $arr['age'] = 21;
+    // echo json_encode($arr);
+    $this->json($arr);
+  }
+}

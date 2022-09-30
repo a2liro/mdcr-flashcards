@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    {% block head %}
+      <title>
+        {% block title %}
+
+        {% endblock %}- Mandacaru PHP
+      </title>
+    {% endblock %}
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <content>
+      <div id="content">
+        {% block content %}
+
+        {% endblock %}
+      </div>
+    </content>
+    <footer class="mt-auto">
+      <div id="footer">
+        {% block footer %}
+          &copy; MDCR - Mandacaru PHP <a href="http://mdcr.com.br/">you</a>.
+        {% endblock %}
+      </div>
+    </footer>
+  </body>
+</html>

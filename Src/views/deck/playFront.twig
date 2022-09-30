@@ -1,0 +1,28 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+
+{% block content %}
+  {% include 'templates/menu.twig' %}
+  <h1>Jogando - {{ deck.name }}</h1>
+  <section class="flash-cards-playing">
+    <h2>Frente</h2>
+    <h3>{{ card.front }}</h3>
+    <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+    <div class="card-actions">
+      <nav class="menu">
+        <ul>
+          <li>
+            <a href="#">Virar</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+  <script>
+    function play() {
+      let audio = document.getElementById('audio')
+      audio.play()
+    }
+    play();
+  </script>
+{% endblock %}

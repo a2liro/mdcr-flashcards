@@ -1,0 +1,24 @@
+{% extends "./templates/base.twig" %}
+{% use "./templates/head.twig" %}
+
+
+{% block content %}
+	<div class="container mdcr-h-center">
+		<div class="mdrc-card">
+			<form action="/login" method="POST" class="mdcr-form-middle">
+				<div class="mdcr-form-group">
+					<label for="email">Email</label>
+					<input type="email" name="email">
+				</div>
+				<div class="mdcr-form-group">
+					<label for="password">Senha</label>
+					<input type="password" name="password">
+				</div>
+				<div class="mdcr-form-group">
+					<input type="submit" value="Login">
+				</div>
+			</form>
+		</div>
+
+	</div>
+{% endblock %}

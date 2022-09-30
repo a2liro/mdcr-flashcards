@@ -1,0 +1,89 @@
+
+/* Css of 404 page  */
+
+
+
+
+
+body {
+  background-image: linear-gradient(50deg, #EADEDB 0%, #f4eeee 50%, #ffffcc 75%)
+}
+
+#not-found {
+  margin-top: 2em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  color: #527127;
+}
+
+#not-found h1 {
+  font-size: 7em;
+}
+
+#ground {
+  /* background-color: #C2B280; */
+  background-image: linear-gradient(140deg, #EADEDB 0%, #C2B280 50%, #c1a140 75%);
+  height: 23%;
+  bottom: 2em;
+  border-radius: 30% 90% 0em 0em;
+  border-top: 2em solid #c2b280;
+}
+
+#cactus01 {
+  position: relative;
+  width: 3em;
+  height: 16em;
+  left: 14%;
+  top: -15em;
+  border-radius: 1.5em 1.5em 0em 0em;
+  background-color: #526E2A;
+}
+
+#cactus02 {
+  position: relative;
+  background-color: #526E2A;
+  width: 5.5em;
+  height: 2em;
+  top: 6em;
+  border-radius: 0 0 1em 0;
+}
+
+#cactus03 {
+  position: relative;
+  background-color: #526E2A;
+  width: 2em;
+  height: 6em;
+  right: -4.5em;
+  border-radius: 1em 1em 1em 0em;
+}
+
+#cactus04 {
+  position: relative;
+  background-color: #526E2A;
+  width: 5em;
+  height: 2em;
+  top: 0em;
+  border-radius: 0 0 0 1em;
+  left: -3.5em;
+}
+
+#cactus05 {
+  position: relative;
+  background-color: #526E2A;
+  width: 2em;
+  height: 6em;
+  left: -3.5em;
+  border-radius: 1em 1em 1em 1em;
+  top: -6em;
+}
+
+#sun {
+  position: absolute;
+  background-color: #F28C38;
+  width: 5em;
+  height: 5em;
+  border-radius: 50%;
+  right: 3em;
+}
+
