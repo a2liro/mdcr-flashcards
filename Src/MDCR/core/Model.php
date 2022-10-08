@@ -14,9 +14,13 @@ class Model implements iModel
     public function __construct(string $table, array $fields)
     {
         $this->connection = new Connection();
+        $this->whereQuery = '';
+        $this->columnsToSelect = '';
+        $this->orderQuery = '';
     }
 
-    public function getTable() {
+    public function getTable()
+    {
         return $this->table;
     }
 
@@ -39,16 +43,25 @@ class Model implements iModel
         $this->connection->store($this->bean);
     }
 
-    public function update(array $data): object
+    public function update(array $data = null): object
     {
-        foreach ($this->fields as $field => $value) {
-            $model = $this->checkIfKeyExistsInArray($field, $data, $this);
-            $this->checkIfKeyIsUnique($field, $data);
+        $model = null;
+        if ($data == null) {
+            $this->connection->update($this);
+            $model = $this;
+        } else {
+            foreach ($this->fields as $field => $value) {
+                echo "----------";
+                var_dump($data);           
+                echo "----------";
+                $model = $this->checkIfKeyExistsInArray($field, $data, $this);
+                $this->checkIfKeyIsUnique($field, $data);
+            }
+            $this->connection->update($model);
         }
-        $this->connection->update($model);
+        
 
         return $model;
-        
     }
 
     public function delete(object $model): bool
@@ -93,7 +106,7 @@ class Model implements iModel
     public function findOneByParams(array $data)
     {
         $this->bean = $this->connection->findOneByParams($this->table, $data);
-        foreach($this->bean as $key => $value) {
+        foreach ($this->bean as $key => $value) {
             $this->{$key} = $value;
         }
         return $this;
@@ -101,5 +114,66 @@ class Model implements iModel
     public function findAllByParams(array $data)
     {
         return $this->connection->findAllByParams($this->table, $data);
+    }
+
+    public function select($paramns = null)
+    {
+        if ($paramns == null) {
+            $this->columnsToSelect = "select * ";
+        } else {
+
+            $this->columnsToSelect = "select $paramns ";
+        }
+        return $this;
+    }
+
+    /*
+    *
+    * @where(['column', 'operator', 'value'], ['column', 'operator', 'value'], ...)
+    */
+    public function where(...$data)
+    {
+        // foreach ($data as $paramns) {
+        foreach ($data as $item) {
+            if (strlen($this->whereQuery) < 1) {
+                $this->whereQuery = "where $item[0] $item[1] $item[2]";
+            } else {
+                $this->whereQuery = $this->whereQuery . " and $item[0] $item[1] $item[2]";
+            }
+        }
+        // }
+        return $this;
+    }
+
+    public function orderBy(...$data) {
+        foreach ($data as $item) {
+            if (strlen($this->orderQuery) < 1) {
+                $this->orderQuery = "order by $item[0] $item[1]";
+            } else {
+                $this->orderQuery = $this->orderQuery . ", order by $item[0] $item[1]";
+            }
+        }
+        return $this;
+    }
+
+    public function get()
+    {
+        $query = '';
+        if (!$this->columnsToSelect) {
+            $this->select();
+        }
+
+        $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery . " $this->orderQuery";
+        $result = $this->connection->get($query, $this->table);
+        $models = [];
+        foreach ($result as $item) {
+            $model = clone $this; //$this->connection->createModel($this->table);
+            foreach ($item as $key => $column) {
+                $model->{$key} = $column;
+            }
+            
+            $models[] = $model;
+        }
+        return $models;
     }
 }

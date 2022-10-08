@@ -71,10 +71,9 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $deck = (new Deck())->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $deck->ownGiftList = $deck->bean->ownGiftList;
-        
+
         $flashCards = (new FlashCard())->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
-        var_dump($user->id);
-        
+
         return $this->view(
             'deck/show.twig',
             [
@@ -96,10 +95,17 @@ class DeckController extends Controller
     public function playFront(Request $request, int $deckId)
     {
         $user = (new User())->getCurrentUser();
-        $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new FlashCard)->where(
+            ['user_id', '=', $user->id],
+            ['deck_id', '=', $deckId],
+            ['nextshow', '<=', "'$currentDate'"]
+        )->orderBy(['nextshow', 'desc'])
+        ->get();
+        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
-        return $this->view('deck/playFront.twig', ['card' => $card, 'deck', $deck]);
+        return $this->view('deck/playFront.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 
     public function playBack(Request $request, int $deckId, int $cardId)
@@ -108,6 +114,6 @@ class DeckController extends Controller
         $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
-        return $this->view('deck/playBack.twig', ['card' => $card, 'deck', $deck]);
+        return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
     }
 }

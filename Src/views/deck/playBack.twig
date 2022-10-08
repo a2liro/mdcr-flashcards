@@ -5,39 +5,30 @@
   {% include 'templates/menu.twig' %}
   <h1>Jogando - {{ deck.name }}</h1>
   <section class="flash-cards-playing">
-  <h2>Verso</h2>
-    <h3>{{flashCard}}</h3>
-    <a href="/organizacoes/{{ organization.id }}/despesas/categorias/criar">+ categoria</a>
-    <ul class="mdcr-model-list">
-      {% for category in expenseCategories %}
-        <li>
-          <span>{{ category.category }}</span>
-          <div class="actions">
-            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/editar">{{ icon('edit', 'green') }}</a>
-            <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/excluir">{{ icon('delete', 'red') }}</a>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
+    <h2>Verso</h2>
+    <h3>{{ card.back }}</h3>
+    <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+    <div class="card-actions">
+      <nav class="menu">
+        <ul>
+          <li>{{deck.id}} {{card.id}}
+            <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}">Virar</a>
+          </li>
+          <li><a href="/baralhos/{{deck.id}}/flash-cards/{{card.id}}/nota/30">Muito fácil</a></li>
+                    <li><a href="/baralhos/{{deck.id}}/flash-cards/{{card.id}}/nota/7">Fácil</a></li>
+          <li><a href="/baralhos/{{deck.id}}/flash-cards/{{card.id}}/nota/2">Médio</a></li>
+          <li><a href="/baralhos/{{deck.id}}/flash-cards/{{card.id}}/nota/1">Difícil</a></li>
+          <li><a href="/baralhos/{{deck.id}}/flash-cards/{{card.id}}/nota/0">Muito Difícil</a></li>
+
+        </ul>
+      </nav>
+    </div>
   </section>
-  <section class="expenses">
-    <h2>Despesas</h2>
-    <a href="/organizacoes/{{ organization.id }}/despesas/criar">+ despesa</a>
-    <ul class="mdcr-model-list">
-      {% for expense in expenses %}
-        <li>
-          <span>{{ expense.description }}</span>
-          <span>{{ expense.category.category }}</span>
-          <span class="amount">R$ {{ expense.amount }}</span>
-          <div class="actions">
-            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/editar">{{ icon('edit', 'green') }}</a>
-            <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/excluir">{{ icon('delete', 'red') }}</a>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-  <a class="add-new-float" href="/organizacoes/criar">+</a>
+  <script>
+    function play() {
+      let audio = document.getElementById('audio')
+      audio.play()
+    }
+    play()
+  </script>
 {% endblock %}

@@ -34,9 +34,9 @@ class FlashCardController extends Controller
         $data = $request->all();
         $data['user_id'] = $user->id;
         $data['deck_id'] = $deckId;
-        $data['difficulty'] = 5;
-        $data['lastshow'] = date('Y-m-d');
-        // $data['nextshow'] = date('Y-m-d');
+        $data['difficulty'] = 1;
+        $data['lastshow'] = date('Y-m-d H:m:s');
+        $data['nextshow'] = date('Y-m-d H:m:s');
         $data['lastinterval'] = 0;
         $flashCard = new FlashCard();
         $flashCard->create($data);
@@ -63,7 +63,7 @@ class FlashCardController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $flashCard = new FlashCard();
-        $flashCard = $flashCard->findOneByParams(['user_id' => $user->id]);
+        $flashCard = $flashCard->findOneByParams(['user_id' => $user->id, 'id' => $id]);
         /* $flashCard->update($data); */
         if ($flashCard->id == $id) {
             $flashCard->update($data);
@@ -82,13 +82,12 @@ class FlashCardController extends Controller
         $expenseCategory = new ExpenseCategory();
         $expenseCategories = $expenseCategory->findAllByParams(['user_id' => $user->id, 'flashCard_id' => $id]);
         $expenses = (new Expense())->findAllByParams(['user_id' => $user->id, 'flashCard_id' => $id]);
-        foreach($expenses as $index => $expense) {
+        foreach ($expenses as $index => $expense) {
             // $expense->category = $expense->ownCategory;
             $category = $expense->category_id;
-            $expenses[$index]->category = (function() use ($expense, $expenseCategories) {
-                foreach($expenseCategories as $category) {
-                    if($category->id == $expense->category_id) {
-                        var_dump($category);
+            $expenses[$index]->category = (function () use ($expense, $expenseCategories) {
+                foreach ($expenseCategories as $category) {
+                    if ($category->id == $expense->category_id) {
                         return $category;
                     }
                 }
@@ -104,5 +103,20 @@ class FlashCardController extends Controller
             ]
         );
     }
-   
+
+    public function note(Request $request, int $deckId, int $cardId, $note)
+    {
+        $user = (new User())->getCurrentUser();
+        $cards = (new FlashCard())->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $cardId]
+        )->get();
+        $cards[0]->difficulty = $note;
+        $cards[0]->lastshow = date('Y-m-d H:i:s');
+        $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime($cards[2]->lastshow . " +$note day"));
+        
+        $cards[0]->update();
+        
+        header("Location: /baralhos/1/jogar/frente");
+    }
 }

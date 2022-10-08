@@ -11,8 +11,8 @@
     <div class="card-actions">
       <nav class="menu">
         <ul>
-          <li>
-            <a href="#">Virar</a>
+          <li>{{deck.id}} {{card.id}}
+            <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}">Virar</a>
           </li>
         </ul>
       </nav>
@@ -23,6 +23,6 @@
       let audio = document.getElementById('audio')
       audio.play()
     }
-    play();
+    play()
   </script>
 {% endblock %}

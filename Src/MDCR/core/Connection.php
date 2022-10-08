@@ -2,6 +2,8 @@
 
 namespace MDCR\core;
 
+use function PHPSTORM_META\type;
+
 require_once(__DIR__ . '/' . '../libs/rb.php');
 
 
@@ -87,5 +89,12 @@ class Connection
 
             return $model;
         }
+    }
+
+    public function get($query, $table)
+    {
+        $rows = \R::getAll($query);
+        $models = \R::convertToBeans($table, $rows);      
+        return $models;
     }
 }

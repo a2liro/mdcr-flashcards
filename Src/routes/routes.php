@@ -18,16 +18,16 @@ $router->get(['/baralhos/{id}/visualizar', 'DeckController@show', 'middleware' =
 $router->get(['/baralhos/{id}/editar', 'DeckController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{id}/update', 'DeckController@update', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/jogar/frente', 'DeckController@playFront', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playFront', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 
 
 
 $router->get(['/baralhos/{deckId}/flash-cards', 'FlashCardController@index', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@create', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@store', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{id}/nota/{nota}', 'FlashCardController@note', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota/{note}', 'FlashCardController@note', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/{id}/editar', 'FlashCardController@edit', 'middleware' => ['auth']]);
-$router->post(['/baralhos/{deckId}/flash-cards/{id}/uppdate', 'FlashCardController@update', 'middleware' => ['auth']]);
+$router->post(['/baralhos/{deckId}/flash-cards/{id}/update', 'FlashCardController@update', 'middleware' => ['auth']]);
 
 
 
