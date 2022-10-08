@@ -17,6 +17,7 @@ class Model implements iModel
         $this->whereQuery = '';
         $this->columnsToSelect = '';
         $this->orderQuery = '';
+        $this->limitQuery = '';
     }
 
     public function getTable()
@@ -156,6 +157,12 @@ class Model implements iModel
         return $this;
     }
 
+    public function limit(int $total) 
+    {
+        $this->limitQuery = " limit $total";
+        return $this;
+    }
+
     public function get()
     {
         $query = '';
@@ -163,7 +170,9 @@ class Model implements iModel
             $this->select();
         }
 
-        $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery . " $this->orderQuery";
+        $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery
+        . " $this->orderQuery"
+        . $this->limitQuery;
         $result = $this->connection->get($query, $this->table);
         $models = [];
         foreach ($result as $item) {
