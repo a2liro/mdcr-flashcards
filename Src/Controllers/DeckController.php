@@ -103,7 +103,6 @@ class DeckController extends Controller
         )->orderBy(['nextshow', 'asc'])
         ->limit(1)
         ->get();
-        var_dump(sizeof($cards));
         // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 

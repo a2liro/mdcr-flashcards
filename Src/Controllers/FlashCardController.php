@@ -45,7 +45,7 @@ class FlashCardController extends Controller
         return $this->redirect("/baralhos/$deckId/flash-cards/criar");
     }
 
-    public function edit(Request $request, int $id)
+    public function edit(Request $request, int $deckId, int $id)
     {
         $user = new User();
         $user = $user->getCurrentUser();

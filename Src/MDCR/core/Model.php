@@ -52,9 +52,6 @@ class Model implements iModel
             $model = $this;
         } else {
             foreach ($this->fields as $field => $value) {
-                echo "----------";
-                var_dump($data);           
-                echo "----------";
                 $model = $this->checkIfKeyExistsInArray($field, $data, $this);
                 $this->checkIfKeyIsUnique($field, $data);
             }

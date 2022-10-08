@@ -14,8 +14,8 @@ class FlashCard extends Model
         'front' => ['string'],
         'back' => ['string'],
         'difficulty' => ['integer'],
-        'lastshow' => ['date'],
-        'nextshow' => ['date'],
+        'lastshow' => ['datetime'],
+        'nextshow' => ['datetime'],
         'lastinterval' => ['integer'],
         'audio' => ['string']
     ];
