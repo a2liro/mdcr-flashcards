@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use MDCR\core\Request;
+
 class HelloController extends Controller
 {
   // public function index($id, $name)
@@ -23,5 +25,10 @@ class HelloController extends Controller
     $arr['age'] = 21;
     // echo json_encode($arr);
     $this->json($arr);
+  }
+
+  public function home(Request $request)
+  {
+    return $this->redirect('/baralhos');
   }
 }

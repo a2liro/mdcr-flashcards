@@ -1,6 +1,8 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
 
+{% block title %}Baralhos - {{deck.name}}{% endblock %}
+
 {% block content %}
   {% include 'templates/menu.twig' %}
   <h1>Baralhos - {{ deck.name }} <a href="/baralhos/{{deck.id}}/jogar/frente">Play</a></h1>

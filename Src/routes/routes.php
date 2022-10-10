@@ -9,6 +9,8 @@ $router = new Router();
 $router->get(['/', 'HelloController@index']);
 $router->post(['/form', 'HelloController@api']);
 
+$router->get(['/home', 'HelloController@home']);
+
 
 
 $router->get(['/baralhos', 'DeckController@index', 'middleware' => ['auth']]);

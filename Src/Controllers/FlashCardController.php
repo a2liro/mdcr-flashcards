@@ -35,8 +35,8 @@ class FlashCardController extends Controller
         $data['user_id'] = $user->id;
         $data['deck_id'] = $deckId;
         $data['difficulty'] = 1;
-        $data['lastshow'] = date('Y-m-d H:m:s');
-        $data['nextshow'] = date('Y-m-d H:m:s');
+        $data['lastshow'] = date('Y-m-d H:i:s');
+        $data['nextshow'] = date('Y-m-d H:i:s');
         $data['lastinterval'] = 0;
         $flashCard = new FlashCard();
         $flashCard->create($data);
@@ -54,9 +54,9 @@ class FlashCardController extends Controller
 
         // $flashCard->ownGiftList = $flashCard->bean->ownGiftList;
 
-        return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard]);
+        return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard, 'deckId' => $deckId]);
     }
-    public function update(Request $request, int $id)
+    public function update(Request $request, int $deckId, int $id)
     {
         $data = $request->all();
         $data['id'] = $id;
@@ -68,7 +68,8 @@ class FlashCardController extends Controller
         if ($flashCard->id == $id) {
             $flashCard->update($data);
         }
-        return $this->view('flashCard/user/edit.twig', ['flashCard' => $flashCard]);
+        return header("Location: /baralhos/$deckId/visualizar");
+        //return $this->view('flashCard/user/edit.twig', ['flashCard' => $flashCard]);
     }
 
 

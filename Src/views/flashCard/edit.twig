@@ -1,6 +1,6 @@
 {% extends './templates/base.twig' %}
 {% use "./templates/head.twig" %}
-
+{% block title %}Editar cartão{% endblock %}
 {% block content %}
   <nav class="menu">
     <ul>
@@ -13,7 +13,7 @@
   <h1>Novo flash card</h1>
   <div class="container mdcr-h-center">
     <div class="mdrc-card">
-      <form action="/baralhos/{{ deckId }}/flash-cards/criar" method="POST" class="mdcr-form-middle">
+      <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/update" method="POST" class="mdcr-form-middle">
         <div class="mdcr-form-group">
           <label for="front">Frente</label>
           <input type="text" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
@@ -44,7 +44,7 @@
         <script src="/assets/js/audio-recorder.js"></script>
 
         <div class="mdcr-form-group submit">
-          <input type="submit" value="Cadastrar flash card" />
+          <input type="submit" value="Editar flash card" />
         </div>
       </form>
     </div>
