@@ -1,6 +1,8 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
-{% block title %}Jogando - Frente{% endblock %}
+{% block title %}
+  Jogando - Frente
+{% endblock %}
 {% block content %}
   {% include 'templates/menu.twig' %}
   <h1>Jogando - {{ deck.name }}</h1>
@@ -11,20 +13,20 @@
     <div class="card-actions">
       <nav class="menu">
         <ul>
-          <li>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/30">Muito fácil</a>
+          <li class="mdcr-form-group">
+            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/30"><button>Muito fácil</button></a>
           </li>
-          <li>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/7">Fácil</a>
+          <li class="mdcr-form-group">
+            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/7"><button>Fácil</button></a>
           </li>
-          <li>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2">Médio</a>
+          <li class="mdcr-form-group">
+            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2"><button>Médio</button></a>
           </li>
-          <li>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1">Difícil</a>
+          <li class="mdcr-form-group">
+            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1"><button>Difícil</button></a>
           </li>
-          <li>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/0">Muito Difícil</a>
+          <li class="mdcr-form-group">
+            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/0"><button>Muito Difícil</button></a>
           </li>
         </ul>
       </nav>
