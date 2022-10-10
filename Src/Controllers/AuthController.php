@@ -55,6 +55,7 @@ class AuthController extends Controller
     public function logout()
     {
         $_SESSION['logged'] = 'false';
+        unset($_SESSION['user_id']);
         header('Location: /');
     }
 

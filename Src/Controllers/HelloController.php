@@ -3,14 +3,16 @@
 namespace App\Controllers;
 
 use MDCR\core\Request;
+use MDCR\Models\User;
 
 class HelloController extends Controller
 {
   // public function index($id, $name)
   public function index()
   {
+    $user = (new User())->getCurrentUser();
     $helloWorld = "Hello World! Mandacaru!";
-    $this->view('index.twig', ['helloWorld' => $helloWorld]);
+    $this->view('index.twig', ['helloWorld' => $helloWorld, 'user' => $user]);
     // return $this->redirect('/casamento/josilene-e-andre');
   }
 

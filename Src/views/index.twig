@@ -4,19 +4,22 @@
 {% block content %}
   <nav class="menu">
     <ul>
-     <li>
+      <li>
         <a href="/baralhos">Baralhos</a>
       </li>
       <li>
         <a href="/register">Registrar</a>
       </li>
-      <li>
-        <a href="/Login">Login</a>
-      </li>
-      <li>
-        <a href="/logout">Sair</a>
-      </li>
+      {% if user.id %}
+        <li>
+          <a href="/logout">Sair</a>
+        </li>
+      {% else %}
+        <li>
+          <a href="/login">Login</a>
+        </li>
+      {% endif %}
     </ul>
   </nav>
-  <img src="{{ asset('images/work.png') }}" alt="Symfony!" />
+  <img src="{{ asset('images/logo-color.png') }}" alt="Logo!" />
 {% endblock %}
