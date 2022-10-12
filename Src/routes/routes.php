@@ -7,7 +7,9 @@ use MDCR\core\Router;
 $router = new Router();
 // $router->get(['path' => '/user/{id}/name/{name}', 'controller' => 'HelloController', 'action' => 'index']);
 $router->get(['/', 'HelloController@index']);
-$router->post(['/form', 'HelloController@api']);
+$router->post(['/test-post', 'HelloController@testPost']);
+$router->get(['/test-get', 'HelloController@testGet']);
+
 
 $router->get(['/home', 'HelloController@home']);
 

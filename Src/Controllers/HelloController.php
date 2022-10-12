@@ -20,12 +20,28 @@ class HelloController extends Controller
     echo "hello";
   }
 
-  public function api()
+  public function api(Request $request)
   {
     $arr = array();
     $arr['name'] = 'André';
     $arr['age'] = 21;
     // echo json_encode($arr);
+    $this->json($arr);
+  }
+
+  public function testPost(Request $request)
+  {
+    $arr = array();
+    $arr['name'] = 'POST';
+    $arr['request'] = $request;
+    $this->json($arr);
+  }
+
+  public function testGet(Request $request)
+  {
+    $arr = array();
+    $arr['name'] = 'GET';
+    $arr['request'] = $request;
     $this->json($arr);
   }
 
