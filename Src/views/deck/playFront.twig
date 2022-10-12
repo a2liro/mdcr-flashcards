@@ -1,22 +1,28 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
-{% block title %}Jogando - Verso{% endblock %}
+{% block title %}
+  Jogando - Verso
+{% endblock %}
 
 {% block content %}
   {% include 'templates/menu.twig' %}
   <h1>Jogando - {{ deck.name }}</h1>
   {% if card.id %}
-    <section class="flash-cards-playing">
+    <section class="flash-cards-playing" id="flash-cards-playing">
       <h2>Frente</h2>
-      <h3>{{ card.front }}</h3>
-      <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+      <div class="flash-card-content">
+        <h3>{{ card.front }}</h3>
+        <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+        <div class="image">
+          <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
+        </div>
+      </div>
+
       <div class="card-actions">
         <nav class="menu">
           <ul>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}">
-              <button>Virar</button>
-              </a>
+              <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}"><button>Virar</button></a>
             </li>
           </ul>
         </nav>
@@ -36,5 +42,9 @@
       audio.play()
     }
     play()
+
+     window.onload = function() {
+      window.location = "#flash-cards-playing";
+    }
   </script>
 {% endblock %}

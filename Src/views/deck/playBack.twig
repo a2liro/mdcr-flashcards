@@ -6,10 +6,16 @@
 {% block content %}
   {% include 'templates/menu.twig' %}
   <h1>Jogando - {{ deck.name }}</h1>
-  <section class="flash-cards-playing">
+  <section class="flash-cards-playing" id="flash-cards-playing">
     <h2>Verso</h2>
-    <h3>{{ card.back }}</h3>
-    <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+    <div class="flash-card-content" >
+      <h3>{{ card.back }}</h3>
+      <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+       <div class="image">
+          <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
+        </div>
+    </div>
+
     <div class="card-actions">
       <nav class="menu">
         <ul>
@@ -38,5 +44,9 @@
       audio.play()
     }
     play()
+
+    window.onload = function() {
+      window.location = "#flash-cards-playing";
+    }
   </script>
 {% endblock %}

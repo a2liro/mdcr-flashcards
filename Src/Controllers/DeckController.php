@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Expense;
 use MDCR\Models\FlashCard;
@@ -106,6 +107,9 @@ class DeckController extends Controller
         // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
+        $image64 = File::getBase64($cards[0]->image);
+        $cards[0]->image64 = $image64;
+
         return $this->view('deck/playFront.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 
@@ -114,6 +118,9 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+        $image64 = File::getBase64($card->image);
+        $card->image64 = $image64;
 
         return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
     }

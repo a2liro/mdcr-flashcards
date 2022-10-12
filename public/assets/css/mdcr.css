@@ -1,181 +1,200 @@
-
-
 @media screen and (min-width: 768px) {
   #content {
     max-width: 60%;
     margin: auto;
   }
+
+  #image-preview-create {
+    max-width: 60%;
+  }
+
+  .flash-card-content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flash-card-content .image {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .flash-card-content img {
+    max-width: 80%;
+  }
+
 }
 
 
 
 
 .mdcr-h-center {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-  }
-  /* 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+/* 
   .container {
   display: flex;
   flex-direction: column;
   margin-left: 5%;
   margin-right: 5%;
   } */
-  
-  #content {
-    padding-bottom: 5em;
-  }
-  
-  .mdcr-form-middle {
-    width: 100%;
-    max-width: 800px;
-  
-  }
-  
-  
-  
-  
-  
-  .mdcr-form-group {
-    display: flex;
-    flex-direction: column;
-    padding: .5em;
-  }
-  
-  .mdcr-form-group input {
-    height: 2.5em;
-    border: 1px #526E2A solid;
-    border-radius: 5px 5px 5px 5px;
-  }
 
-  .mdcr-form-group select {
-    height: 2.5em;
-    border: 1px #526E2A solid;
-    border-radius: 5px 5px 5px 5px;
-  }
-  
-  .mdcr-form-group a button {
-    height: 2.4em;
-    border: 1px #526E2A solid;
-    border-radius: 5px 5px 5px 5px;
-    width: 100%;
-    font-size: 1.2em;
-    padding-left: 1em;
-    padding-right: 1em;
-  }
+#content {
+  padding-bottom: 5em;
+}
 
-  .mdcr-half-button {
-    border: 1px #526E2A solid;
-    height: 2.5em;
-    width: 49%;
-  }
-  
-  
-  
-  
-  .mdrc-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 1em;
-    border: 1px #b8c7a3 solid;
-    border-radius: .5em;
-    width: 100%;
-    padding: 1em;
-    box-shadow: 0px 1px 10px #cccccc;
-  }
-  
-  .mdrc-card-body {
-    display: flex;
-    flex-direction: column;
-    margin: 1em;
-    border: 1px #b8c7a3 solid;
-    border-radius: .5em;
-    padding: 1em;
-    padding-left: 2%;
-    padding-right: 2%;
-    width: 96%;
-    box-shadow: 0px 1px 10px #cccccc;
-  }
-  
-  .mdcr-card-label-small {
-    font-size: .9em;
-    color: #888888;
-    font-weight: 600;
-  }
-  
-  
-  .mdcr-card-value-small {
-    font-size: .9em;
-    color: #111111;
-    font-weight: 600;
-  }
-  
-  
-  .mdcr-info-group {
-    display: flex;
-    flex-direction: column;
-    padding: 0.2em;
-  }
-  
-  .mdcr-row {
-    display: flex;
-    flex-direction: row;
-  }
-  
-  .mdcr-50 {
-    max-width: 50%;
-    width: 50%;
-  }
-  
-  img {
-    max-width: 100%;
-  }
+.mdcr-form-middle {
+  width: 100%;
+  max-width: 800px;
 
-  .mdcr-model-list {
-    background-color: #e9eee3;
-    list-style: none;
-    padding: 0;
-  }
+}
 
-  .mdcr-model-list li{
-    display: flex;
-    border: 1px solid #ffffff;
-    padding: .5em;
-  }
 
-  .mdcr-model-list span {
-    width: 100%;
-  }
 
-  .mdcr-model-list .actions {
-    /* width: 100%; */
-    display: flex;
-    gap: 1em;
-    color: red;
-  }
 
-  .menu {
-    width: 100%;
-    max-width: 100%;
-  }
 
-  .menu ul {
-    display: inline-flex;
-    justify-content: center;
-    list-style: none;
-    gap: 1em;
-    font-weight: 600;
-    width: 100%;
-    margin-left: -2.2em;
-  }
+.mdcr-form-group {
+  display: flex;
+  flex-direction: column;
+  padding: .5em;
+}
 
-  .menu ul li {
-    padding: .5em;
-    border-bottom: 3px solid #EADEDB;
-  }
+.mdcr-form-group input {
+  height: 2.5em;
+  border: 1px #526E2A solid;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.mdcr-form-group select {
+  height: 2.5em;
+  border: 1px #526E2A solid;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.mdcr-form-group a button {
+  height: 2.4em;
+  border: 1px #526E2A solid;
+  border-radius: 5px 5px 5px 5px;
+  width: 100%;
+  font-size: 1.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.mdcr-half-button {
+  border: 1px #526E2A solid;
+  height: 2.5em;
+  width: 49%;
+}
+
+
+
+
+.mdrc-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1em;
+  border: 1px #b8c7a3 solid;
+  border-radius: .5em;
+  width: 100%;
+  padding: 1em;
+  box-shadow: 0px 1px 10px #cccccc;
+}
+
+.mdrc-card-body {
+  display: flex;
+  flex-direction: column;
+  margin: 1em;
+  border: 1px #b8c7a3 solid;
+  border-radius: .5em;
+  padding: 1em;
+  padding-left: 2%;
+  padding-right: 2%;
+  width: 96%;
+  box-shadow: 0px 1px 10px #cccccc;
+}
+
+.mdcr-card-label-small {
+  font-size: .9em;
+  color: #888888;
+  font-weight: 600;
+}
+
+
+.mdcr-card-value-small {
+  font-size: .9em;
+  color: #111111;
+  font-weight: 600;
+}
+
+
+.mdcr-info-group {
+  display: flex;
+  flex-direction: column;
+  padding: 0.2em;
+}
+
+.mdcr-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.mdcr-50 {
+  max-width: 50%;
+  width: 50%;
+}
+
+img {
+  max-width: 100%;
+}
+
+.mdcr-model-list {
+  background-color: #e9eee3;
+  list-style: none;
+  padding: 0;
+}
+
+.mdcr-model-list li {
+  display: flex;
+  border: 1px solid #ffffff;
+  padding: .5em;
+}
+
+.mdcr-model-list span {
+  width: 100%;
+}
+
+.mdcr-model-list .actions {
+  /* width: 100%; */
+  display: flex;
+  gap: 1em;
+  color: red;
+}
+
+.menu {
+  width: 100%;
+  max-width: 100%;
+}
+
+.menu ul {
+  display: inline-flex;
+  justify-content: center;
+  list-style: none;
+  gap: 1em;
+  font-weight: 600;
+  width: 100%;
+  margin-left: -2.2em;
+}
+
+.menu ul li {
+  padding: .5em;
+  border-bottom: 3px solid #EADEDB;
+}
 
 .menu a {
   text-decoration: none;
@@ -254,4 +273,11 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+.flash-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }

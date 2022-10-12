@@ -17,7 +17,8 @@ class FlashCard extends Model
         'lastshow' => ['datetime'],
         'nextshow' => ['datetime'],
         'lastinterval' => ['integer'],
-        'audio' => ['string']
+        'audio' => ['string'],
+        'image' => ['string'],
     ];
 
     public function __construct()

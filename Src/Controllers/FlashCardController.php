@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Deck;
 use MDCR\Models\Expense;
@@ -29,6 +30,7 @@ class FlashCardController extends Controller
 
     public function store(Request $request, int $deckId)
     {
+        $imagePath = File::save($_FILES['image'], 'flashcards');
         $user = new User();
         $user->getCurrentUser();
         $data = $request->all();
@@ -38,6 +40,7 @@ class FlashCardController extends Controller
         $data['lastshow'] = date('Y-m-d H:i:s');
         $data['nextshow'] = date('Y-m-d H:i:s');
         $data['lastinterval'] = 0;
+        $data['image'] = $imagePath ? $imagePath : null;
         $flashCard = new FlashCard();
         $flashCard->create($data);
         $user->ownFlashCardList[] = $flashCard;
