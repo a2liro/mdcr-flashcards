@@ -4,67 +4,69 @@
   Novo cartão
 {% endblock %}
 {% block content %}
-  <nav class="menu">
-    <ul>
-      <li>
-        <a href="/">Home</a>
-        <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
-      </li>
-    </ul>
-  </nav>
-  <h1>Novo flash card</h1>
-  <div class="container mdcr-h-center">
-    <div class="mdrc-card">
-      <form action="/baralhos/{{ deckId }}/flash-cards/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
-        <div class="mdcr-form-group">
-          <label for="front">Frente</label>
-          <input type="text" name="front" placeholder="Frente" required />
-        </div>
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+          <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Novo flash card</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{ deckId }}/flash-cards/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+          <div class="mdcr-form-group">
+            <label for="front">Frente</label>
+            <input type="text" name="front" placeholder="Frente" required />
+          </div>
 
-        <div class="mdcr-form-group">
-          <label for="back">Verso</label>
-          <input type="text" name="back" placeholder="Verso" required />
-        </div>
+          <div class="mdcr-form-group">
+            <label for="back">Verso</label>
+            <input type="text" name="back" placeholder="Verso" required />
+          </div>
 
-        <img src="" id="image-preview-create" alt="">
+          <img src="" id="image-preview-create" alt="" />
 
-        <div class="mdcr-form-group">
-          <label for="back">Imagem</label>
-          <input type="file" name="image" id="image" accept="image/*" onchange="showPreview(event)" placeholder="Imagem" />
-        </div>
+          <div class="mdcr-form-group">
+            <label for="back">Imagem</label>
+            <input type="file" name="image" id="image" accept="image/*" onchange="showPreview(event)" placeholder="Imagem" />
+          </div>
 
-        <div class="mdcr-form-group">
-          <input type="hidden" name="audio" capture id="audio" />
-        </div>
+          <div class="mdcr-form-group">
+            <input type="hidden" name="audio" capture id="audio" />
+          </div>
 
-        <div class="wrapper">
-          <section class="main-controls">
-            <canvas class="visualizer" height="60px"></canvas>
-            <div id="buttons">
-              <button class="record mdcr-half-button audio-control-buttons" type="button">Gravar</button>
-              <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
-            </div>
-          </section>
+          <div class="wrapper">
+            <section class="main-controls">
+              <canvas class="visualizer" height="60px"></canvas>
+              <div id="buttons">
+                <button class="record mdcr-half-button audio-control-buttons" type="button">Gravar</button>
+                <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
+              </div>
+            </section>
 
-          <section class="sound-clips"></section>
-        </div>
+            <section class="sound-clips"></section>
+          </div>
 
-        <script src="/assets/js/audio-recorder.js"></script>
-        <script>
-          function showPreview(event) {
-            if (event.target.files.length > 0) {
-              var src = URL.createObjectURL(event.target.files[0])
-              var preview = document.getElementById('image-preview-create')
-              preview.src = src
-              preview.style.display = 'block'
+          <script src="/assets/js/audio-recorder.js"></script>
+          <script>
+            function showPreview(event) {
+              if (event.target.files.length > 0) {
+                var src = URL.createObjectURL(event.target.files[0])
+                var preview = document.getElementById('image-preview-create')
+                preview.src = src
+                preview.style.display = 'block'
+              }
             }
-          }
-        </script>
+          </script>
 
-        <div class="mdcr-form-group submit">
-          <input type="submit" value="Cadastrar flash card" />
-        </div>
-      </form>
+          <div class="mdcr-form-group submit">
+            <input type="submit" value="Cadastrar flash card" />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 {% endblock %}

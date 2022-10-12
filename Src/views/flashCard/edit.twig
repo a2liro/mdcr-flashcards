@@ -1,52 +1,55 @@
 {% extends './templates/base.twig' %}
 {% use "./templates/head.twig" %}
-{% block title %}Editar cartão{% endblock %}
+{% block title %}
+  Editar cartão
+{% endblock %}
 {% block content %}
-  <nav class="menu">
-    <ul>
-      <li>
-        <a href="/">Home</a>
-        <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
-      </li>
-    </ul>
-  </nav>
-  <h1>Novo flash card</h1>
-  <div class="container mdcr-h-center">
-    <div class="mdrc-card">
-      <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/update" method="POST" class="mdcr-form-middle">
-        <div class="mdcr-form-group">
-          <label for="front">Frente</label>
-          <input type="text" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
-        </div>
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+          <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Novo flash card</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/update" method="POST" class="mdcr-form-middle">
+          <div class="mdcr-form-group">
+            <label for="front">Frente</label>
+            <input type="text" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
+          </div>
 
-        <div class="mdcr-form-group">
-          <label for="back">Verso</label>
-          <input type="text" name="back" value="{{ flashCard.back }}" placeholder="Verso" required />
-        </div>
+          <div class="mdcr-form-group">
+            <label for="back">Verso</label>
+            <input type="text" name="back" value="{{ flashCard.back }}" placeholder="Verso" required />
+          </div>
 
-        <div class="mdcr-form-group">
-          <input type="hidden" name="audio" capture id="audio" />
-        </div>
+          <div class="mdcr-form-group">
+            <input type="hidden" name="audio" capture id="audio" />
+          </div>
 
+          <div class="wrapper">
+            <section class="main-controls">
+              <canvas class="visualizer" height="60px"></canvas>
+              <div id="buttons">
+                <button class="record mdcr-half-button audio-control-buttons" type="button">Gravar</button>
+                <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
+              </div>
+            </section>
 
-        <div class="wrapper">
-          <section class="main-controls">
-            <canvas class="visualizer" height="60px"></canvas>
-            <div id="buttons">
-              <button class="record mdcr-half-button audio-control-buttons" type="button">Gravar</button>
-              <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
-            </div>
-          </section>
+            <section class="sound-clips"></section>
+          </div>
 
-          <section class="sound-clips"></section>
-        </div>
+          <script src="/assets/js/audio-recorder.js"></script>
 
-        <script src="/assets/js/audio-recorder.js"></script>
-
-        <div class="mdcr-form-group submit">
-          <input type="submit" value="Editar flash card" />
-        </div>
-      </form>
+          <div class="mdcr-form-group submit">
+            <input type="submit" value="Editar flash card" />
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 {% endblock %}

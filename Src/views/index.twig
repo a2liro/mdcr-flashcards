@@ -2,24 +2,26 @@
 {% use "./templates/head.twig" %}
 
 {% block content %}
-  <nav class="menu">
-    <ul>
-      <li>
-        <a href="/baralhos">Baralhos</a>
-      </li>
-      <li>
-        <a href="/register">Registrar</a>
-      </li>
-      {% if user.id %}
+  <div class="content">
+    <nav class="menu">
+      <ul>
         <li>
-          <a href="/logout">Sair</a>
+          <a href="/baralhos">Baralhos</a>
         </li>
-      {% else %}
         <li>
-          <a href="/login">Login</a>
+          <a href="/register">Registrar</a>
         </li>
-      {% endif %}
-    </ul>
-  </nav>
-  <img src="{{ asset('images/logo-color.png') }}" alt="Logo!" />
+        {% if user.id %}
+          <li>
+            <a href="/logout">Sair</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="/login">Login</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+    <img src="{{ asset('images/logo-color.png') }}" alt="Logo!" />
+  </div>
 {% endblock %}

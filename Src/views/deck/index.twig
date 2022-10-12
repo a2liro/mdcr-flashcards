@@ -5,7 +5,8 @@
 
 {% block content %}
 
-  {% include "templates/menu.twig" %}
+<div class="content">
+ {% include "templates/menu.twig" %}
   <section class="decks">
     <ul class="mdcr-model-list">
       {% for deck in decks %}
@@ -21,5 +22,8 @@
     </ul>
   </section>
     <a class="add-new-float" href="/baralhos/criar">+</a>
+</div>
+
+ 
 
 {% endblock %}

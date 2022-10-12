@@ -1,30 +1,34 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
 
-{% block title %}Baralhos - {{deck.name}} {% endblock %}
+{% block title %}
+  Baralhos - {{ deck.name }}
+{% endblock %}
 
 {% block content %}
-  {% include 'templates/menu.twig' %}
-  <h1>Baralhos - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
-  <div class="mdcr-form-group">
-    <a href="/baralhos/{{deck.id}}/jogar/frente"><button>Play</button></a>
-  </div>
-  <section class="categories">
-    <h2>flash-cards</h2>
-    <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
-    <ul class="mdcr-model-list">
-      {% for flashCard in flashCards %}
-        <li>
-          <span>{{ flashCard.front }}</span> <span>{{ flashCard.back }}</span>
-          <div class="actions">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/editar">{{ icon('edit', 'green') }}</a>
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/excluir">{{ icon('delete', 'red') }}</a>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+  <div class="content">
+    {% include 'templates/menu.twig' %}
+    <h1>Baralhos - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
+    <div class="mdcr-form-group">
+      <a href="/baralhos/{{ deck.id }}/jogar/frente"><button>Play</button></a>
+    </div>
+    <section class="categories">
+      <h2>flash-cards</h2>
+      <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+      <ul class="mdcr-model-list">
+        {% for flashCard in flashCards %}
+          <li>
+            <span>{{ flashCard.front }}</span> <span>{{ flashCard.back }}</span>
+            <div class="actions">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/excluir">{{ icon('delete', 'red') }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
 
-  <a class="add-new-float" href="/baralhos/criar">+</a>
+    <a class="add-new-float" href="/baralhos/criar">+</a>
+  </div>
 {% endblock %}

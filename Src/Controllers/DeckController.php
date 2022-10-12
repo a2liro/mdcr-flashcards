@@ -102,13 +102,17 @@ class DeckController extends Controller
             ['deck_id', '=', $deckId],
             ['nextshow', '<=', "'$currentDate'"]
         )->orderBy(['nextshow', 'asc'])
-        ->limit(1)
-        ->get();
+            ->limit(1)
+            ->get();
         // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
-        $image64 = File::getBase64($cards[0]->image);
-        $cards[0]->image64 = $image64;
+        if (sizeof($cards)) {
+            $image64 = File::getBase64($cards[0]->image);
+            $cards[0]->image64 = $image64;
+        }
+
+
 
         return $this->view('deck/playFront.twig', ['card' => end($cards), 'deck' => $deck]);
     }

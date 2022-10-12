@@ -1,5 +1,5 @@
 @media screen and (min-width: 768px) {
-  #content {
+  .content {
     max-width: 60%;
     margin: auto;
   }
@@ -69,6 +69,11 @@
   border-radius: 5px 5px 5px 5px;
 }
 
+.mdcr-form-group input[type=submit] {
+  background-color: #526E2A;
+  color: white;
+}
+
 .mdcr-form-group select {
   height: 2.5em;
   border: 1px #526E2A solid;
@@ -83,12 +88,25 @@
   font-size: 1.2em;
   padding-left: 1em;
   padding-right: 1em;
+  background-color: #526E2A;
+  color: white;
 }
 
 .mdcr-half-button {
   border: 1px #526E2A solid;
   height: 2.5em;
   width: 49%;
+  background-color: #526E2A;
+  color: white;
+  height: 3em;
+}
+
+.mdcr-half-button:disabled {
+  /* border: 1px #526E2A solid;
+  height: 2.5em;
+  width: 49%; */
+  background-color: #a4c07c;
+  color: black;
 }
 
 
@@ -267,6 +285,12 @@ footer {
 .submit {
   margin-top: 2em;
   margin-bottom: 2em;
+}
+
+.submit input {
+  background-color: #526E2A;
+  /* color: white; */
+  height: 3em;
 }
 
 #buttons {

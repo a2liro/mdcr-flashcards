@@ -15,6 +15,13 @@ body {
   display: flex;
   justify-content: center;
   color: #527127;
+  height: 60vh;
+}
+
+.text-404 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #not-found h1 {
@@ -24,7 +31,7 @@ body {
 #ground {
   /* background-color: #C2B280; */
   background-image: linear-gradient(140deg, #EADEDB 0%, #C2B280 50%, #c1a140 75%);
-  height: 23%;
+  height: 33vh;
   bottom: 2em;
   border-radius: 30% 90% 0em 0em;
   border-top: 2em solid #c2b280;
@@ -38,6 +45,25 @@ body {
   top: -15em;
   border-radius: 1.5em 1.5em 0em 0em;
   background-color: #526E2A;
+  /* box-shadow: -3em 17em 30px #527127; */
+}
+
+#cactus01:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+
+  /* box-shadow: -50px 80px 4px 10px #555; */
+  box-shadow: 7em 11em 50px 4px #5f6657;
+  -webkit-transform: rotate(17deg);
+  -moz-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  transform: rotate(67deg);
 }
 
 #cactus02 {
@@ -85,5 +111,9 @@ body {
   height: 5em;
   border-radius: 50%;
   right: 3em;
+}
+
+#content {
+  padding-bottom: 0;
 }
 

@@ -4,49 +4,51 @@
   Jogando - Frente
 {% endblock %}
 {% block content %}
-  {% include 'templates/menu.twig' %}
-  <h1>Jogando - {{ deck.name }}</h1>
-  <section class="flash-cards-playing" id="flash-cards-playing">
-    <h2>Verso</h2>
-    <div class="flash-card-content" >
-      <h3>{{ card.back }}</h3>
-      <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
-       <div class="image">
+  <div class="content">
+    {% include 'templates/menu.twig' %}
+    <h1>Jogando - {{ deck.name }}</h1>
+    <section class="flash-cards-playing" id="flash-cards-playing">
+      <h2>Verso</h2>
+      <div class="flash-card-content">
+        <h3>{{ card.back }}</h3>
+        <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+        <div class="image">
           <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
         </div>
-    </div>
+      </div>
 
-    <div class="card-actions">
-      <nav class="menu">
-        <ul>
-          <li class="mdcr-form-group">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/30"><button>Muito fácil</button></a>
-          </li>
-          <li class="mdcr-form-group">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/7"><button>Fácil</button></a>
-          </li>
-          <li class="mdcr-form-group">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2"><button>Médio</button></a>
-          </li>
-          <li class="mdcr-form-group">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1"><button>Difícil</button></a>
-          </li>
-          <li class="mdcr-form-group">
-            <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/0"><button>Muito Difícil</button></a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  </section>
-  <script>
-    function play() {
-      let audio = document.getElementById('audio')
-      audio.play()
-    }
-    play()
-
-    window.onload = function() {
-      window.location = "#flash-cards-playing";
-    }
-  </script>
+      <div class="card-actions">
+        <nav class="menu">
+          <ul>
+            <li class="mdcr-form-group">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/30"><button>Muito fácil</button></a>
+            </li>
+            <li class="mdcr-form-group">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/7"><button>Fácil</button></a>
+            </li>
+            <li class="mdcr-form-group">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2"><button>Médio</button></a>
+            </li>
+            <li class="mdcr-form-group">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1"><button>Difícil</button></a>
+            </li>
+            <li class="mdcr-form-group">
+              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/0"><button>Muito Difícil</button></a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+    <script>
+      function play() {
+        let audio = document.getElementById('audio')
+        audio.play()
+      }
+      play()
+      
+      window.onload = function () {
+        window.location = '#flash-cards-playing'
+      }
+    </script>
+  </div>
 {% endblock %}
