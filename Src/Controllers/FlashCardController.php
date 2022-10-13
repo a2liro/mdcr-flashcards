@@ -57,12 +57,23 @@ class FlashCardController extends Controller
 
         // $flashCard->ownGiftList = $flashCard->bean->ownGiftList;
 
+        $image64 = File::getBase64($flashCard->image);
+        $flashCard->image64 = $image64;
+
         return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard, 'deckId' => $deckId]);
     }
     public function update(Request $request, int $deckId, int $id)
     {
         $data = $request->all();
         $data['id'] = $id;
+        if ($_FILES['image']['size']) {
+            $imagePath = File::save($_FILES['image'], 'flashcards');
+            $data['image'] = $imagePath ? $imagePath : null;
+        } else if (strlen($data['image64']) < 1) {
+            var_dump("entrou aqui");
+            $data['image'] = '';
+        }
+
         $user = new User();
         $user = $user->getCurrentUser();
         $flashCard = new FlashCard();
@@ -118,9 +129,9 @@ class FlashCardController extends Controller
         $cards[0]->difficulty = $note;
         $cards[0]->lastshow = date('Y-m-d H:i:s');
         $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime($cards[2]->lastshow . " +$note day"));
-        
+
         $cards[0]->update();
-        
+
         header("Location: /baralhos/1/jogar/frente");
     }
 }

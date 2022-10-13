@@ -6,6 +6,7 @@
 
   #image-preview-create {
     max-width: 60%;
+    margin: auto;
   }
 
   .flash-card-content {
@@ -72,6 +73,8 @@
 .mdcr-form-group input[type=submit] {
   background-color: #526E2A;
   color: white;
+  height: 3em;
+  cursor: pointer;
 }
 
 .mdcr-form-group select {
@@ -99,6 +102,7 @@
   background-color: #526E2A;
   color: white;
   height: 3em;
+  cursor: pointer;
 }
 
 .mdcr-half-button:disabled {
@@ -106,7 +110,8 @@
   height: 2.5em;
   width: 49%; */
   background-color: #a4c07c;
-  color: black;
+  color: rgb(69, 74, 72);
+  cursor: default;
 }
 
 
