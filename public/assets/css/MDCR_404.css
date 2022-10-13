@@ -24,6 +24,7 @@ body {
   align-items: center;
 }
 
+
 #not-found h1 {
   font-size: 7em;
 }
@@ -58,12 +59,12 @@ body {
   background: transparent;
 
   /* box-shadow: -50px 80px 4px 10px #555; */
-  box-shadow: 7em 11em 50px 4px #5f6657;
+  box-shadow: 7em 9em 50px 4px #5f6657;
   -webkit-transform: rotate(17deg);
   -moz-transform: rotate(10deg);
   -o-transform: rotate(10deg);
   -ms-transform: rotate(10deg);
-  transform: rotate(67deg);
+  transform: rotate(67deg)  scale(1, 2);
 }
 
 #cactus02 {
@@ -82,6 +83,23 @@ body {
   height: 6em;
   right: -4.5em;
   border-radius: 1em 1em 1em 0em;
+}
+#cactus03:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+
+  /* box-shadow: -50px 80px 4px 10px #555; */
+  box-shadow: 11em 18em 50px 4px #5f6657;
+  -webkit-transform: rotate(17deg);
+  -moz-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  transform: rotate(67deg);
 }
 
 #cactus04 {
@@ -102,6 +120,24 @@ body {
   left: -3.5em;
   border-radius: 1em 1em 1em 1em;
   top: -6em;
+}
+
+#cactus05:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+
+  /* box-shadow: -50px 80px 4px 10px #555; */
+  box-shadow: 8em 10em 50px 4px #5f6657;
+  -webkit-transform: rotate(17deg);
+  -moz-transform: rotate(10deg);
+  -o-transform: rotate(10deg);
+  -ms-transform: rotate(10deg);
+  transform: rotate(67deg);
 }
 
 #sun {
