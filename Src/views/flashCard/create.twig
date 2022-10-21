@@ -27,12 +27,21 @@
             <input type="text" name="back" placeholder="Verso" required />
           </div>
 
-          <img src="" id="image-preview-create" alt="" />
+          <div class="mdcr-form-group">
+            <label for="image">Audio</label>
+            <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
+          </div>
 
+          <div class="mdcr-form-group">
+            <audio controls style="display: none;" id="audio-preview-container"></audio>
+
+          </div>
+          
           <div class="mdcr-form-group">
             <label for="image">Imagem</label>
             <input type="file" name="image" id="image" accept="image/*" onchange="showPreview(event)" placeholder="Imagem" />
           </div>
+          <img src="" id="image-preview-create" alt="" />
 
           <div class="mdcr-form-group">
             <input type="hidden" name="audio" capture id="audio" />
@@ -58,6 +67,20 @@
                 var preview = document.getElementById('image-preview-create')
                 preview.src = src
                 preview.style.display = 'block'
+              }
+            }
+            
+            function showPreviewAudio(event) {
+              if (event.target.files.length > 0) {
+                console.log(event.target.files)
+                var src = URL.createObjectURL(event.target.files[0])
+                //var preview = document.getElementById('audio-preview-create')
+            
+                //preview.src = src
+                //preview.style.display = 'block'
+                let container = document.getElementById('audio-preview-container')
+                container.style.display = 'block'
+                container.setAttribute('src', src)
               }
             }
           </script>

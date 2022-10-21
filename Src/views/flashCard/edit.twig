@@ -40,9 +40,26 @@
           </div>
 
           <div class="mdcr-form-group">
-            <input type="hidden" name="audio" capture id="audio" value="{{ flashCard.audio }}" />
+            <label for="image">Audio</label>
+            <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
           </div>
 
+          {% if flashCard.audioFile64 %}
+            <div class="mdcr-form-group">
+              <audio controls src="data:audio/mpeg;base64,{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
+            </div>
+             <div class="mdcr-form-group">
+            <input type="hidden" name="audiofile64" id="audiofile64" value="{{ flashCard.audioFile64 }}" />
+          </div>
+          {% else %}
+            <div class="mdcr-form-group">
+              <audio controls style="display: none;" src="{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
+            </div>
+          {% endif %}
+
+          <div class="mdcr-form-group">
+            <input type="hidden" name="audio" capture id="audio" value="{{ flashCard.audio }}" />
+          </div>
 
           <div class="wrapper">
             <section class="main-controls">
@@ -78,6 +95,20 @@
           preview.style.display = 'block'
         }
       }
+
+      function showPreviewAudio(event) {
+              if (event.target.files.length > 0) {
+                console.log(event.target.files)
+                var src = URL.createObjectURL(event.target.files[0])
+                //var preview = document.getElementById('audio-preview-create')
+            
+                //preview.src = src
+                //preview.style.display = 'block'
+                let container = document.getElementById('audio-preview-container')
+                container.style.display = 'block'
+                container.setAttribute('src', src)
+              }
+            }
     </script>
   </div>
 {% endblock %}

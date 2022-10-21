@@ -19,6 +19,7 @@ class FlashCard extends Model
         'lastinterval' => ['integer'],
         'audio' => ['string'],
         'image' => ['string'],
+        'audiofile' => ['string'],
     ];
 
     public function __construct()

@@ -31,6 +31,7 @@ class FlashCardController extends Controller
     public function store(Request $request, int $deckId)
     {
         $imagePath = File::save($_FILES['image'], 'flashcards');
+        $audioPath = File::save($_FILES['audiofile'], 'flashcards');
         $user = new User();
         $user->getCurrentUser();
         $data = $request->all();
@@ -41,6 +42,7 @@ class FlashCardController extends Controller
         $data['nextshow'] = date('Y-m-d H:i:s');
         $data['lastinterval'] = 0;
         $data['image'] = $imagePath ? $imagePath : null;
+        $data['audiofile'] = $audioPath ? $audioPath : null;
         $flashCard = new FlashCard();
         $flashCard->create($data);
         $user->ownFlashCardList[] = $flashCard;
@@ -58,7 +60,9 @@ class FlashCardController extends Controller
         // $flashCard->ownGiftList = $flashCard->bean->ownGiftList;
 
         $image64 = File::getBase64($flashCard->image);
+        $audioFile64 = File::getBase64($flashCard->audiofile);
         $flashCard->image64 = $image64;
+        $flashCard->audioFile64 = $audioFile64;
 
         return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard, 'deckId' => $deckId]);
     }
@@ -72,6 +76,14 @@ class FlashCardController extends Controller
         } else if (strlen($data['image64']) < 1) {
             var_dump("entrou aqui");
             $data['image'] = '';
+        }
+
+        if ($_FILES['audiofile']['size']) {
+            $imagePath = File::save($_FILES['audiofile'], 'flashcards');
+            $data['audiofile'] = $imagePath ? $imagePath : null;
+        } else if (strlen($data['audiofile64']) < 1) {
+            var_dump("entrou aqui");
+            $data['audiofile'] = '';
         }
 
         $user = new User();
@@ -132,6 +144,6 @@ class FlashCardController extends Controller
 
         $cards[0]->update();
 
-        header("Location: /baralhos/1/jogar/frente");
+        header("Location: /baralhos/1/jogar/frente/audio");
     }
 }

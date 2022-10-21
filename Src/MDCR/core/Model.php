@@ -7,7 +7,7 @@ use MDCR\core\interfaces\iModel;
 
 
 
-class Model implements iModel
+abstract class Model implements iModel
 {
     protected $connection;
 

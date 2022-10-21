@@ -21,7 +21,8 @@ $router->post(['/baralhos/criar', 'DeckController@store', 'middleware' => ['auth
 $router->get(['/baralhos/{id}/visualizar', 'DeckController@show', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/editar', 'DeckController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{id}/update', 'DeckController@update', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/jogar/frente', 'DeckController@playFront', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/frente/audio', 'DeckController@playFrontAudio', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@playFront', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 
 
