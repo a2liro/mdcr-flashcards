@@ -144,6 +144,6 @@ class FlashCardController extends Controller
 
         $cards[0]->update();
 
-        header("Location: /baralhos/1/jogar/frente/audio");
+        header("Location: /baralhos/{$deckId}/jogar/frente/audio");
     }
 }
