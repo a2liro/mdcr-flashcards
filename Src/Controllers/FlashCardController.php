@@ -138,12 +138,100 @@ class FlashCardController extends Controller
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
+        $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty);
         $cards[0]->difficulty = $note;
         $cards[0]->lastshow = date('Y-m-d H:i:s');
-        $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime($cards[2]->lastshow . " +$note day"));
+        $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow day"));
 
         $cards[0]->update();
 
         header("Location: /baralhos/{$deckId}/jogar/frente/audio");
+    }
+
+    private function calcNote(int $note, $cardDifficulty)
+    {
+        if($note == 1) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 180;
+                case 2:
+                    return 60;
+                case 3:
+                    return 30;
+                case 4:
+                    return 15;
+                case 5:
+                    return 7;
+                default:
+                    return 0;
+            }
+        }
+        if($note == 2) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 60;
+                case 2:
+                    return 30;
+                case 3:
+                    return 15;
+                case 4:
+                    return 7;
+                case 5:
+                    return 4;
+                default:
+                    return 0;
+            }
+        }
+
+        if($note == 3) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 30;
+                case 2:
+                    return 15;
+                case 3:
+                    return 7;
+                case 4:
+                    return 4;
+                case 5:
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
+
+        if($note == 4) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 10;
+                case 2:
+                    return 6;
+                case 3:
+                    return 4;
+                case 4:
+                    return 2;
+                case 5:
+                    return 1;
+                default:
+                    return 0;
+            }
+        }
+
+        if($note == 5) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 3;
+                case 2:
+                    return 2;
+                case 3:
+                    return 1;
+                case 4:
+                    return 0;
+                case 5:
+                    return 0;
+                default:
+                    return 0;
+            }
+        }
     }
 }
