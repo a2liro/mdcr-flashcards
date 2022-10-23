@@ -37,10 +37,10 @@ class FlashCardController extends Controller
         $data = $request->all();
         $data['user_id'] = $user->id;
         $data['deck_id'] = $deckId;
-        $data['difficulty'] = 1;
+        $data['difficulty'] = 5;
         $data['lastshow'] = date('Y-m-d H:i:s');
         $data['nextshow'] = date('Y-m-d H:i:s');
-        $data['lastinterval'] = 0;
+        // $data['lastinterval'] = 0;
         $data['image'] = $imagePath ? $imagePath : null;
         $data['audiofile'] = $audioPath ? $audioPath : null;
         $flashCard = new FlashCard();

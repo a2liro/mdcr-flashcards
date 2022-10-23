@@ -5,12 +5,21 @@
 {% endblock %}
 {% block content %}
   <div class="content">
-    {% include 'templates/menu.twig' %}
-    <h1>Jogando - {{ deck.name }}</h1>
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>{{ deck.name }}</h1>
     <section class="flash-cards-playing" id="flash-cards-playing">
+      <h2>Frente</h2>
+      <span>{{ card.front }}</span>
+      <hr>
       <h2>Verso</h2>
       <div class="flash-card-content">
-        <h3>{{ card.back }}</h3>
+        <span>{{ card.back }}</span>
         <div class="image">
           <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
         </div>

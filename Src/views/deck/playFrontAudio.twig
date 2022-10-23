@@ -6,8 +6,14 @@
 
 {% block content %}
   <div class="content">
-    {% include 'templates/menu.twig' %}
-    <h1>Jogando - {{ deck.name }}</h1>
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>{{ deck.name }}</h1>
     {% if card.id %}
       <section class="flash-cards-playing" id="flash-cards-playing">
         <h2>Audio</h2>
