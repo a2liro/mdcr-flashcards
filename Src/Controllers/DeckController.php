@@ -83,15 +83,6 @@ class DeckController extends Controller
             ]
         );
     }
-    public function publicShowByLink(Request $request, $url)
-    {
-
-        $deck = new Deck();
-        $deck = $deck->findOneByParams(['url' => $url]);
-        $deck->ownGiftList = $deck->bean->ownGiftList;
-        shuffle($deck->ownGiftList);
-        return $this->view('deck/public/show.twig', ['deck' => $deck]);
-    }
 
     public function playFront(Request $request, int $deckId, int $cardId)
     {
@@ -136,7 +127,7 @@ class DeckController extends Controller
         if (sizeof($cards)) {
             $image64 = File::getBase64($cards[0]->image);
             $audioFile64 = File::getBase64($cards[0]->audiofile);
-            if(!strlen($audioFile64) && !strlen($cards[0]->audio)) {
+            if (!strlen($audioFile64) && !strlen($cards[0]->audio)) {
                 $this->playFront($request, $deckId, $cards[0]->id);
                 return 0;
             }
@@ -159,5 +150,48 @@ class DeckController extends Controller
         $card->image64 = $image64;
 
         return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
+    }
+
+    public function playAllAudios(Request $request, int $deckId)
+    {
+        $user = (new User())->getCurrentUser();
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new FlashCard)->where(
+            ['user_id', '=', $user->id],
+            ['deck_id', '=', $deckId],
+        )
+            ->orderBy(['id', 'asc'])
+            ->get();
+
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+        $fullAudio = null;
+
+        foreach ($cards as $key => $card) {
+            if (strlen($card->audiofile) > 1) {
+                if ($fullAudio == null) {
+                    $fullAudio = file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);;
+                } else {
+                    $fullAudio = $fullAudio . file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);
+                }
+            }
+        }
+
+        $fullAudio64 = base64_encode($fullAudio);
+
+        if (sizeof($cards)) {
+            $image64 = File::getBase64($cards[0]->image);
+            $audioFile64 = File::getBase64($cards[0]->audiofile);
+            if (!strlen($audioFile64) && !strlen($cards[0]->audio)) {
+                $this->playFront($request, $deckId, $cards[0]->id);
+                return 0;
+            }
+            $cards[0]->image64 = $image64;
+            $cards[0]->audioFile64 = $audioFile64;
+        }
+
+
+
+        return $this->view('deck/playAllAudios.twig', ['card' => end($cards), 'deck' => $deck, 'fullAudio64' => $fullAudio64]);
     }
 }

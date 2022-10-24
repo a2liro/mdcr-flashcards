@@ -1,0 +1,67 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+{% block title %}
+  Jogando - Verso
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>{{ deck.name }}</h1>
+    {% if card.id %}
+      <section class="flash-cards-playing" id="flash-cards-playing">
+        <h2>Audio</h2>
+        <div class="flash-card-content">
+          {% if fullAudio64 %}
+            <h4>Arquivo de áudio</h4>
+            <audio autoplay controls src="data:audio/mpeg;base64,{{ fullAudio64 }}" id="audio"></audio>
+          {% endif %}
+
+          {% if card.audio %}
+            <h4>Gravação de áudio</h4>
+            <audio controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+          {% endif %}
+
+          <div class="image">
+            <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <nav class="menu">
+            <ul>
+              <li class="mdcr-form-group">
+                <a href="/baralhos/{{ deck.id }}/jogar/frente/card/{{ card.id }}"><button>Ver texto</button></a>
+
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </section>
+    {% else %}
+      <section>
+        <h1>Sem cards no momento</h1>
+        <div>
+          <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+        </div>
+      </section>
+    {% endif %}
+    <script>
+      function play() {
+        let audio = document.getElementById('audio')
+        audio.play()
+      }
+      play()
+      
+      window.onload = function () {
+        window.location = '#flash-cards-playing'
+      }
+    </script>
+  </div>
+{% endblock %}

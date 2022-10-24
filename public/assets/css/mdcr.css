@@ -95,6 +95,12 @@
   color: white;
 }
 
+.mdcr-form-group-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+}
+
 .mdcr-half-button {
   border: 1px #526E2A solid;
   height: 2.5em;
