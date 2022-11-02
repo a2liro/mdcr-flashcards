@@ -24,9 +24,9 @@
             <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio"></audio>
           {% endif %}
 
-          {% if card.audio %} 
+          {% if card.audio64 %}
             <h4>Gravação de áudio</h4>
-            <audio controls src="data:audio/mpeg;base64,{{ card.audio }}" id="audio"></audio>
+            <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
           {% endif %}
           <div class="image">
             <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
@@ -62,5 +62,6 @@
         window.location = '#flash-cards-playing'
       }
     </script>
+    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
   </div>
 {% endblock %}

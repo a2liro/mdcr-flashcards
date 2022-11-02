@@ -43,6 +43,7 @@ class FlashCardController extends Controller
         // $data['lastinterval'] = 0;
         $data['image'] = $imagePath ? $imagePath : null;
         $data['audiofile'] = $audioPath ? $audioPath : null;
+        $data['audio'] = $data['audio'] ? File::saveBase64ToFile($data["audio"], 'flashcards', 'mp3') : null;
         $flashCard = new FlashCard();
         $flashCard->create($data);
         $user->ownFlashCardList[] = $flashCard;
@@ -61,14 +62,17 @@ class FlashCardController extends Controller
 
         $image64 = File::getBase64($flashCard->image);
         $audioFile64 = File::getBase64($flashCard->audiofile);
+        $audio64 = File::getBase64($flashCard->audio);
         $flashCard->image64 = $image64;
         $flashCard->audioFile64 = $audioFile64;
+        $flashCard->audio64 = $audio64;
 
         return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard, 'deckId' => $deckId]);
     }
     public function update(Request $request, int $deckId, int $id)
     {
         $data = $request->all();
+        var_dump($data['audio']);
         $data['id'] = $id;
         if ($_FILES['image']['size']) {
             $imagePath = File::save($_FILES['image'], 'flashcards');
@@ -82,9 +86,15 @@ class FlashCardController extends Controller
             $imagePath = File::save($_FILES['audiofile'], 'flashcards');
             $data['audiofile'] = $imagePath ? $imagePath : null;
         } else if (strlen($data['audiofile64']) < 1) {
-            var_dump("entrou aqui");
             $data['audiofile'] = '';
         }
+
+        if(strlen($data['audio']) > 255) {
+            $data['audio'] = $data['audio'] ? File::saveBase64ToFile($data["audio"], 'flashcards', 'mp3') : null;
+        } else if(strlen($data['audio']) == 0) {
+            $data['audio'] = null;
+        }
+
 
         $user = new User();
         $user = $user->getCurrentUser();
@@ -94,7 +104,7 @@ class FlashCardController extends Controller
         if ($flashCard->id == $id) {
             $flashCard->update($data);
         }
-        return header("Location: /baralhos/$deckId/visualizar");
+        // return header("Location: /baralhos/$deckId/visualizar");
         //return $this->view('flashCard/user/edit.twig', ['flashCard' => $flashCard]);
     }
 
@@ -233,5 +243,25 @@ class FlashCardController extends Controller
                     return 0;
             }
         }
+    }
+
+    
+    public function convert64ToFile()
+    {
+        $user = (new User())->getCurrentUser();
+
+        $cards = (new FlashCard())->get();
+
+        foreach($cards as $key => $card) {
+            if(isset($card->audio) && strlen($card->audio) > 100) {
+                $saveFile = File::saveBase64ToFile($card->audio, 'flashcards',);
+                if($saveFile != false) {
+                    $card->audio = $saveFile;
+                    $card->update();
+                }
+            }
+        }
+
+        // var_dump($cards);
     }
 }

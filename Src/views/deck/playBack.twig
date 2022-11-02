@@ -16,7 +16,7 @@
     <section class="flash-cards-playing" id="flash-cards-playing">
       <h2>Frente</h2>
       <span>{{ card.front }}</span>
-      <hr>
+      <hr />
       <h2>Verso</h2>
       <div class="flash-card-content">
         <span>{{ card.back }}</span>
@@ -58,5 +58,6 @@
         window.location = '#flash-cards-playing'
       }
     </script>
+    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
   </div>
 {% endblock %}

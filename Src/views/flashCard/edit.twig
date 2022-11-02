@@ -48,9 +48,9 @@
             <div class="mdcr-form-group">
               <audio controls src="data:audio/mpeg;base64,{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
             </div>
-             <div class="mdcr-form-group">
-            <input type="hidden" name="audiofile64" id="audiofile64" value="{{ flashCard.audioFile64 }}" />
-          </div>
+            <div class="mdcr-form-group">
+              <input type="hidden" name="audiofile64" id="audiofile64" value="{{ flashCard.audioFile64 }}" />
+            </div>
           {% else %}
             <div class="mdcr-form-group">
               <audio controls style="display: none;" src="{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
@@ -71,10 +71,13 @@
             </section>
 
             <section class="sound-clips">
-              <article class="clip">
-                <audio controls="" src="data:audio/mpeg;base64,{{ flashCard.audio }}"></audio>
-                <button class="delete mdcr-half-button audio-control-buttons">Excluir</button>
-              </article>
+              <input type="hidden" value="{{ flashCard.audio }}" name="audio-old" id="audio-old" />
+              {% if flashCard.audio %}
+                <article class="clip" id="clip">
+                  <audio id="show-old-audio" controls="" src="data:audio/mpeg;base64,{{ flashCard.audio64 }}"></audio>
+                  <button type="button" class="delete mdcr-half-button audio-control-buttons" onclick="removeOldAudio()">Excluir</button>
+                </article>
+              {% endif %}
             </section>
           </div>
 
@@ -95,20 +98,26 @@
           preview.style.display = 'block'
         }
       }
-
+      
       function showPreviewAudio(event) {
-              if (event.target.files.length > 0) {
-                console.log(event.target.files)
-                var src = URL.createObjectURL(event.target.files[0])
-                //var preview = document.getElementById('audio-preview-create')
-            
-                //preview.src = src
-                //preview.style.display = 'block'
-                let container = document.getElementById('audio-preview-container')
-                container.style.display = 'block'
-                container.setAttribute('src', src)
-              }
-            }
+        if (event.target.files.length > 0) {
+          console.log(event.target.files)
+          var src = URL.createObjectURL(event.target.files[0])
+          //var preview = document.getElementById('audio-preview-create')
+      
+          //preview.src = src
+          //preview.style.display = 'block'
+          let container = document.getElementById('audio-preview-container')
+          container.style.display = 'block'
+          container.setAttribute('src', src)
+        }
+      }
+      function removeOldAudio(event) {
+        let showOldAudio = document.getElementById('clip')
+        showOldAudio.remove()
+        let audioOldInput = document.getElementById('audio')
+        audioOldInput.value = ''
+      }
     </script>
   </div>
 {% endblock %}

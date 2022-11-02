@@ -36,4 +36,27 @@ class File
         $data64 = base64_encode($data);
         return $data64;
     }
+
+    /**
+     * Save base 64 string to file
+     * @param String $base64
+     */
+    public static function saveBase64ToFile($base64, $folder = '', $extension = null)
+    {
+        $targetDir = dirname(__DIR__) . "/../../storage/" . $folder;
+        mkdir($targetDir, 0777, true);
+        
+        if($extension == null) {
+            $file = fopen("data:audio/mpeg;base64," . $base64, 'r');
+            $extension = explode('/', mime_content_type($file))[1];
+        }
+        $fileName = date("Y-m-d_H-i-s_") . str_shuffle('abc0123') . '.' . $extension;
+        $targetFile = $targetDir . '/' . $fileName;
+        
+        if (file_put_contents($targetFile, base64_decode($base64))) {
+            return $folder . '/' . $fileName;
+        } else {
+            return false;
+        }
+    }
 }

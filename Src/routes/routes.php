@@ -25,6 +25,8 @@ $router->get(['/baralhos/{deckId}/jogar/frente/audio', 'DeckController@playFront
 $router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@playFront', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos', 'DeckController@playAllAudios', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/ouvir-todos/gravados', 'DeckController@playAllAudiosRecorded', 'middleware' => ['auth']]);
+
 
 
 
@@ -38,7 +40,7 @@ $router->post(['/baralhos/{deckId}/flash-cards/{id}/update', 'FlashCardControlle
 
 
 
-
+$router->get(['/convert-audios', 'FlashCardController@convert64ToFile']);
 
 
 

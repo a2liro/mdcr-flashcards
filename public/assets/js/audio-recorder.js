@@ -68,6 +68,7 @@ if (navigator.mediaDevices.getUserMedia) {
             audio.setAttribute('controls', '');
             deleteButton.textContent = 'Delete';
             deleteButton.className = 'delete';
+            deleteButton.type = 'button';
             deleteButton.classList.add('mdcr-half-button')
             deleteButton.classList.add('audio-control-buttons')
 
@@ -105,7 +106,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
 
             deleteButton.onclick = function (e) {
-                e.target.closest(".clip").remove();
+                e.target.closest(".clip").remove();;
             }
 
             //   clipLabel.onclick = function() {

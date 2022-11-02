@@ -15,7 +15,7 @@
     </nav>
     <h1>{{ deck.name }}</h1>
     <section class="flash-cards-playing" id="flash-cards-playing">
-      <h2>Audio dos arquivos</h2>
+      <h2>Audio das gravações</h2>
       <div class="flash-card-content">
         {% if fullAudio64 %}
           <h4>Arquivo de áudio</h4>
@@ -23,18 +23,7 @@
         {% endif %}
       </div>
 
-      <div class="card-actions">
-          <nav class="menu">
-            <ul>
-              <li class="mdcr-form-group">
-                <a href="/baralhos/{{ deck.id }}/ouvir-todos/gravados"><button>Virar</button></a>
-              </li>
-            </ul>
-          </nav>
-        </div>
     </section>
-
-
 
     <script>
       function play() {
