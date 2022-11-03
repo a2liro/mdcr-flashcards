@@ -72,13 +72,13 @@ class FlashCardController extends Controller
     public function update(Request $request, int $deckId, int $id)
     {
         $data = $request->all();
-        var_dump($data['audio']);
+        // var_dump($data['audio']);
         $data['id'] = $id;
         if ($_FILES['image']['size']) {
             $imagePath = File::save($_FILES['image'], 'flashcards');
             $data['image'] = $imagePath ? $imagePath : null;
         } else if (strlen($data['image64']) < 1) {
-            var_dump("entrou aqui");
+            // var_dump("entrou aqui");
             $data['image'] = '';
         }
 
@@ -104,7 +104,7 @@ class FlashCardController extends Controller
         if ($flashCard->id == $id) {
             $flashCard->update($data);
         }
-        // return header("Location: /baralhos/$deckId/visualizar");
+        return header("Location: /baralhos/$deckId/visualizar");
         //return $this->view('flashCard/user/edit.twig', ['flashCard' => $flashCard]);
     }
 

@@ -4,6 +4,22 @@
   Jogando - Frente
 {% endblock %}
 {% block content %}
+<meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.snow.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
   <div class="content">
     <nav class="menu">
       <ul>
@@ -15,14 +31,17 @@
     <h1>{{ deck.name }}</h1>
     <section class="flash-cards-playing" id="flash-cards-playing">
       <h2>Frente</h2>
-      <span>{{ card.front }}</span>
+      {# <span>{{ card.front }}</span> #}
+       <div id="standalone-container">
+            <div id="editor-container"></div>
+          </div>
       <hr />
       <h2>Verso</h2>
       <div class="flash-card-content">
-        <span>{{ card.back }}</span>
-        <div class="image">
-          <img src="data:image/*;base64,{{ card.image64 }}" alt="" />
-        </div>
+        {# <span>{{ card.back }}</span> #}
+         <div id="standalone-container">
+            <div id="editor-container-back"></div>
+          </div>
       </div>
 
       <div class="card-actions">
@@ -58,6 +77,30 @@
         window.location = '#flash-cards-playing'
       }
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    <script>
+      var quill = new Quill('#editor-container', {
+        theme: 'snow'
+      })
+      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quill.enable(false)
+    </script>
+
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        theme: 'snow'
+      })
+      quillBack.setContents(JSON.parse('{{ card.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quillBack.enable(false)
+    </script>
+
+
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
   </div>
 {% endblock %}

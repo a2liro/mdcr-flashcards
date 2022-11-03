@@ -4,6 +4,22 @@
   Editar cartão
 {% endblock %}
 {% block content %}
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.snow.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
   <div class="content">
     <nav class="menu">
       <ul>
@@ -19,28 +35,110 @@
         <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
-            <input type="text" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
+            <input type="hidden" id="front" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
+            <div id="standalone-container">
+              <div id="toolbar-container">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats"><button class="ql-clean"></button></span>
+              </div>
+              <div id="editor-container"></div>
+            </div>
           </div>
 
           <div class="mdcr-form-group">
             <label for="back">Verso</label>
-            <input type="text" name="back" value="{{ flashCard.back }}" placeholder="Verso" required />
+            <input type="hidden" id="back" name="back" value="{{ flashCard.back }}" placeholder="Verso" required />
+            <div id="standalone-container-back">
+              <div id="toolbar-container-back">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats"><button class="ql-clean"></button></span>
+              </div>
+              <div id="editor-container-back"></div>
+            </div>
           </div>
 
-          <div class="mdcr-form-group">
-            <input type="hidden" name="image64" id="image" value="{{ flashCard.image64 }}" />
-          </div>
-          <div class="image">
-            <img src="data:image/*;base64,{{ flashCard.image64 }}" id="image-preview-create" alt="" />
-          </div>
+          
 
           <div class="mdcr-form-group">
-            <label for="image">Imagem</label>
-            <input type="file" name="image" id="image" accept="image/*" onchange="showPreview(event)" placeholder="Imagem" />
-          </div>
-
-          <div class="mdcr-form-group">
-            <label for="image">Audio</label>
+            <label for="audiofile">Audio</label>
             <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
           </div>
 
@@ -81,14 +179,69 @@
             </section>
           </div>
 
-          <script src="/assets/js/audio-recorder.js"></script>
-
           <div class="mdcr-form-group submit">
             <input type="submit" value="Editar flash card" />
           </div>
         </form>
       </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/audio-recorder.js"></script>
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    {# <script>
+         var options = {
+           debug: 'info',
+           modules: {
+             toolbar: '#toolbar'
+           },
+           placeholder: 'Compose an epic...',
+           readOnly: true
+           //theme: 'snow'
+         }
+         var container = document.getElementById('editor')
+         var editor = new Quill('#editor', options)
+       </script> #}
+    <script>
+      var quill = new Quill('#editor-container', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container'
+        },
+        placeholder: 'Compose an epic...',
+        theme: 'snow'
+      })
+      console.log('{{ flashCard.front }}')
+      quill.setContents(JSON.parse('{{ flashCard.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quill.on('editor-change', function (event, ...args) {
+        let inputFront = document.getElementById('front')
+        inputFront.value = JSON.stringify(quill.getContents())
+        setTimeout(function () {
+          console.log(JSON.stringify(quill.getContents()))
+        }, 2500)
+      })
+    </script>
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container-back'
+        },
+        placeholder: 'Verso...',
+        theme: 'snow',
+      })
+      quillBack.setContents(JSON.parse('{{ flashCard.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quillBack.on('editor-change', function (event, ...args) {
+        let inputBack = document.getElementById('back')
+        inputBack.value = JSON.stringify(quillBack.getContents())
+      })
+    </script>
     <script>
       function showPreview(event) {
         if (event.target.files.length > 0) {
