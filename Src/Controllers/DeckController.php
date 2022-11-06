@@ -131,9 +131,6 @@ class DeckController extends Controller
             $cards[0]->audioFile64 = $audioFile64;
             $cards[0]->audio64 = $audio64;
         }
-
-
-
         return $this->view('deck/playFront.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 
@@ -179,6 +176,7 @@ class DeckController extends Controller
         $image64 = File::getBase64($card->image);
         $card->image64 = $image64;
 
+
         return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
     }
 
@@ -219,6 +217,9 @@ class DeckController extends Controller
 
 
 
+        if(strlen($fullAudio64) < 100) {
+            return header("Location: /baralhos/$deck->id/ouvir-todos/gravados");
+        }
         return $this->view('deck/playAllAudios.twig', ['deck' => $deck, 'fullAudio64' => $fullAudio64]);
     }
 

@@ -47,7 +47,6 @@
             <h4>Gravação de áudio</h4>
             <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
           {% endif %}
-         
         </div>
 
         <div class="card-actions">
@@ -68,6 +67,9 @@
         </div>
       </section>
     {% endif %}
+    <input type="hidden" id="front-input" value="{{ card.front }}">
+    
+    
     <script>
       function play() {
         let audio = document.getElementById('audio')
@@ -90,7 +92,11 @@
       var quill = new Quill('#editor-container', {
         theme: 'bubble'
       })
-      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
+      let frontInput = document.getElementById('front-input')
+
+      quill.setContents(
+        JSON.parse(frontInput.value)
+      )
       quill.enable(false)
     </script>
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>

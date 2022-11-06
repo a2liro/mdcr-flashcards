@@ -20,6 +20,8 @@
         {% if fullAudio64 %}
           <h4>Arquivo de áudio</h4>
           <audio autoplay controls src="data:audio/mpeg;base64,{{ fullAudio64 }}" id="audio"></audio>
+          {% else %}
+            <h3>Você não possui áudios para esse deck</h3>
         {% endif %}
       </div>
 

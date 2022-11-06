@@ -1,7 +1,7 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
 {% block title %}
-  Jogando - Frente 
+  Jogando - Frente
 {% endblock %}
 {% block content %}
   <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
@@ -66,6 +66,10 @@
         </nav>
       </div>
     </section>
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
+  
+
     <script>
       function play() {
         let audio = document.getElementById('audio')
@@ -88,7 +92,8 @@
       var quill = new Quill('#editor-container', {
         theme: 'bubble'
       })
-      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
+      let frontInput = document.getElementById('front-input')
+      quill.setContents(JSON.parse(frontInput.value))
       quill.enable(false)
     </script>
 
@@ -96,7 +101,8 @@
       var quillBack = new Quill('#editor-container-back', {
         theme: 'bubble'
       })
-      quillBack.setContents(JSON.parse('{{ card.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
+      let backInput = document.getElementById('back-input')
+      quillBack.setContents(JSON.parse(backInput.value))
       quillBack.enable(false)
     </script>
 

@@ -32,10 +32,10 @@
     <h1>Novo flash card</h1>
     <div class="container mdcr-h-center">
       <div class="mdrc-card">
-        <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+        <form action="/baralhos/{{ deckId }}/flash-cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
-            <input type="hidden" id="front" name="front" value="{{ flashCard.front }}" placeholder="Frente" required />
+            <input type="hidden" id="front" name="front" value="{{ card.front }}" placeholder="Frente" required />
             <div id="standalone-container">
               <div id="toolbar-container">
                 <span class="ql-formats">
@@ -86,7 +86,7 @@
 
           <div class="mdcr-form-group">
             <label for="back">Verso</label>
-            <input type="hidden" id="back" name="back" value="{{ flashCard.back }}" placeholder="Verso" required />
+            <input type="hidden" id="back" name="back" value="{{ card.back }}" placeholder="Verso" required />
             <div id="standalone-container-back">
               <div id="toolbar-container-back">
                 <span class="ql-formats">
@@ -135,28 +135,26 @@
             </div>
           </div>
 
-          
-
           <div class="mdcr-form-group">
             <label for="audiofile">Audio</label>
             <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
           </div>
 
-          {% if flashCard.audioFile64 %}
+          {% if card.audioFile64 %}
             <div class="mdcr-form-group">
-              <audio controls src="data:audio/mpeg;base64,{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
+              <audio controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio-preview-container"></audio>
             </div>
             <div class="mdcr-form-group">
-              <input type="hidden" name="audiofile64" id="audiofile64" value="{{ flashCard.audioFile64 }}" />
+              <input type="hidden" name="audiofile64" id="audiofile64" value="{{ card.audioFile64 }}" />
             </div>
           {% else %}
             <div class="mdcr-form-group">
-              <audio controls style="display: none;" src="{{ flashCard.audioFile64 }}" id="audio-preview-container"></audio>
+              <audio controls style="display: none;" src="{{ card.audioFile64 }}" id="audio-preview-container"></audio>
             </div>
           {% endif %}
 
           <div class="mdcr-form-group">
-            <input type="hidden" name="audio" capture id="audio" value="{{ flashCard.audio }}" />
+            <input type="hidden" name="audio" capture id="audio" value="{{ card.audio }}" />
           </div>
 
           <div class="wrapper">
@@ -169,10 +167,10 @@
             </section>
 
             <section class="sound-clips">
-              <input type="hidden" value="{{ flashCard.audio }}" name="audio-old" id="audio-old" />
-              {% if flashCard.audio %}
+              <input type="hidden" value="{{ card.audio }}" name="audio-old" id="audio-old" />
+              {% if card.audio %}
                 <article class="clip" id="clip">
-                  <audio id="show-old-audio" controls="" src="data:audio/mpeg;base64,{{ flashCard.audio64 }}"></audio>
+                  <audio id="show-old-audio" controls="" src="data:audio/mpeg;base64,{{ card.audio64 }}"></audio>
                   <button type="button" class="delete mdcr-half-button audio-control-buttons" onclick="removeOldAudio()">Excluir</button>
                 </article>
               {% endif %}
@@ -185,6 +183,8 @@
         </form>
       </div>
     </div>
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
@@ -213,17 +213,14 @@
           syntax: true,
           toolbar: '#toolbar-container'
         },
-        placeholder: 'Compose an epic...',
+        placeholder: 'frente...',
         theme: 'snow'
       })
-      console.log('{{ flashCard.front }}')
-      quill.setContents(JSON.parse('{{ flashCard.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
+      let frontInput = document.getElementById('front-input')      
+      quill.setContents(JSON.parse(frontInput.value))
       quill.on('editor-change', function (event, ...args) {
         let inputFront = document.getElementById('front')
         inputFront.value = JSON.stringify(quill.getContents())
-        setTimeout(function () {
-          console.log(JSON.stringify(quill.getContents()))
-        }, 2500)
       })
     </script>
     <script>
@@ -234,9 +231,11 @@
           toolbar: '#toolbar-container-back'
         },
         placeholder: 'Verso...',
-        theme: 'snow',
+        theme: 'snow'
       })
-      quillBack.setContents(JSON.parse('{{ flashCard.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
+      let backInput = document.getElementById('back-input')
+      
+      quillBack.setContents(JSON.parse(backInput.value))
       quillBack.on('editor-change', function (event, ...args) {
         let inputBack = document.getElementById('back')
         inputBack.value = JSON.stringify(quillBack.getContents())
@@ -254,7 +253,6 @@
       
       function showPreviewAudio(event) {
         if (event.target.files.length > 0) {
-          console.log(event.target.files)
           var src = URL.createObjectURL(event.target.files[0])
           //var preview = document.getElementById('audio-preview-create')
       

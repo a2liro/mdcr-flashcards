@@ -33,13 +33,11 @@
     {% include 'templates/menu.twig' %}
     <h1>Baralhos - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
     <div class="mdcr-form-group mdcr-form-group-row">
-    {% if deck.cardsToPlay > 0 %}
-          <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
-
-    {% else %}
-            <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
-
-    {% endif %}
+      {% if deck.cardsToPlay > 0 %}
+        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
+      {% else %}
+        <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
+      {% endif %}
       <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/ouvir-todos"><button class="mdcr-half-button">Ouvir todos</button></a>
     </div>
 
@@ -62,19 +60,14 @@
               <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/excluir">{{ icon('delete', 'red') }}</a>
             </div>
           </li>
+          <input type="hidden" id="front-input-{{ flashCard.id }}" value="{{ flashCard.front }}" />
+
           <script>
             var quill = new Quill('#editor-container-{{ flashCard.id }}', {
               theme: 'bubble'
             })
-            quill.setContents(
-              JSON.parse(
-                '{{ flashCard.front }}'
-                  .replace(/&quot;/g, '"')
-                  .replace(/\n/g, '\\n')
-                  .replace(/\r/g, '\\r')
-                  .replace(/\\\\/g, '\\')
-              )
-            )
+            let frontInput{{ flashCard.id }} = document.getElementById('front-input-{{ flashCard.id }}')
+            quill.setContents(JSON.parse(frontInput{{ flashCard.id }}.value))
             quill.enable(false)
           </script>
         {% endfor %}

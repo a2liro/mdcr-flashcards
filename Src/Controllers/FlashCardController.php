@@ -55,19 +55,19 @@ class FlashCardController extends Controller
     {
         $user = new User();
         $user = $user->getCurrentUser();
-        $flashCard = new FlashCard();
-        $flashCard = $flashCard->findOneByParams(['id' => $id]);
+        $card = new FlashCard();
+        $card = $card->findOneByParams(['id' => $id]);
 
-        // $flashCard->ownGiftList = $flashCard->bean->ownGiftList;
+        // $card->ownGiftList = $card->bean->ownGiftList;
 
-        $image64 = File::getBase64($flashCard->image);
-        $audioFile64 = File::getBase64($flashCard->audiofile);
-        $audio64 = File::getBase64($flashCard->audio);
-        $flashCard->image64 = $image64;
-        $flashCard->audioFile64 = $audioFile64;
-        $flashCard->audio64 = $audio64;
+        $image64 = File::getBase64($card->image);
+        $audioFile64 = File::getBase64($card->audiofile);
+        $audio64 = File::getBase64($card->audio);
+        $card->image64 = $image64;
+        $card->audioFile64 = $audioFile64;
+        $card->audio64 = $audio64;
 
-        return $this->view('flashCard/edit.twig', ['flashCard' => $flashCard, 'deckId' => $deckId]);
+        return $this->view('flashCard/edit.twig', ['card' => $card, 'deckId' => $deckId]);
     }
     public function update(Request $request, int $deckId, int $id)
     {
@@ -148,7 +148,7 @@ class FlashCardController extends Controller
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
-        return $this->view('flashCard/exclude.twig', ['flashCard' => $cards[0], 'deckId' => $deckId]);
+        return $this->view('flashCard/exclude.twig', ['card' => $cards[0], 'deckId' => $deckId]);
     }
 
     public function delete(Request $request, int $deckId, int $cardId)

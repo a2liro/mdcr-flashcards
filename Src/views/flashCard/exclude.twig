@@ -31,7 +31,7 @@
     <h1>Confirmar exclusão do flashcard</h1>
     <div class="container mdcr-h-center">
       <div class="mdrc-card">
-        <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/delete" method="GET" class="mdcr-form-middle">
+        <form action="/baralhos/{{ deckId }}/flash-cards/{{ card.id }}/delete" method="GET" class="mdcr-form-middle">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
             <div id="standalone-container">
@@ -47,11 +47,14 @@
           </div>
 
           <div class="mdcr-form-group submit">
-            <input type="submit" value="Excluir flashcard" />
+            <input type="submit" value="Excluir card" />
           </div>
         </form>
       </div>
     </div>
+
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
@@ -63,29 +66,17 @@
       var quill = new Quill('#editor-container', {
         theme: 'bubble'
       })
-      console.log('{{ flashCard.front }}')
-      quill.setContents(
-        JSON.parse(
-          '{{ flashCard.front }}'
-            .replace(/&quot;/g, '"')
-            .replace(/\n/g, '\\n')
-            .replace(/\r/g, '\\r')
-        )
-      )
+       let frontInput = document.getElementById('front-input')      
+      quill.setContents(JSON.parse(frontInput.value))
        quill.enable(false)
     </script>
     <script>
       var quillBack = new Quill('#editor-container-back', {
         theme: 'bubble'
       })
-      quillBack.setContents(
-        JSON.parse(
-          '{{ flashCard.back }}'
-            .replace(/&quot;/g, '"')
-            .replace(/\n/g, '\\n')
-            .replace(/\r/g, '\\r')
-        )
-      )
+       let backInput = document.getElementById('back-input')
+      
+      quillBack.setContents(JSON.parse(backInput.value))
        quillBack.enable(false)
     </script>
   </div>

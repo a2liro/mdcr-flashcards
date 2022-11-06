@@ -196,12 +196,11 @@
               placeholder: 'Frente...',
               theme: 'snow'
             })
+            let inputFront = document.getElementById('front')
+              inputFront.value = '{"ops":[{"insert":""}]}'
             quill.on('editor-change', function (event, ...args) {
               let inputFront = document.getElementById('front')
-              inputFront.value = JSON.stringify(quill.getContents())
-              setTimeout(function () {
-                console.log(JSON.stringify(quill.getContents()))
-              }, 2500)
+              inputFront.value = JSON.stringify(JSON.parse(JSON.stringify(quill.getContents())))
             })
           </script>
           <script>
@@ -214,12 +213,12 @@
               placeholder: 'Verso...',
               theme: 'snow'
             })
+            let inputBack = document.getElementById('back')
+              inputBack.value = '{"ops":[{"insert":""}]}'
             quillBack.on('editor-change', function (event, ...args) {
-              let inputFront = document.getElementById('back')
-              inputFront.value = JSON.stringify(quillBack.getContents())
-              setTimeout(function () {
-                console.log(JSON.stringify(quillBack.getContents()))
-              }, 2500)
+              let inputBack = document.getElementById('back')
+              inputBack.value = JSON.stringify(quillBack.getContents())
+              
             })
           </script>
           <script>
@@ -234,7 +233,6 @@
             
             function showPreviewAudio(event) {
               if (event.target.files.length > 0) {
-                console.log(event.target.files)
                 var src = URL.createObjectURL(event.target.files[0])
                 //var preview = document.getElementById('audio-preview-create')
             
