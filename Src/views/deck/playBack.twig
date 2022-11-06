@@ -1,10 +1,10 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
 {% block title %}
-  Jogando - Frente
+  Jogando - Frente 
 {% endblock %}
 {% block content %}
-<meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
   <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://quilljs.com/standalone/full/" />
@@ -32,16 +32,16 @@
     <section class="flash-cards-playing" id="flash-cards-playing">
       <h2>Frente</h2>
       {# <span>{{ card.front }}</span> #}
-       <div id="standalone-container">
-            <div id="editor-container"></div>
-          </div>
+      <div id="standalone-container">
+        <div id="editor-container"></div>
+      </div>
       <hr />
       <h2>Verso</h2>
       <div class="flash-card-content">
         {# <span>{{ card.back }}</span> #}
-         <div id="standalone-container">
-            <div id="editor-container-back"></div>
-          </div>
+        <div id="standalone-container">
+          <div id="editor-container-back"></div>
+        </div>
       </div>
 
       <div class="card-actions">
@@ -78,7 +78,7 @@
       }
     </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 
     <script src="/assets/js/quill/quill.min.js"></script>
 
@@ -86,20 +86,19 @@
 
     <script>
       var quill = new Quill('#editor-container', {
-        theme: 'snow'
+        theme: 'bubble'
       })
-      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
       quill.enable(false)
     </script>
 
     <script>
       var quillBack = new Quill('#editor-container-back', {
-        theme: 'snow'
+        theme: 'bubble'
       })
-      quillBack.setContents(JSON.parse('{{ card.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quillBack.setContents(JSON.parse('{{ card.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
       quillBack.enable(false)
     </script>
-
 
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
   </div>

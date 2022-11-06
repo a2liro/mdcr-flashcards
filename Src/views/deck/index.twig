@@ -11,7 +11,13 @@
     <ul class="mdcr-model-list">
       {% for deck in decks %}
         <li>
-        <span>{{ deck.name }}</span>
+        <span>{{ deck.name }} </span>
+        {% if deck.cardsToPlay > 0 %}
+        <span class="text-red">{{ deck.cardsToPlay }} cartas para estudar</span>
+        {% else %}
+        <span class="text-green">{{ deck.cardsToPlay }} cartas para estudar</span>
+        {% endif %}
+        
           <div class="actions">
             <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
             <a href="/baralhos/{{ deck.id }}/editar">{{ icon('edit', 'green') }}</a>

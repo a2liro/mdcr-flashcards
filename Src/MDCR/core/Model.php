@@ -62,9 +62,9 @@ abstract class Model implements iModel
         return $model;
     }
 
-    public function delete(object $model): bool
+    public function delete(): bool | null
     {
-        //
+        return $this->connection->delete($this);
     }
 
     public function show(int $id): object
@@ -114,9 +114,13 @@ abstract class Model implements iModel
         return $this->connection->findAllByParams($this->table, $data);
     }
 
-    public function select($paramns = null)
+    /**
+     * @param $paramns = 'column1, column2, ...'
+     * @return Model
+     */
+    public function select(string $paramns = '')
     {
-        if ($paramns == null) {
+        if (strlen($paramns) == 0) {
             $this->columnsToSelect = "select * ";
         } else {
 
@@ -166,7 +170,6 @@ abstract class Model implements iModel
         if (!$this->columnsToSelect) {
             $this->select();
         }
-
         $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery
         . " $this->orderQuery"
         . $this->limitQuery;

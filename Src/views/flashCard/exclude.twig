@@ -1,0 +1,92 @@
+{% extends './templates/base.twig' %}
+{% use "./templates/head.twig" %}
+{% block title %}
+  Editar cartão
+{% endblock %}
+{% block content %}
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+          <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Confirmar exclusão do flashcard</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{ deckId }}/flash-cards/{{ flashCard.id }}/delete" method="GET" class="mdcr-form-middle">
+          <div class="mdcr-form-group">
+            <label for="front">Frente</label>
+            <div id="standalone-container">
+              <div id="editor-container"></div>
+            </div>
+          </div>
+
+          <div class="mdcr-form-group">
+            <label for="back">Verso</label>
+            <div id="standalone-container-back">
+              <div id="editor-container-back"></div>
+            </div>
+          </div>
+
+          <div class="mdcr-form-group submit">
+            <input type="submit" value="Excluir flashcard" />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    <script>
+      var quill = new Quill('#editor-container', {
+        theme: 'bubble'
+      })
+      console.log('{{ flashCard.front }}')
+      quill.setContents(
+        JSON.parse(
+          '{{ flashCard.front }}'
+            .replace(/&quot;/g, '"')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+        )
+      )
+       quill.enable(false)
+    </script>
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        theme: 'bubble'
+      })
+      quillBack.setContents(
+        JSON.parse(
+          '{{ flashCard.back }}'
+            .replace(/&quot;/g, '"')
+            .replace(/\n/g, '\\n')
+            .replace(/\r/g, '\\r')
+        )
+      )
+       quillBack.enable(false)
+    </script>
+  </div>
+{% endblock %}

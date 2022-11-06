@@ -141,6 +141,36 @@ class FlashCardController extends Controller
         );
     }
 
+    public function exclude(Request $request, int $deckId, int $cardId)
+    {
+        $user = (new User())->getCurrentUser();
+        $cards = (new FlashCard())->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $cardId]
+        )->get();
+        return $this->view('flashCard/exclude.twig', ['flashCard' => $cards[0], 'deckId' => $deckId]);
+    }
+
+    public function delete(Request $request, int $deckId, int $cardId)
+    {
+
+        $user = (new User())->getCurrentUser();
+        $cards = (new FlashCard())->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $cardId]
+        )->get();
+
+        if($cards) {
+            $delete = $cards[0]->delete();
+            if($delete) {
+                header("Location: /baralhos/{$deckId}/visualizar");
+            }else {
+                header("Location: /baralhos/{$deckId}/flashcard/$cardId/erro");
+            }
+
+        }
+    }
+
     public function note(Request $request, int $deckId, int $cardId, $note)
     {
         $user = (new User())->getCurrentUser();

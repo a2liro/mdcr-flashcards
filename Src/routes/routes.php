@@ -36,6 +36,9 @@ $router->post(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@stor
 $router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota/{note}', 'FlashCardController@note', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/{id}/editar', 'FlashCardController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{deckId}/flash-cards/{id}/update', 'FlashCardController@update', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/excluir', 'FlashCardController@exclude', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/delete', 'FlashCardController@delete', 'middleware' => ['auth']]);
+
 
 
 
@@ -54,7 +57,6 @@ $router->get(['/logout', 'AuthController@logout']);
 $router->post(['/login', 'AuthController@authorize']);
 
 $router->get(['user/{id}', 'UserController@show']);
-
 
 
 

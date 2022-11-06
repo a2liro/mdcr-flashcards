@@ -88,9 +88,9 @@
 
     <script>
       var quill = new Quill('#editor-container', {
-        theme: 'snow'
+        theme: 'bubble'
       })
-      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quill.setContents(JSON.parse('{{ card.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
       quill.enable(false)
     </script>
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>

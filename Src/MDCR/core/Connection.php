@@ -47,6 +47,12 @@ class Connection
         \R::store($bean);
     }
 
+    public function delete($model)
+    {
+        $bean = \R::load($model->getTable(), $model->id);
+        return \R::trash($bean);
+    }
+
     public function findOneByParams(string $table, array $data)
     {
         $this->loadDb();

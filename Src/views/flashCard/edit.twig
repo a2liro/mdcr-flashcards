@@ -217,7 +217,7 @@
         theme: 'snow'
       })
       console.log('{{ flashCard.front }}')
-      quill.setContents(JSON.parse('{{ flashCard.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quill.setContents(JSON.parse('{{ flashCard.front }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
       quill.on('editor-change', function (event, ...args) {
         let inputFront = document.getElementById('front')
         inputFront.value = JSON.stringify(quill.getContents())
@@ -236,7 +236,7 @@
         placeholder: 'Verso...',
         theme: 'snow',
       })
-      quillBack.setContents(JSON.parse('{{ flashCard.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n')))
+      quillBack.setContents(JSON.parse('{{ flashCard.back }}'.replace(/&quot;/g, '"').replace(/\n/g, '\\n').replace(/\r/g, '\\r')))
       quillBack.on('editor-change', function (event, ...args) {
         let inputBack = document.getElementById('back')
         inputBack.value = JSON.stringify(quillBack.getContents())

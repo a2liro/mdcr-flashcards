@@ -19,6 +19,19 @@ class DeckController extends Controller
         $user = $user->getCurrentUser();
         $deck = new Deck();
         $decks = $deck->findAllByParams(['user_id' => $user->id]);
+
+        $currentDate = date('Y-m-d H:i:s');
+        foreach ($decks as $key => $deck) {
+
+            $cards = (new FlashCard)->select('id')
+                ->where(
+                    ['user_id', '=', $user->id],
+                    ['deck_id', '=', $deck->id],
+                    ['nextshow', '<=', "'$currentDate'"]
+                )
+                ->get();
+            $decks[$key]->cardsToPlay = sizeof($cards);
+        }
         return $this->view('deck/index.twig', ['decks' => $decks]);
     }
 
@@ -76,6 +89,17 @@ class DeckController extends Controller
 
         $flashCards = (new FlashCard())->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
 
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new FlashCard)->select('id')
+            ->where(
+                ['user_id', '=', $user->id],
+                ['deck_id', '=', $id],
+                ['nextshow', '<=', "'$currentDate'"]
+            )
+            ->get();
+        $deck->cardsToPlay = sizeof($cards);
+
+
         return $this->view(
             'deck/show.twig',
             [
@@ -106,7 +130,6 @@ class DeckController extends Controller
             $cards[0]->image64 = $image64;
             $cards[0]->audioFile64 = $audioFile64;
             $cards[0]->audio64 = $audio64;
-
         }
 
 
@@ -137,7 +160,7 @@ class DeckController extends Controller
             }
             $cards[0]->image64 = $image64;
             $cards[0]->audioFile64 = $audioFile64;
-            
+
             $audio64 = File::getBase64($cards[0]->audio);
             $cards[0]->audio64 = $audio64;
         }
@@ -178,7 +201,6 @@ class DeckController extends Controller
 
             if ($fullAudio == null) {
                 $fullAudio = file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);
-
             } else {
                 $fullAudio = $fullAudio . file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);
             }
@@ -219,7 +241,6 @@ class DeckController extends Controller
 
             if ($fullAudio == null) {
                 $fullAudio = file_get_contents(__DIR__ . '/../../storage/' . $card->audio);
-
             } else {
                 $fullAudio = $fullAudio . file_get_contents(__DIR__ . '/../../storage/' . $card->audio);
             }
