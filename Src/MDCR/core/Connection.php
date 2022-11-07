@@ -18,8 +18,8 @@ class Connection
     protected function loadDb()
     {
         if (!\R::testConnection()) {
-            // \R::setup('mysql:host=localhost;dbname=mdcr_expenses', $username = 'u683933492_mdcr', $password = '', $frozen = false);
-            \R::setup('mysql:host=127.0.0.1;dbname=mdcr_expenses', $username = 'root', $password = '', $frozen = false);
+            $envFile = parse_ini_file(dirname(__DIR__) . "/../../.env");
+            \R::setup("mysql:host=" . $envFile['MYSQL_SERVER'] . ";dbname=" . $envFile['DB_NAME'], $username = $envFile['DB_USER'], $password = $envFile['DB_PASSWORD'], $frozen = false);
         }
     }
 
@@ -100,7 +100,7 @@ class Connection
     public function get($query, $table)
     {
         $rows = \R::getAll($query);
-        $models = \R::convertToBeans($table, $rows);      
+        $models = \R::convertToBeans($table, $rows);
         return $models;
     }
 }

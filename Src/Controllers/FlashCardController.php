@@ -25,7 +25,13 @@ class FlashCardController extends Controller
 
     public function create(Request $request, int $deckId)
     {
-        return $this->view('flashCard/create.twig', ['deckId' => $deckId]);
+        $user = new User();
+        $user = $user->getCurrentUser();
+        $deck = (new Deck())->where(
+          ['user_id', '=', $user->id],
+          ['id', '=', $deckId]  
+        )->get();
+        return $this->view('flashCard/create.twig', ['deck' => $deck[0]]);
     }
 
     public function store(Request $request, int $deckId)
@@ -67,12 +73,20 @@ class FlashCardController extends Controller
         $card->audioFile64 = $audioFile64;
         $card->audio64 = $audio64;
 
-        return $this->view('flashCard/edit.twig', ['card' => $card, 'deckId' => $deckId]);
+        $decks = (new Deck())->where(
+            ['user_id', '=', $user->id],
+          )->get();
+
+          $currentDeck = (new Deck())->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $deckId]  
+          )->get()[0];
+
+        return $this->view('flashCard/edit.twig', ['card' => $card, 'currentDeck' => $currentDeck, 'decks' => $decks]);
     }
     public function update(Request $request, int $deckId, int $id)
     {
         $data = $request->all();
-        // var_dump($data['audio']);
         $data['id'] = $id;
         if ($_FILES['image']['size']) {
             $imagePath = File::save($_FILES['image'], 'flashcards');

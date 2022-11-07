@@ -29,10 +29,10 @@
         </li>
       </ul>
     </nav>
-    <h1>Novo flash card</h1>
+    <h2>Novo flashcard - {{ deck.name }}</h2>
     <div class="container mdcr-h-center">
       <div class="mdrc-card">
-        <form action="/baralhos/{{ deckId }}/flash-cards/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+        <form action="/baralhos/{{ deck.id }}/flash-cards/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
             <input type="hidden" id="front" name="front" placeholder="Frente" required />
