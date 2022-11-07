@@ -9,6 +9,7 @@ use MDCR\Models\Deck;
 use MDCR\Models\Expense;
 use MDCR\Models\ExpenseCategory;
 use MDCR\Models\FlashCard;
+use MDCR\Models\Note;
 use MDCR\Models\User;
 
 class FlashCardController extends Controller
@@ -198,6 +199,15 @@ class FlashCardController extends Controller
         $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow day"));
 
         $cards[0]->update();
+        $noteData = [
+            'user_id' => $user->id,
+            'flashcard_id' => $cardId,
+            'note' => $note,
+            'showdate' => $cards[0]->lastshow,
+            'nextdate' => $cards[0]->nextshow,
+            'interval' => $timeToNextShow,
+        ];
+        $note = (new Note())->create($noteData);
 
         header("Location: /baralhos/{$deckId}/jogar/frente/audio");
     }
