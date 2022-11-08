@@ -26,6 +26,11 @@ $router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@p
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos', 'DeckController@playAllAudios', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos/gravados', 'DeckController@playAllAudiosRecorded', 'middleware' => ['auth']]);
+//reverse
+$router->get(['/baralhos/{deckId}/jogar/frente/reverso', 'DeckController@playFrontReverse', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}/reverso', 'DeckController@playBackReverse', 'middleware' => ['auth']]);
+
+
 
 
 
@@ -34,6 +39,7 @@ $router->get(['/baralhos/{deckId}/flash-cards', 'FlashCardController@index', 'mi
 $router->get(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@create', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@store', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota/{note}', 'FlashCardController@note', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota-reversa/{note}', 'FlashCardController@noteReverse', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/{id}/editar', 'FlashCardController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{deckId}/flash-cards/{id}/update', 'FlashCardController@update', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/flash-cards/{cardId}/excluir', 'FlashCardController@exclude', 'middleware' => ['auth']]);

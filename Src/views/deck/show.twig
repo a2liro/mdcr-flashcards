@@ -2,7 +2,7 @@
 {% use "templates/head.twig" %}
 
 {% block title %}
-  Baralhos - {{ deck.name }}
+  Deck - {{ deck.name }}
 {% endblock %}
 
 {% block content %}
@@ -31,10 +31,15 @@
 
   <div class="content">
     {% include 'templates/menu.twig' %}
-    <h1>Baralhos - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
+    <h1>Deck - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
     <div class="mdcr-form-group mdcr-form-group-row">
       {% if deck.cardsToPlay > 0 %}
         <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
+      {% else %}
+        <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
+      {% endif %}
+      {% if deck.cardsToPlayReverse > 0 %}
+        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/reverso"><button class="mdcr-half-button">Estudar reverso ({{ deck.cardsToPlayReverse }})</button></a>
       {% else %}
         <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
       {% endif %}

@@ -85,9 +85,14 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $deck = (new Deck())->findOneByParams(['id' => $id, 'user_id' => $user->id]);
-        $deck->ownGiftList = $deck->bean->ownGiftList;
 
-        $flashCards = (new FlashCard())->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
+        $flashCards = (new FlashCard()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
+            ->where(
+                ['user_id', '=', $user->id],
+                ['deck_id', '=', $id]
+            )
+            ->orderBy(['id', 'desc'])
+            ->get();
 
         $currentDate = date('Y-m-d H:i:s');
         $cards = (new FlashCard)->select('id')
@@ -98,6 +103,15 @@ class DeckController extends Controller
             )
             ->get();
         $deck->cardsToPlay = sizeof($cards);
+
+        $reverseCards = (new FlashCard)->select('id')
+            ->where(
+                ['user_id', '=', $user->id],
+                ['deck_id', '=', $id],
+                ['nextshow_reverse', '<=', "'$currentDate'"]
+            )
+            ->get();
+            $deck->cardsToPlayReverse = sizeof($reverseCards);
 
 
         return $this->view(
@@ -217,7 +231,7 @@ class DeckController extends Controller
 
 
 
-        if(strlen($fullAudio64) < 100) {
+        if (strlen($fullAudio64) < 100) {
             return header("Location: /baralhos/$deck->id/ouvir-todos/gravados");
         }
         return $this->view('deck/playAllAudios.twig', ['deck' => $deck, 'fullAudio64' => $fullAudio64]);
@@ -261,5 +275,48 @@ class DeckController extends Controller
 
 
         return $this->view('deck/playAllAudiosRecorded.twig', ['deck' => $deck, 'fullAudio64' => $fullAudio64]);
+    }
+
+
+    public function playFrontReverse(Request $request, int $deckId)
+    {
+        $user = (new User())->getCurrentUser();
+
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new FlashCard)->where(
+            ['user_id', '=', $user->id],
+            ['deck_id', '=', $deckId],
+            ['nextshow_reverse', '<=', "'$currentDate'"]
+        )->orderBy(['nextshow_reverse', 'asc'])
+            ->limit(1)
+            ->get();
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+        return $this->view('deck/playFrontReverse.twig', ['card' => $cards[0], 'deck' => $deck]);
+    }
+
+    public function playBackReverse(Request $request, int $deckId, int $cardId)
+    {
+        $user = (new User())->getCurrentUser();
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new FlashCard)->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $cardId],
+            ['nextshow_reverse', '<=', "'$currentDate'"]
+        )->orderBy(['nextshow_reverse', 'asc'])
+            ->limit(1)
+            ->get();
+        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+        if (sizeof($cards)) {
+            $image64 = File::getBase64($cards[0]->image);
+            $audioFile64 = File::getBase64($cards[0]->audiofile);
+            $audio64 = File::getBase64($cards[0]->audio);
+            $cards[0]->image64 = $image64;
+            $cards[0]->audioFile64 = $audioFile64;
+            $cards[0]->audio64 = $audio64;
+        }
+        return $this->view('deck/playBackReverse.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 }

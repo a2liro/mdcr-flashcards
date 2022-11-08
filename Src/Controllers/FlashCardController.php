@@ -47,6 +47,9 @@ class FlashCardController extends Controller
         $data['difficulty'] = 5;
         $data['lastshow'] = date('Y-m-d H:i:s');
         $data['nextshow'] = date('Y-m-d H:i:s');
+        $data['difficultyReverse'] = 5;
+        $data['lastshowReverse'] = date('Y-m-d H:i:s');
+        $data['nextshowReverse'] = date('Y-m-d H:i:s');
         // $data['lastinterval'] = 0;
         $data['image'] = $imagePath ? $imagePath : null;
         $data['audiofile'] = $audioPath ? $audioPath : null;
@@ -93,7 +96,6 @@ class FlashCardController extends Controller
             $imagePath = File::save($_FILES['image'], 'flashcards');
             $data['image'] = $imagePath ? $imagePath : null;
         } else if (strlen($data['image64']) < 1) {
-            // var_dump("entrou aqui");
             $data['image'] = '';
         }
 
@@ -206,15 +208,59 @@ class FlashCardController extends Controller
             'showdate' => $cards[0]->lastshow,
             'nextdate' => $cards[0]->nextshow,
             'interval' => $timeToNextShow,
+            'isReverse' => false
         ];
         $note = (new Note())->create($noteData);
 
         header("Location: /baralhos/{$deckId}/jogar/frente/audio");
     }
 
+    public function noteReverse(Request $request, int $deckId, int $cardId, $note)
+    {
+        $user = (new User())->getCurrentUser();
+        $cards = (new FlashCard())->where(
+            ['user_id', '=', $user->id],
+            ['id', '=', $cardId]
+        )->get();
+        $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
+        $cards[0]->difficultyReverse = $note;
+        $cards[0]->lastshowReverse = date('Y-m-d H:i:s');
+        $cards[0]->nextshowReverse = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow day"));
+
+        $cards[0]->update();
+        $noteData = [
+            'user_id' => $user->id,
+            'flashcard_id' => $cardId,
+            'note' => $note,
+            'showdate' => $cards[0]->lastshowReverse,
+            'nextdate' => $cards[0]->nextshowReverse,
+            'interval' => $timeToNextShow,
+            'isReverse' => true
+        ];
+        $note = (new Note())->create($noteData);
+
+        header("Location: /baralhos/{$deckId}/jogar/frente/reverso");
+    }
+
     private function calcNote(int $note, $cardDifficulty)
     {
         if($note == 1) {
+            switch($cardDifficulty) {
+                case 1:
+                    return 365;
+                case 2:
+                    return 180;
+                case 3:
+                    return 60;
+                case 4:
+                    return 60;
+                case 5:
+                    return 15;
+                default:
+                    return 0;
+            }
+        }
+        if($note == 2) {
             switch($cardDifficulty) {
                 case 1:
                     return 180;
@@ -225,23 +271,7 @@ class FlashCardController extends Controller
                 case 4:
                     return 15;
                 case 5:
-                    return 7;
-                default:
-                    return 0;
-            }
-        }
-        if($note == 2) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 60;
-                case 2:
-                    return 30;
-                case 3:
-                    return 15;
-                case 4:
-                    return 7;
-                case 5:
-                    return 4;
+                    return 8;
                 default:
                     return 0;
             }
@@ -267,15 +297,15 @@ class FlashCardController extends Controller
         if($note == 4) {
             switch($cardDifficulty) {
                 case 1:
-                    return 10;
+                    return 5;
                 case 2:
-                    return 6;
+                    return 3;
                 case 3:
-                    return 4;
-                case 4:
                     return 2;
-                case 5:
+                case 4:
                     return 1;
+                case 5:
+                    return 0;
                 default:
                     return 0;
             }
@@ -284,11 +314,11 @@ class FlashCardController extends Controller
         if($note == 5) {
             switch($cardDifficulty) {
                 case 1:
-                    return 3;
-                case 2:
                     return 2;
-                case 3:
+                case 2:
                     return 1;
+                case 3:
+                    return 0;
                 case 4:
                     return 0;
                 case 5:
@@ -316,6 +346,5 @@ class FlashCardController extends Controller
             }
         }
 
-        // var_dump($cards);
     }
 }

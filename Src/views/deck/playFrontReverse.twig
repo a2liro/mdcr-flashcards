@@ -29,45 +29,39 @@
       </ul>
     </nav>
     <h1>{{ deck.name }}</h1>
-    <section class="flash-cards-playing" id="flash-cards-playing">
-      <h2>Frente</h2>
-      <div id="standalone-container">
-        <div id="editor-container"></div>
-      </div>
-      <hr />
-      <h2>Verso</h2>
-      <div class="flash-card-content">
-       
-        <div id="standalone-container">
-          <div id="editor-container-back"></div>
-        </div>
-      </div>
+    {% if card.id %}
+      <section class="flash-cards-playing" id="flash-cards-playing">
+        <h2>Frente</h2>
+        {# <span>{{ card.front }}</span> #}
 
-      <div class="card-actions">
-        <nav class="menu">
-          <ul>
-            <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1"><button>Muito fácil</button></a>
-            </li>
-            <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2"><button>Fácil</button></a>
-            </li>
-            <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/3"><button>Médio</button></a>
-            </li>
-            <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/4"><button>Difícil</button></a>
-            </li>
-            <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/5"><button>Muito Difícil</button></a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </section>
-    <input type="hidden" id="front-input" value="{{ card.front }}" />
+        <h2>Verso</h2>
+        <div class="flash-card-content">
+          {# <span>{{ card.back }}</span> #}
+          <div id="standalone-container">
+            <div id="editor-container-back"></div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <nav class="menu">
+            <ul>
+              <li class="mdcr-form-group">
+                <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}/reverso"><button>Virar</button></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </section>
+      <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+      {% else %}
+        <h4>Nada a revisar no momento</h4>
+        <div>
+          <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+        </div>
+    {% endif %}
+
+    {# <input type="hidden" id="front-input" value="{{ card.front }}" /> #}
     <input type="hidden" id="back-input" value="{{ card.back }}" />
-  
 
     <script>
       function play() {
@@ -87,14 +81,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
 
-    <script>
-      var quill = new Quill('#editor-container', {
-        theme: 'bubble'
-      })
-      let frontInput = document.getElementById('front-input')
-      quill.setContents(JSON.parse(frontInput.value))
-      quill.enable(false)
-    </script>
+    {# <script>
+         var quill = new Quill('#editor-container', {
+           theme: 'bubble'
+         })
+         let frontInput = document.getElementById('front-input')
+         quill.setContents(JSON.parse(frontInput.value))
+         quill.enable(false)
+       </script> #}
 
     <script>
       var quillBack = new Quill('#editor-container-back', {
@@ -105,6 +99,6 @@
       quillBack.enable(false)
     </script>
 
-    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+    
   </div>
 {% endblock %}

@@ -43,6 +43,7 @@
           </nav>
         </div>
       </section>
+      <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
     {% else %}
       <section>
         <h1>Sem cards no momento</h1>
@@ -62,6 +63,5 @@
         window.location = '#flash-cards-playing'
       }
     </script>
-    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
   </div>
 {% endblock %}

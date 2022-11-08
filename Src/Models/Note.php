@@ -14,7 +14,8 @@ class Note extends Model
         'note' => ['integer'],
         'showdate' => ['datetime'],
         'nextdate' => ['datetime'],
-        'interval' => ['integer']
+        'interval' => ['integer'],
+        'isReverse' => ['boolean']
     ];
 
     public function __construct()
