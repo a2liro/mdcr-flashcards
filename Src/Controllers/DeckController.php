@@ -190,6 +190,17 @@ class DeckController extends Controller
         $image64 = File::getBase64($card->image);
         $card->image64 = $image64;
 
+        for($count = 1; $count <= 5; $count++) {
+            $interval = FlashCardController::calcNote($count, $card->difficulty);
+            if($interval < 60) {
+                $card->intervals[$count] = $interval . ' minutos';
+            } else if($interval < 1440) {
+                $card->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
+            } else {
+                $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
+            }
+            
+        }
 
         return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
     }

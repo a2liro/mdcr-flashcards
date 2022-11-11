@@ -198,7 +198,7 @@ class FlashCardController extends Controller
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty);
         $cards[0]->difficulty = $note;
         $cards[0]->lastshow = date('Y-m-d H:i:s');
-        $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow day"));
+        $cards[0]->nextshow = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow minutes"));
 
         $cards[0]->update();
         $noteData = [
@@ -225,7 +225,7 @@ class FlashCardController extends Controller
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
         $cards[0]->difficultyReverse = $note;
         $cards[0]->lastshowReverse = date('Y-m-d H:i:s');
-        $cards[0]->nextshowReverse = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow day"));
+        $cards[0]->nextshowReverse = date('Y-m-d H:i:s', strtotime(date('Y-m-d H:i:s') . " +$timeToNextShow minutes"));
 
         $cards[0]->update();
         $noteData = [
@@ -242,36 +242,36 @@ class FlashCardController extends Controller
         header("Location: /baralhos/{$deckId}/jogar/frente/reverso");
     }
 
-    private function calcNote(int $note, $cardDifficulty)
+    public static function calcNote(int $note, $cardDifficulty)
     {
         if($note == 1) {
             switch($cardDifficulty) {
                 case 1:
-                    return 365;
+                    return 365 * 1440;
                 case 2:
-                    return 180;
+                    return 180 * 1440;
                 case 3:
-                    return 60;
+                    return 60 * 1440;
                 case 4:
-                    return 60;
+                    return 30 * 1440;
                 case 5:
-                    return 15;
+                    return 15 * 1440;
                 default:
-                    return 0;
+                    return 0 * 1440;
             }
         }
         if($note == 2) {
             switch($cardDifficulty) {
                 case 1:
-                    return 180;
+                    return 180 * 1440;
                 case 2:
-                    return 60;
+                    return 60 * 1440;
                 case 3:
-                    return 30;
+                    return 30 * 1440;
                 case 4:
-                    return 15;
+                    return 15 * 1440;
                 case 5:
-                    return 8;
+                    return 8 * 1440;
                 default:
                     return 0;
             }
@@ -280,32 +280,32 @@ class FlashCardController extends Controller
         if($note == 3) {
             switch($cardDifficulty) {
                 case 1:
-                    return 30;
+                    return 30 * 1440;
                 case 2:
-                    return 15;
+                    return 15 * 1440;
                 case 3:
-                    return 7;
+                    return 7 * 1440;
                 case 4:
-                    return 4;
+                    return 4 * 1440;
                 case 5:
-                    return 2;
+                    return 2 * 1440;
                 default:
-                    return 0;
+                    return 0 * 1440;
             }
         }
 
         if($note == 4) {
             switch($cardDifficulty) {
                 case 1:
-                    return 5;
+                    return 5 * 1440 ;
                 case 2:
-                    return 3;
+                    return 3 * 1440 ;
                 case 3:
-                    return 2;
+                    return 2 * 1440 ;
                 case 4:
-                    return 1;
+                    return 1 * 1440 ;
                 case 5:
-                    return 0;
+                    return 720;
                 default:
                     return 0;
             }
@@ -314,15 +314,15 @@ class FlashCardController extends Controller
         if($note == 5) {
             switch($cardDifficulty) {
                 case 1:
-                    return 2;
+                    return 2 * 1440;
                 case 2:
-                    return 1;
+                    return 1 * 1440;
                 case 3:
-                    return 0;
+                    return 100;
                 case 4:
-                    return 0;
+                    return 20;
                 case 5:
-                    return 0;
+                    return 10;
                 default:
                     return 0;
             }
