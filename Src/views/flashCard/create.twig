@@ -37,56 +37,54 @@
             <label for="front">Frente</label>
             <input type="hidden" id="front" name="front" placeholder="Frente" required />
             <div id="standalone-container">
-            <div id="toolbar-container">
-              <span class="ql-formats">
-                <select class="ql-font"></select>
-                <select class="ql-size"></select>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-bold"></button>
-                <button class="ql-italic"></button>
-                <button class="ql-underline"></button>
-                <button class="ql-strike"></button>
-              </span>
-              <span class="ql-formats">
-                <select class="ql-color"></select>
-                <select class="ql-background"></select>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-script" value="sub"></button>
-                <button class="ql-script" value="super"></button>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-header" value="1"></button>
-                <button class="ql-header" value="2"></button>
-                <button class="ql-blockquote"></button>
-                <button class="ql-code-block"></button>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-list" value="ordered"></button>
-                <button class="ql-list" value="bullet"></button>
-                <button class="ql-indent" value="-1"></button>
-                <button class="ql-indent" value="+1"></button>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-direction" value="rtl"></button>
-                <select class="ql-align"></select>
-              </span>
-              <span class="ql-formats">
-                <button class="ql-link"></button>
-                <button class="ql-image"></button>
-                <button class="ql-video"></button>
-                <button class="ql-formula"></button>
-              </span>
-              <span class="ql-formats"><button class="ql-clean"></button></span>
+              <div id="toolbar-container">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats"><button class="ql-clean"></button></span>
+              </div>
+              <div id="editor-container"></div>
             </div>
-            <div id="editor-container"></div>
-          </div>
           </div>
           {# <div id="toolbar"></div>
           <textarea id="editor"></textarea> #}
-
-          
 
           <div class="mdcr-form-group">
             <label for="back">Verso</label>
@@ -139,6 +137,13 @@
             </div>
           </div>
 
+          <div class="mdcr-form-group submit">
+            <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
+            <div class="words" contenteditable>
+              <p id="p"></p>
+            </div>
+          </div>
+
           <div class="mdcr-form-group">
             <label for="audiofile">Audio</label>
             <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
@@ -147,9 +152,6 @@
           <div class="mdcr-form-group">
             <audio controls style="display: none;" id="audio-preview-container"></audio>
           </div>
-
-          
-         
 
           <div class="mdcr-form-group">
             <input type="hidden" name="audio" capture id="audio" />
@@ -163,7 +165,8 @@
                 <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
               </div>
             </section>
-
+            <hr />
+            <br />
             <section class="sound-clips"></section>
           </div>
           <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
@@ -173,19 +176,6 @@
 
           <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
 
-          {# <script>
-               var options = {
-                 debug: 'info',
-                 modules: {
-                   toolbar: '#toolbar'
-                 },
-                 placeholder: 'Compose an epic...',
-                 readOnly: true
-                 //theme: 'snow'
-               }
-               var container = document.getElementById('editor')
-               var editor = new Quill('#editor', options)
-             </script> #}
           <script>
             var quill = new Quill('#editor-container', {
               modules: {
@@ -197,7 +187,7 @@
               theme: 'snow'
             })
             let inputFront = document.getElementById('front')
-              inputFront.value = '{"ops":[{"insert":""}]}'
+            inputFront.value = '{"ops":[{"insert":""}]}'
             quill.on('editor-change', function (event, ...args) {
               let inputFront = document.getElementById('front')
               inputFront.value = JSON.stringify(JSON.parse(JSON.stringify(quill.getContents())))
@@ -214,35 +204,76 @@
               theme: 'snow'
             })
             let inputBack = document.getElementById('back')
-              inputBack.value = '{"ops":[{"insert":""}]}'
+            inputBack.value = '{"ops":[{"insert":""}]}'
             quillBack.on('editor-change', function (event, ...args) {
               let inputBack = document.getElementById('back')
               inputBack.value = JSON.stringify(quillBack.getContents())
-              
             })
           </script>
           <script>
-            {# function showPreview(event) {
-              if (event.target.files.length > 0) {
-                var src = URL.createObjectURL(event.target.files[0])
-                var preview = document.getElementById('image-preview-create')
-                preview.src = src
-                preview.style.display = 'block'
-              }
-            } #}
-            
             function showPreviewAudio(event) {
               if (event.target.files.length > 0) {
                 var src = URL.createObjectURL(event.target.files[0])
-                //var preview = document.getElementById('audio-preview-create')
-            
-                //preview.src = src
-                //preview.style.display = 'block'
                 let container = document.getElementById('audio-preview-container')
                 container.style.display = 'block'
                 container.setAttribute('src', src)
               }
             }
+          </script>
+
+          <script>
+            let btnStart = document.getElementById('start')
+            let btnStop = document.getElementById('stop')
+            
+            var speech = true
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+            
+            const recognition = new SpeechRecognition()
+            recognition.interimResults = true
+            
+            recognition.addEventListener('result', (e) => {
+              const transcript = Array.from(e.results)
+                .map((result) => result[0])
+                .map((result) => result.transcript)
+                .join('')
+            
+              document.getElementById('p').innerHTML = transcript
+              console.log(transcript)
+            })
+            
+            btnStart.onclick = function () {
+              console.log('start')
+              recognition.start()
+            }
+            
+            {# btnStop.onclick = function () {
+              console.log('stop')
+              recognition.stop()
+            } #}
+            
+            // var speech = true;
+            // window.SpeechRecognition = window.SpeechRecognition
+            //                 || window.webkitSpeechRecognition;
+            
+            // const recognition = new SpeechRecognition();
+            // recognition.interimResults = true;
+            // const words = document.querySelector('.words');
+            // words.appendChild(p);
+            
+            // recognition.addEventListener('result', e => {
+            //     const transcript = Array.from(e.results)
+            //         .map(result => result[0])
+            //         .map(result => result.transcript)
+            //         .join('')
+            
+            //     document.getElementById("p").innerHTML = transcript;
+            //     console.log(transcript);
+            // });
+            
+            // if (speech == true) {
+            //     recognition.start();
+            //     recognition.addEventListener('end', recognition.start);
+            // }
           </script>
 
           <div class="mdcr-form-group submit">

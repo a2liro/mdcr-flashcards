@@ -17,18 +17,122 @@ const canvasCtx = canvas.getContext("2d");
 
 //main block for doing the audio recording
 
-if (navigator.mediaDevices.getUserMedia) {
-    console.log('getUserMedia supported.');
+record.onclick = function () {
+    if (navigator.mediaDevices.getUserMedia) {
+        console.log('getUserMedia supported.');
 
-    const constraints = { audio: true };
-    let chunks = [];
+        const constraints = { audio: true };
+        let chunks = [];
 
-    let onSuccess = function (stream) {
-        const mediaRecorder = new MediaRecorder(stream);
 
-        visualize(stream);
 
-        record.onclick = function () {
+        let onError = function (err) {
+            console.log('The following error occured: ' + err);
+        }
+
+
+
+
+
+        function onSuccess(stream) {
+            let mediaRecorder = new MediaRecorder(stream);
+
+            visualize(stream);
+
+
+
+            stop.onclick = function () {
+                mediaRecorder.stop();
+                console.log(mediaRecorder.state);
+                console.log("recorder stopped");
+                record.style.background = "";
+                record.style.color = "";
+                // mediaRecorder.requestData();
+
+                stop.disabled = true;
+                record.disabled = false;
+            }
+
+            mediaRecorder.onstop = function (e) {
+                console.log(e)
+                stream.getTracks().forEach(function (track) {
+                    track.stop();
+                });
+                mediaRecorder = null
+                const audioList = document.querySelector('.clip')
+                if (audioList != null) {
+                    audioList.remove();
+                }
+                console.log("data available after MediaRecorder.stop() called.");
+
+                const clipName = 'audiorecord';
+
+                const clipContainer = document.createElement('article');
+                //   const clipLabel = document.createElement('p');
+                const audio = document.createElement('audio');
+                const deleteButton = document.createElement('button');
+
+                clipContainer.classList.add('clip');
+                audio.setAttribute('controls', '');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'delete';
+                deleteButton.type = 'button';
+                deleteButton.classList.add('mdcr-half-button')
+                deleteButton.classList.add('audio-control-buttons')
+
+
+                //   if(clipName === null) {
+                //     clipLabel.textContent = 'My unnamed clip';
+                //   } else {
+                //     clipLabel.textContent = clipName;
+                //   }
+
+                clipContainer.appendChild(audio);
+                //   clipContainer.appendChild(clipLabel);
+                clipContainer.appendChild(deleteButton);
+                soundClips.appendChild(clipContainer);
+
+                audio.controls = true;
+                const blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
+                chunks = [];
+                const audioURL = window.URL.createObjectURL(blob);
+                audio.src = audioURL;
+                console.log("recorder stopped");
+
+
+                // por andre
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onload = () => {
+                    const recorderInput = document.querySelector('#audio');
+                    const base64AudioMessage = reader.result.split(',')[1]
+                    recorderInput.value = base64AudioMessage
+                    console.log(base64AudioMessage)
+                }
+
+
+
+
+                deleteButton.onclick = function (e) {
+                    e.target.closest(".clip").remove();;
+                }
+
+                //   clipLabel.onclick = function() {
+                //     const existingName = clipLabel.textContent;
+                //     const newClipName = prompt('Enter a new name for your sound clip?');
+                //     if(newClipName === null) {
+                //       clipLabel.textContent = existingName;
+                //     } else {
+                //       clipLabel.textContent = newClipName;
+                //     }
+                //   }
+            }
+
+            mediaRecorder.ondataavailable = function (e) {
+                chunks.push(e.data);
+            }
+
+
             mediaRecorder.start();
             console.log(mediaRecorder.state);
             console.log("recorder started");
@@ -38,101 +142,18 @@ if (navigator.mediaDevices.getUserMedia) {
             record.disabled = true;
         }
 
-        stop.onclick = function () {
-            mediaRecorder.stop();
-            console.log(mediaRecorder.state);
-            console.log("recorder stopped");
-            record.style.background = "";
-            record.style.color = "";
-            // mediaRecorder.requestData();
-
-            stop.disabled = true;
-            record.disabled = false;
-        }
-
-        mediaRecorder.onstop = function (e) {
-            const audioList = document.querySelector('.clip')
-            if (audioList != null) {
-                audioList.remove();
-            }
-            console.log("data available after MediaRecorder.stop() called.");
-
-            const clipName = 'audiorecord';
-
-            const clipContainer = document.createElement('article');
-            //   const clipLabel = document.createElement('p');
-            const audio = document.createElement('audio');
-            const deleteButton = document.createElement('button');
-
-            clipContainer.classList.add('clip');
-            audio.setAttribute('controls', '');
-            deleteButton.textContent = 'Delete';
-            deleteButton.className = 'delete';
-            deleteButton.type = 'button';
-            deleteButton.classList.add('mdcr-half-button')
-            deleteButton.classList.add('audio-control-buttons')
-
-
-            //   if(clipName === null) {
-            //     clipLabel.textContent = 'My unnamed clip';
-            //   } else {
-            //     clipLabel.textContent = clipName;
-            //   }
-
-            clipContainer.appendChild(audio);
-            //   clipContainer.appendChild(clipLabel);
-            clipContainer.appendChild(deleteButton);
-            soundClips.appendChild(clipContainer);
-
-            audio.controls = true;
-            const blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
-            chunks = [];
-            const audioURL = window.URL.createObjectURL(blob);
-            audio.src = audioURL;
-            console.log("recorder stopped");
-
-
-            // por andre
-            const reader = new FileReader();
-            reader.readAsDataURL(blob);
-            reader.onload = () => {
-                const recorderInput = document.querySelector('#audio');
-                const base64AudioMessage = reader.result.split(',')[1]
-                recorderInput.value = base64AudioMessage
-                console.log(base64AudioMessage)
-            }
 
 
 
 
-            deleteButton.onclick = function (e) {
-                e.target.closest(".clip").remove();;
-            }
 
-            //   clipLabel.onclick = function() {
-            //     const existingName = clipLabel.textContent;
-            //     const newClipName = prompt('Enter a new name for your sound clip?');
-            //     if(newClipName === null) {
-            //       clipLabel.textContent = existingName;
-            //     } else {
-            //       clipLabel.textContent = newClipName;
-            //     }
-            //   }
-        }
 
-        mediaRecorder.ondataavailable = function (e) {
-            chunks.push(e.data);
-        }
+
+        navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
+
+    } else {
+        console.log('getUserMedia not supported on your browser!');
     }
-
-    let onError = function (err) {
-        console.log('The following error occured: ' + err);
-    }
-
-    navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
-
-} else {
-    console.log('getUserMedia not supported on your browser!');
 }
 
 function visualize(stream) {
