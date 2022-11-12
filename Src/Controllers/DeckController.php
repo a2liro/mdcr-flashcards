@@ -328,6 +328,18 @@ class DeckController extends Controller
             $cards[0]->audioFile64 = $audioFile64;
             $cards[0]->audio64 = $audio64;
         }
+
+        for($count = 1; $count <= 5; $count++) {
+            $interval = FlashCardController::calcNote($count, $cards[0]->difficulty_reverse);
+            if($interval < 60) {
+                $cards[0]->intervals[$count] = $interval . ' minutos';
+            } else if($interval < 1440) {
+                $cards[0]->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
+            } else {
+                $cards[0]->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
+            }
+            
+        }
         return $this->view('deck/playBackReverse.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 }

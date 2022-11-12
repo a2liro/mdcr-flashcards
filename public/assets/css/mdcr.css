@@ -327,3 +327,7 @@ footer {
   flex-direction: column;
   gap: 1em;
 }
+
+.background-red {
+  background-color: red;
+}

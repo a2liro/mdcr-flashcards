@@ -223,7 +223,6 @@
 
           <script>
             let btnStart = document.getElementById('start')
-            let btnStop = document.getElementById('stop')
             
             var speech = true
             window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
@@ -243,37 +242,17 @@
             
             btnStart.onclick = function () {
               console.log('start')
+              btnStart.classList.add('background-red')
+              btnStart.innerText = 'Ouvindo...'
               recognition.start()
             }
             
-            {# btnStop.onclick = function () {
-              console.log('stop')
+            recognition.addEventListener('end', () => {
               recognition.stop()
-            } #}
-            
-            // var speech = true;
-            // window.SpeechRecognition = window.SpeechRecognition
-            //                 || window.webkitSpeechRecognition;
-            
-            // const recognition = new SpeechRecognition();
-            // recognition.interimResults = true;
-            // const words = document.querySelector('.words');
-            // words.appendChild(p);
-            
-            // recognition.addEventListener('result', e => {
-            //     const transcript = Array.from(e.results)
-            //         .map(result => result[0])
-            //         .map(result => result.transcript)
-            //         .join('')
-            
-            //     document.getElementById("p").innerHTML = transcript;
-            //     console.log(transcript);
-            // });
-            
-            // if (speech == true) {
-            //     recognition.start();
-            //     recognition.addEventListener('end', recognition.start);
-            // }
+              console.log('Speech recognition has stopped.')
+              btnStart.classList.remove('background-red')
+              btnStart.innerHTML = 'Treinar pronúncia'
+            })
           </script>
 
           <div class="mdcr-form-group submit">

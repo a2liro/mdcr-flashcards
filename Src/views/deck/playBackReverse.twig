@@ -132,59 +132,38 @@
     </script>
 
     <script>
-            let btnStart = document.getElementById('start')
-            let btnStop = document.getElementById('stop')
-            
-            var speech = true
-            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-            
-            const recognition = new SpeechRecognition()
-            recognition.interimResults = true
-            
-            recognition.addEventListener('result', (e) => {
-              const transcript = Array.from(e.results)
-                .map((result) => result[0])
-                .map((result) => result.transcript)
-                .join('')
-            
-              document.getElementById('p').innerHTML = transcript
-              console.log(transcript)
-            })
-            
-            btnStart.onclick = function () {
-              console.log('start')
-              recognition.start()
-            }
-            
-            {# btnStop.onclick = function () {
-              console.log('stop')
-              recognition.stop()
-            } #}
-            
-            // var speech = true;
-            // window.SpeechRecognition = window.SpeechRecognition
-            //                 || window.webkitSpeechRecognition;
-            
-            // const recognition = new SpeechRecognition();
-            // recognition.interimResults = true;
-            // const words = document.querySelector('.words');
-            // words.appendChild(p);
-            
-            // recognition.addEventListener('result', e => {
-            //     const transcript = Array.from(e.results)
-            //         .map(result => result[0])
-            //         .map(result => result.transcript)
-            //         .join('')
-            
-            //     document.getElementById("p").innerHTML = transcript;
-            //     console.log(transcript);
-            // });
-            
-            // if (speech == true) {
-            //     recognition.start();
-            //     recognition.addEventListener('end', recognition.start);
-            // }
-          </script>
+      let btnStart = document.getElementById('start')
+      
+      var speech = true
+      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      
+      const recognition = new SpeechRecognition()
+      recognition.interimResults = true
+      
+      recognition.addEventListener('result', (e) => {
+        const transcript = Array.from(e.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join('')
+      
+        document.getElementById('p').innerHTML = transcript
+        console.log(transcript)
+      })
+      
+      btnStart.onclick = function () {
+        console.log('start')
+        btnStart.classList.add('background-red')
+        btnStart.innerText = 'Ouvindo...'
+        recognition.start()
+      }
+      
+      recognition.addEventListener('end', () => {
+        recognition.stop()
+        console.log('Speech recognition has stopped.')
+        btnStart.classList.remove('background-red')
+        btnStart.innerHTML = 'Treinar pronúncia'
+      })
+    </script>
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
   </div>
 {% endblock %}
