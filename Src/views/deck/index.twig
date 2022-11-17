@@ -2,7 +2,7 @@
 {% use "templates/head.twig" %}
 
 {% block title %}
-  Deck - Home
+  Decks - Home
 {% endblock %}
 
 {% block content %}
@@ -13,18 +13,20 @@
         {% for deck in decks %}
           <li>
             <span>{{ deck.name }}</span>
-            {% if deck.cardsToPlay > 0 %}
-              <span class="text-red">A revisar: {{ deck.cardsToPlay }}</span>
-            {% else %}
-              <span class="text-green">A revisar: {{ deck.cardsToPlay }}</span>
-            {% endif %}
-            {% if deck.is_english == 'on' %}
+            <span>
               {% if deck.cardsToPlay > 0 %}
-                <span class="text-red">A revisar: {{ deck.cardsToPlayReverse }}</span>
+                <span class="text-red">A revisar: {{ deck.cardsToPlay }}</span>
               {% else %}
-                <span class="text-green">A revisar: {{ deck.cardsToPlayReverse }}</span>
+                <span class="text-green">A revisar: {{ deck.cardsToPlay }}</span>
               {% endif %}
-            {% endif %}
+              {% if deck.is_english == 'on' %}
+                {% if deck.cardsToPlayReverse > 0 %}
+                  | <span class="text-red"> A revisar (reverso): {{ deck.cardsToPlayReverse }}</span>
+                {% else %}
+                   | <span class="text-green">A revisar (reverso): {{ deck.cardsToPlayReverse }}</span>
+                {% endif %}
+              {% endif %}
+            </span>
 
             <div class="actions">
               <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
