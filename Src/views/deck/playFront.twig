@@ -25,25 +25,32 @@
     <nav class="menu">
       <ul>
         <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
           <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
         </li>
       </ul>
     </nav>
-    <h1>{{ deck.name }}</h1>
+    <h2>Deck: {{ deck.name }}</h2>
     {% if card.id %}
       <section class="flash-cards-playing" id="flash-cards-playing">
-        <h2>Frente</h2>
+        <h3>Frente:</h3>
         <div class="flash-card-content">
           <div id="standalone-container">
             <div id="editor-container"></div>
           </div>
-
-          <div class="mdcr-form-group submit">
-            <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
-            <div class="words" contenteditable>
-              <p id="p"></p>
+          {% if deck.is_english == 'on' %}
+            <div class="mdcr-form-group submit">
+              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
+              <div class="words" contenteditable>
+                <p id="p"></p>
+              </div>
             </div>
-          </div>
+          {% endif %}
 
           {% if card.audioFile64 %}
             <h4>Arquivo de áudio</h4>
@@ -126,7 +133,7 @@
       btnStart.onclick = function () {
         console.log('start')
         btnStart.classList.add('background-red')
-        btnStart.innerText = "Ouvindo..."
+        btnStart.innerText = 'Ouvindo...'
         recognition.start()
       }
       
@@ -134,8 +141,7 @@
         recognition.stop()
         console.log('Speech recognition has stopped.')
         btnStart.classList.remove('background-red')
-        btnStart.innerHTML = "Treinar pronúncia"
-
+        btnStart.innerHTML = 'Treinar pronúncia'
       })
     </script>
     <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>

@@ -11,6 +11,7 @@ class Deck extends Model
         'id' => ['integer'],
 		'user_id' => ['integer'],
         'name' => ['string'],
+        'isEnglish' => ['string']
     ];
 
     public function __construct()

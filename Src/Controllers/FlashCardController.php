@@ -126,34 +126,15 @@ class FlashCardController extends Controller
     }
 
 
-    public function show(Request $request, $id)
+    public function show(Request $request, int $deckId, int $id)
     {
         $user = (new User())->getCurrentUser();
         $flashCard = new FlashCard();
         $flashCard = $flashCard->findOneByParams(['id' => $id, 'user_id' => $user->id]);
-        $flashCard->ownGiftList = $flashCard->bean->ownGiftList;
-
-        $expenseCategory = new ExpenseCategory();
-        $expenseCategories = $expenseCategory->findAllByParams(['user_id' => $user->id, 'flashCard_id' => $id]);
-        $expenses = (new Expense())->findAllByParams(['user_id' => $user->id, 'flashCard_id' => $id]);
-        foreach ($expenses as $index => $expense) {
-            // $expense->category = $expense->ownCategory;
-            $category = $expense->category_id;
-            $expenses[$index]->category = (function () use ($expense, $expenseCategories) {
-                foreach ($expenseCategories as $category) {
-                    if ($category->id == $expense->category_id) {
-                        return $category;
-                    }
-                }
-            })();
-            // print_r($category);
-        }
         return $this->view(
             'flashCard/show.twig',
             [
-                'flashCard' => $flashCard,
-                'expenseCategories' => $expenseCategories,
-                'expenses' => $expenses
+                'card' => $flashCard,
             ]
         );
     }

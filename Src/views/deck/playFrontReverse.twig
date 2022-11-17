@@ -24,17 +24,23 @@
     <nav class="menu">
       <ul>
         <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
           <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
         </li>
       </ul>
     </nav>
-    <h1>{{ deck.name }}</h1>
+    <h2>Deck: {{ deck.name }}</h2>
     {% if card.id %}
       <section class="flash-cards-playing" id="flash-cards-playing">
-        <h2>Frente</h2>
+        <h3>Frente:</h3>
         {# <span>{{ card.front }}</span> #}
 
-        <h2>Verso</h2>
+        <h3>Verso:</h3>
         <div class="flash-card-content">
           {# <span>{{ card.back }}</span> #}
           <div id="standalone-container">
@@ -53,11 +59,11 @@
         </div>
       </section>
       <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
-      {% else %}
-        <h4>Nada a revisar no momento</h4>
-        <div>
-          <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
-        </div>
+    {% else %}
+      <h4>Nada a revisar no momento</h4>
+      <div>
+        <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+      </div>
     {% endif %}
 
     {# <input type="hidden" id="front-input" value="{{ card.front }}" /> #}
@@ -98,7 +104,5 @@
       quillBack.setContents(JSON.parse(backInput.value))
       quillBack.enable(false)
     </script>
-
-    
   </div>
 {% endblock %}

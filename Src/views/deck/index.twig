@@ -1,35 +1,40 @@
 {% extends 'templates/base.twig' %}
 {% use "templates/head.twig" %}
 
-{% block title %}Deck - Home{% endblock %}
+{% block title %}
+  Deck - Home
+{% endblock %}
 
 {% block content %}
+  <div class="content">
+    {% include 'templates/menu.twig' %}
+    <section class="decks">
+      <ul class="mdcr-model-list">
+        {% for deck in decks %}
+          <li>
+            <span>{{ deck.name }}</span>
+            {% if deck.cardsToPlay > 0 %}
+              <span class="text-red">A revisar: {{ deck.cardsToPlay }}</span>
+            {% else %}
+              <span class="text-green">A revisar: {{ deck.cardsToPlay }}</span>
+            {% endif %}
+            {% if deck.is_english == 'on' %}
+              {% if deck.cardsToPlay > 0 %}
+                <span class="text-red">A revisar: {{ deck.cardsToPlayReverse }}</span>
+              {% else %}
+                <span class="text-green">A revisar: {{ deck.cardsToPlayReverse }}</span>
+              {% endif %}
+            {% endif %}
 
-<div class="content">
- {% include "templates/menu.twig" %}
-  <section class="decks">
-    <ul class="mdcr-model-list">
-      {% for deck in decks %}
-        <li>
-        <span>{{ deck.name }} </span>
-        {% if deck.cardsToPlay > 0 %}
-        <span class="text-red">{{ deck.cardsToPlay }} cartas para estudar</span>
-        {% else %}
-        <span class="text-green">{{ deck.cardsToPlay }} cartas para estudar</span>
-        {% endif %}
-        
-          <div class="actions">
-            <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-            <a href="/baralhos/{{ deck.id }}/editar">{{ icon('edit', 'green') }}</a>
-            <a href="/baralhos/{{ deck.id }}/excluir">{{ icon('delete', 'red') }}</a>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
+            <div class="actions">
+              <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/baralhos/{{ deck.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/baralhos/{{ deck.id }}/excluir">{{ icon('delete', 'red') }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
     <a class="add-new-float" href="/baralhos/criar">+</a>
-</div>
-
- 
-
+  </div>
 {% endblock %}

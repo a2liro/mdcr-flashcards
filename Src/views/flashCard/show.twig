@@ -1,44 +1,88 @@
-{% extends 'templates/base.twig' %}
-{% use "templates/head.twig" %}
-
+{% extends './templates/base.twig' %}
+{% use "./templates/head.twig" %}
+{% block title %}
+  Exibindo cartão
+{% endblock %}
 {% block content %}
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
   <div class="content">
-    {% include 'templates/menu.twig' %}
-    <h1>Organizações - {{ organization.organization }}</h1>
-    <section class="categories">
-      <h2>Categorias</h2>
-      <a href="/organizacoes/{{ organization.id }}/despesas/categorias/criar">+ categoria</a>
-      <ul class="mdcr-model-list">
-        {% for category in expenseCategories %}
-          <li>
-            <span>{{ category.category }}</span>
-            <div class="actions">
-              <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/despesas/categorias/{{ category.id }}/excluir">{{ icon('delete', 'red') }}</a>
-            </div>
-          </li>
-        {% endfor %}
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
+          <a href="/baralhos/{{ card.deck_id }}/visualizar">Ver baralho</a>
+        </li>
       </ul>
-    </section>
-    <section class="expenses">
-      <h2>Despesas</h2>
-      <a href="/organizacoes/{{ organization.id }}/despesas/criar">+ despesa</a>
-      <ul class="mdcr-model-list">
-        {% for expense in expenses %}
-          <li>
-            <span>{{ expense.description }}</span>
-            <span>{{ expense.category.category }}</span>
-            <span class="amount">R$ {{ expense.amount }}</span>
-            <div class="actions">
-              <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/organizacoes/{{ organizationId }}/despesas/{{ expense.id }}/excluir">{{ icon('delete', 'red') }}</a>
+    </nav>
+    <h1>Confirmar exclusão do flashcard</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{ card.deck_id }}/flash-cards/{{ card.id }}/delete" method="GET" class="mdcr-form-middle">
+          <div class="mdcr-form-group">
+            <label for="front">Frente</label>
+            <div id="standalone-container">
+              <div id="editor-container"></div>
             </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-    <a class="add-new-float" href="/organizacoes/criar">+</a>
+          </div>
+
+          <div class="mdcr-form-group">
+            <label for="back">Verso</label>
+            <div id="standalone-container-back">
+              <div id="editor-container-back"></div>
+            </div>
+          </div>
+
+          <div class="mdcr-form-group">
+            <a href="/baralhos/{{ card.deck_id }}/flash-cards/{{ card.id }}/editar"><button class="Editar card" type="button">Editar card</button></a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    <script>
+      var quill = new Quill('#editor-container', {
+        theme: 'bubble'
+      })
+      let frontInput = document.getElementById('front-input')
+      quill.setContents(JSON.parse(frontInput.value))
+      quill.enable(false)
+    </script>
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        theme: 'bubble'
+      })
+      let backInput = document.getElementById('back-input')
+      
+      quillBack.setContents(JSON.parse(backInput.value))
+      quillBack.enable(false)
+    </script>
   </div>
 {% endblock %}

@@ -5,17 +5,17 @@
   <div class="content">
     <nav class="menu">
       <ul>
-        <li>
-          <a href="/baralhos">Deck</a>
-        </li>
-        <li>
-          <a href="/register">Registrar</a>
-        </li>
         {% if user.id %}
+          <li>
+            <a href="/baralhos">Decks</a>
+          </li>
           <li>
             <a href="/logout">Sair</a>
           </li>
         {% else %}
+          <li>
+            <a href="/register">Registrar</a>
+          </li>
           <li>
             <a href="/login">Login</a>
           </li>

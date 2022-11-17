@@ -23,8 +23,13 @@
   <div class="content">
     <nav class="menu">
       <ul>
-        <li>
+       <li>
           <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
           <a href="/baralhos/{{ currentDeck.id }}/visualizar">Ver baralho</a>
         </li>
       </ul>
@@ -147,32 +152,27 @@
             </div>
           </div>
 
-          <div class="mdcr-form-group submit">
-            <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
-            <div class="words" contenteditable>
-              <p id="p"></p>
+          {% if currentDeck.is_english == 'on' %}
+            <div class="mdcr-form-group">
+              <label for="audiofile">Audio</label>
+              <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
             </div>
-          </div>
 
-          <div class="mdcr-form-group">
-            <label for="audiofile">Audio</label>
-            <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
-          </div>
-
-          {% if card.audioFile64 %}
-            <div class="mdcr-form-group">
-              <audio controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio-preview-container"></audio>
-            </div>
-            <div class="mdcr-form-group">
-              <input type="hidden" name="audiofile64" id="audiofile64" value="{{ card.audioFile64 }}" />
-            </div>
-          {% else %}
-            <div class="mdcr-form-group">
-              <audio controls style="display: none;" src="{{ card.audioFile64 }}" id="audio-preview-container"></audio>
-            </div>
+            {% if card.audioFile64 %}
+              <div class="mdcr-form-group">
+                <audio controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+              <div class="mdcr-form-group">
+                <input type="hidden" name="audiofile64" id="audiofile64" value="{{ card.audioFile64 }}" />
+              </div>
+            {% else %}
+              <div class="mdcr-form-group">
+                <audio controls style="display: none;" src="{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+            {% endif %}
           {% endif %}
 
-          <div class="mdcr-form-group">
+          <div class="mdcr-form-groups">
             <input type="hidden" name="audio" capture id="audio" value="{{ card.audio }}" />
           </div>
 
@@ -288,39 +288,6 @@
         let audioOldInput = document.getElementById('audio')
         audioOldInput.value = ''
       }
-    </script>
-    <script>
-      let btnStart = document.getElementById('start')
-      
-      var speech = true
-      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
-      
-      const recognition = new SpeechRecognition()
-      recognition.interimResults = true
-      
-      recognition.addEventListener('result', (e) => {
-        const transcript = Array.from(e.results)
-          .map((result) => result[0])
-          .map((result) => result.transcript)
-          .join('')
-      
-        document.getElementById('p').innerHTML = transcript
-        console.log(transcript)
-      })
-      
-      btnStart.onclick = function () {
-        console.log('start')
-        btnStart.classList.add('background-red')
-        btnStart.innerText = 'Ouvindo...'
-        recognition.start()
-      }
-      
-      recognition.addEventListener('end', () => {
-        recognition.stop()
-        console.log('Speech recognition has stopped.')
-        btnStart.classList.remove('background-red')
-        btnStart.innerHTML = 'Treinar pronúncia'
-      })
     </script>
   </div>
 {% endblock %}

@@ -31,6 +31,14 @@ class DeckController extends Controller
                 )
                 ->get();
             $decks[$key]->cardsToPlay = sizeof($cards);
+            $cardsReverse = (new FlashCard)->select('id')
+                ->where(
+                    ['user_id', '=', $user->id],
+                    ['deck_id', '=', $deck->id],
+                    ['nextshow_reverse', '<=', "'$currentDate'"]
+                )
+                ->get();
+            $decks[$key]->cardsToPlayReverse = sizeof($cardsReverse);
         }
         return $this->view('deck/index.twig', ['decks' => $decks]);
     }
@@ -43,6 +51,8 @@ class DeckController extends Controller
 
     public function store(Request $request)
     {
+        // var_dump($request->all());
+        // return 0;
         $user = new User();
         $user->getCurrentUser();
         $data = $request->all();
@@ -69,15 +79,29 @@ class DeckController extends Controller
     {
         $data = $request->all();
         $data['id'] = $id;
+        // $user = new User();
+        // $user = $user->getCurrentUser();
+        // $deck = new Deck();
+        // $deck = $deck->findOneByParams(['user_id' => $user->id]);
+        // /* $deck->update($data); */
+        // if ($deck->id == $id) {
+        //     $deck->update($data);
+        // }
+        // return $this->view('deck/user/edit.twig', ['deck' => $deck]);
+
         $user = new User();
         $user = $user->getCurrentUser();
         $deck = new Deck();
-        $deck = $deck->findOneByParams(['user_id' => $user->id]);
+        $deck = $deck->findOneByParams(['user_id' => $user->id, 'id' => $id]);
         /* $deck->update($data); */
+
+        $data['isEnglish'] = isset($data['isEnglish']) ? $data['isEnglish'] : null;
+
         if ($deck->id == $id) {
             $deck->update($data);
         }
-        return $this->view('deck/user/edit.twig', ['deck' => $deck]);
+        var_dump($data);
+        return header("Location: /baralhos/$deck->id/visualizar");
     }
 
 

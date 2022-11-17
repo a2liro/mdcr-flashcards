@@ -24,21 +24,27 @@
   <div class="content">
     <nav class="menu">
       <ul>
+       <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
         <li>
           <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
         </li>
       </ul>
     </nav>
-    <h1>{{ deck.name }}</h1>
+    <h2>Deck: {{ deck.name }}</h2>
     {% if card.id %}
       <section class="flash-cards-playing" id="flash-cards-playing">
-        <h3>Frente</h3>
+        <h3>Frente:</h3>
         <div class="flash-card-content">
           <div id="standalone-container">
             <div id="editor-container-back"></div>
           </div>
         </div>
-        <h3>Verso</h3>
+        <h3>Verso:</h3>
         <div class="flash-card-content">
           <div id="standalone-container">
             <div id="editor-container"></div>

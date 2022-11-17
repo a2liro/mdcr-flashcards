@@ -43,7 +43,10 @@
       {% else %}
         <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
       {% endif %}
-      <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/ouvir-todos"><button class="mdcr-half-button">Ouvir todos</button></a>
+
+      {% if deck.is_english == 'on' %}
+        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/ouvir-todos"><button class="mdcr-half-button">Ouvir todos</button></a>
+      {% endif %}
     </div>
 
     <section class="categories">

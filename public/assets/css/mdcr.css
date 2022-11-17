@@ -331,3 +331,15 @@ footer {
 .background-red {
   background-color: red;
 }
+
+.mdcr-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+
+.mdcr-checkbox input {
+  width: 1.5em;
+  margin-right: .7em;
+}
