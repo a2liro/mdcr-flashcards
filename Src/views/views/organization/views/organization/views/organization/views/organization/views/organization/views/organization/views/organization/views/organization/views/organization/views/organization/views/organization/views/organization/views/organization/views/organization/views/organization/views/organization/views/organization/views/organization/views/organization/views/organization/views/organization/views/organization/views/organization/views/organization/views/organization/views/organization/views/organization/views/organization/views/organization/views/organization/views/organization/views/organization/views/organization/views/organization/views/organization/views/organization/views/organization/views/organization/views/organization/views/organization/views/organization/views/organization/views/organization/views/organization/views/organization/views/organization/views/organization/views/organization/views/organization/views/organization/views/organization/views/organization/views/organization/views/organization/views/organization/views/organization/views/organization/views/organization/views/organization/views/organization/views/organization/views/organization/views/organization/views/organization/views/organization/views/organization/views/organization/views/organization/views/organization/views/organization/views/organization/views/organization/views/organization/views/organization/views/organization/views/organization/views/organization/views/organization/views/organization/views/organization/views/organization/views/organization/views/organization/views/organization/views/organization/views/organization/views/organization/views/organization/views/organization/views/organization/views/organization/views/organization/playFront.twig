@@ -1,0 +1,149 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+{% block title %}
+  Jogando - Verso
+{% endblock %}
+
+{% block content %}
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.snow.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
+          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h2>Deck: {{ deck.name }}</h2>
+    {% if card.id %}
+      <section class="flash-cards-playing" id="flash-cards-playing">
+        <h3>Frente:</h3>
+        <div class="flash-card-content">
+          <div id="standalone-container">
+            <div id="editor-container"></div>
+          </div>
+          {% if deck.is_english == 'on' %}
+            <div class="mdcr-form-group submit">
+              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
+              <div class="words" contenteditable>
+                <p id="p"></p>
+              </div>
+            </div>
+          {% endif %}
+
+          {% if card.audioFile64 %}
+            <h4>Arquivo de áudio</h4>
+            <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio"></audio>
+          {% endif %}
+
+          {% if card.audio64 %}
+            <h4>Gravação de áudio</h4>
+            <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
+          {% endif %}
+        </div>
+
+        <div class="card-actions">
+          <nav class="menu">
+            <ul>
+              <li class="mdcr-form-group">
+                <a href="/baralhos/{{ deck.id }}/jogar/verso/card/{{ card.id }}"><button>Virar</button></a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </section>
+    {% else %}
+      <section>
+        <h1>Sem cards no momento</h1>
+        <div>
+          <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+        </div>
+      </section>
+    {% endif %}
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+
+    <script>
+      function play() {
+        let audio = document.getElementById('audio')
+        audio.play()
+      }
+      play()
+      
+      window.onload = function () {
+        window.location = '#flash-cards-playing'
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    <script>
+      var quill = new Quill('#editor-container', {
+        theme: 'bubble'
+      })
+      let frontInput = document.getElementById('front-input')
+      
+      quill.setContents(JSON.parse(frontInput.value))
+      quill.enable(false)
+    </script>
+
+    <script>
+      let btnStart = document.getElementById('start')
+      
+      var speech = true
+      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      
+      const recognition = new SpeechRecognition()
+      recognition.interimResults = true
+      
+      recognition.addEventListener('result', (e) => {
+        const transcript = Array.from(e.results)
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join('')
+      
+        document.getElementById('p').innerHTML = transcript
+        console.log(transcript)
+      })
+      
+      btnStart.onclick = function () {
+        console.log('start')
+        btnStart.classList.add('background-red')
+        btnStart.innerText = 'Ouvindo...'
+        recognition.start()
+      }
+      
+      recognition.addEventListener('end', () => {
+        recognition.stop()
+        console.log('Speech recognition has stopped.')
+        btnStart.classList.remove('background-red')
+        btnStart.innerHTML = 'Treinar pronúncia'
+      })
+    </script>
+    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+  </div>
+{% endblock %}

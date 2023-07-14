@@ -1,0 +1,25 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+
+{% block content %}
+  <div class="content">
+    {% include 'templates/menu.twig' %}
+    <section class="organizations">
+    <h2>{{ organization.name }}</h2>
+      <ul class="mdcr-model-list">
+        {% for organization in organizations %}
+          <li>
+            <span>{{ organization.name }}</span>
+            <span>{{ organization.tax_number }}</span>
+            <div class="actions">
+              <a href="/organizacoes/{{ organization.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/organizacoes/{{ organization.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/organizacoes/{{ organization.id }}/excluir">{{ icon('delete', 'red') }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <a class="add-new-float" href="/organizacoes/criar">+</a>
+  </div>
+{% endblock %}

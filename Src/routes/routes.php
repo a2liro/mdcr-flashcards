@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use MDCR\core\Router;
@@ -12,6 +13,12 @@ $router->get(['/test-get', 'HelloController@testGet']);
 
 
 $router->get(['/home', 'HelloController@home']);
+
+
+$router->get(['/organizacoes', 'OrganizationController@index', 'middleware' => ['auth']]);
+$router->get(['/organizacoes/criar', 'OrganizationController@create', 'middleware' => ['auth']]);
+$router->post(['/organizacoes/criar', 'OrganizationController@store', 'middleware' => ['auth']]);
+$router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'middleware' => ['auth']]);
 
 
 
@@ -73,6 +80,3 @@ $router->end();
 
 // Authentication routes
 // require_once( __DIR__ . '/' . './auth.php');
-
-
-

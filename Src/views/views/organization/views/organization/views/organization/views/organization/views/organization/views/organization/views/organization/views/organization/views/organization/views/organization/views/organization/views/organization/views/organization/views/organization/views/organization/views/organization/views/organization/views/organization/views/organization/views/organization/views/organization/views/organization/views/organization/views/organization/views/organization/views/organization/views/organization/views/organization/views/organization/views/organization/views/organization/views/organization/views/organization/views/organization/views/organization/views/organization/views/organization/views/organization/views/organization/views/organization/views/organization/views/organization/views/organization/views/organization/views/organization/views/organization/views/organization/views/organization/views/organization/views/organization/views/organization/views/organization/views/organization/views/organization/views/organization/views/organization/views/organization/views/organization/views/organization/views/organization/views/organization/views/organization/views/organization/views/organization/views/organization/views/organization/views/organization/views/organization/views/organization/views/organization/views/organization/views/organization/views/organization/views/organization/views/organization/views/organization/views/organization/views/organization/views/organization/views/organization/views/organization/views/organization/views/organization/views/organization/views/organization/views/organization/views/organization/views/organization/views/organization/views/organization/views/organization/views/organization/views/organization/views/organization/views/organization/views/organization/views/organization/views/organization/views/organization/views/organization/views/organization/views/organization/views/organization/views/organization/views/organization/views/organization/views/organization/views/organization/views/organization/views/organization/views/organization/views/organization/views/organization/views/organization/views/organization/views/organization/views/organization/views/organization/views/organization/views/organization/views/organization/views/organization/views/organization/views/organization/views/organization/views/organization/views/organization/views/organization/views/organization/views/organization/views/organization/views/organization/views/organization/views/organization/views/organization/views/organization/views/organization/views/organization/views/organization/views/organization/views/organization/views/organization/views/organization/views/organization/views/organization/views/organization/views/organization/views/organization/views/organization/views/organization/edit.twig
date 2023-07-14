@@ -1,0 +1,43 @@
+{% extends './templates/base.twig' %}
+{% use "./templates/head.twig" %}
+{% block title %}
+  Deck - Editar
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Editar baralho</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{deck.id}}/update" method="POST" class="mdcr-form-middle">
+          <div class="mdcr-form-group">
+            <label for="name">Nome do baralho</label>
+            <input type="text" name="name" value="{{ deck.name }}" placeholder="Novo baralho" required />
+          </div>
+          <div class="mdcr-form-group mdcr-checkbox">
+            {% if deck.is_english == 'on' %}
+              <input type="checkbox" name="isEnglish" checked />
+            {% else %}
+              <input type="checkbox" name="isEnglish" />
+            {% endif %}
+
+            <label for="isEnglish">Este baralho é para estudo do idioma inglês?</label>
+          </div>
+
+          <div class="mdcr-form-group">
+            <input type="submit" value="Editar baralho" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

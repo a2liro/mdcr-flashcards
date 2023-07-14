@@ -1,0 +1,38 @@
+{% extends './templates/base.twig' %}
+{% use "./templates/head.twig" %}
+{% block title %}
+  Deck - Criar
+{% endblock %}
+{% block content %}
+  <div class="content">
+    <nav class="menu">
+      <ul>
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Novo baralho</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/organizacoes/criar" method="POST" class="mdcr-form-middle">
+          <div class="mdcr-form-group">
+            <label for="name">Organização</label>
+            <input type="text" name="name" placeholder="Nova organização" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="name">CNPJ/CPF</label>
+            <input type="text" name="tax_number" placeholder="CNPJ/CPF" required />
+          </div>
+
+          <div class="mdcr-form-group">
+            <input type="submit" value="Cadastrar organização" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
