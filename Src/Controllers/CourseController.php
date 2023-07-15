@@ -23,23 +23,13 @@ class CourseController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function create(Request $request, $organizationId)
     {
-        $user = new User();
-        $user = $user->getCurrentUser();
-        return $this->view('course/create.twig', []);
+        return $this->view('course/create.twig', ['organizationId' => $organizationId]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,  $organizationId)
     {
-        $user = new User();
-        $user->getCurrentUser();
-        $data = $request->all();
-        $data['user_id'] = $user->id;
-        $course = new Course();
-        $course->create($data);
-        $user->ownFlashCardList[] = $course;
-        $user->store();
         return $this->redirect("/organizacoes");
     }
 

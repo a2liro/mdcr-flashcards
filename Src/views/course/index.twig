@@ -5,7 +5,6 @@
   <div class="content">
     {% include 'templates/menu.twig' %}
     <section class="organizations">
-    <h2>{{ organization.name }}</h2>
       <ul class="mdcr-model-list">
         {% for organization in organizations %}
           <li>
@@ -20,6 +19,6 @@
         {% endfor %}
       </ul>
     </section>
-    <a class="add-new-float" href="/organizacoes/{{ organization.id }}/cursos/criar">+</a>
+    <a class="add-new-float" href="/organizacoes/criar">+</a>
   </div>
 {% endblock %}
