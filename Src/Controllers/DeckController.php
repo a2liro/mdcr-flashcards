@@ -3,9 +3,9 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Deck\StoreDeckService;
 use MDCR\core\File;
 use MDCR\core\Request;
-use MDCR\Models\Expense;
 use MDCR\Models\FlashCard;
 use MDCR\Models\Deck;
 use MDCR\Models\User;
@@ -44,24 +44,18 @@ class DeckController extends Controller
     }
 
 
-    public function create(Request $request)
+    public function create(Request $request, $courseId)
     {
-        return $this->view('deck/create.twig');
+        return $this->view('deck/create.twig', ['courseId' => $courseId]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $courseId)
     {
-        // var_dump($request->all());
-        // return 0;
-        $user = new User();
-        $user->getCurrentUser();
+        $storeDeckService = new StoreDeckService();
         $data = $request->all();
-        $data['user_id'] = $user->id;
-        $deck = new Deck();
-        $deck->create($data);
-        $user->ownDeckList[] = $deck;
-        $user->store();
-        return $this->redirect('/baralhos');
+        $data['course_id'] = $courseId;
+        $storeDeckService->run($data);
+        return $this->redirect("/cursos/${courseId}/visualizar");
     }
 
     public function edit(Request $request, int $id)
@@ -223,7 +217,7 @@ class DeckController extends Controller
             } else {
                 $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
             }
-            
+
         }
 
         return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
@@ -362,7 +356,7 @@ class DeckController extends Controller
             } else {
                 $cards[0]->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
             }
-            
+
         }
         return $this->view('deck/playBackReverse.twig', ['card' => end($cards), 'deck' => $deck]);
     }

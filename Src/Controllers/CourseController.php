@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Course\StoreDeckService;
 use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Deck;
@@ -30,7 +31,11 @@ class CourseController extends Controller
 
     public function store(Request $request,  $organizationId)
     {
-        return $this->redirect("/organizacoes");
+        $storeCourseService= new StoreDeckService();
+        $data = $request->all();
+        $data['organization_id'] = $organizationId;
+        $storeCourseService->run($data);
+        return $this->redirect("/organizacoes/${organizationId}/visualizar");
     }
 
     public function edit(Request $request, int $deckId, int $id)
@@ -103,10 +108,13 @@ class CourseController extends Controller
         $user = (new User())->getCurrentUser();
         $course = new Course();
         $course = $course->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $deck = new Deck();
+        $decks = $deck->findAllByParams(['user_id' => $user->id]);
         return $this->view(
             'course/show.twig',
             [
                 'course' => $course,
+                'decks' => $decks,
             ]
         );
     }

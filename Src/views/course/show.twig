@@ -5,21 +5,21 @@
   <div class="content">
     {% include 'templates/menu.twig' %}
     <section class="organizations">
-    <h2>{{ organization.name }}</h2>
+    <h2>{{ course.name }}</h2>{{ courses }}
       <ul class="mdcr-model-list">
-        {% for organization in organizations %}
+        {% for deck in decks %}
           <li>
-            <span>{{ organization.name }}</span>
-            <span>{{ organization.tax_number }}</span>
+            <span>{{ deck.name }}</span>
+            <span>{{ deck.tax_number }}</span>
             <div class="actions">
-              <a href="/organizacoes/{{ organization.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/excluir">{{ icon('delete', 'red') }}</a>
+              <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/baralhos/{{ deck.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/baralhos/{{ deck.id }}/excluir">{{ icon('delete', 'red') }}</a>
             </div>
           </li>
         {% endfor %}
       </ul>
     </section>
-    <a class="add-new-float" href="/organizacoes/criar">+</a>
+    <a class="add-new-float" href="/cursos/{{ course.id }}/baralhos/criar">+</a>
   </div>
 {% endblock %}

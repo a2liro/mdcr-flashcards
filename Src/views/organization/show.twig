@@ -6,15 +6,15 @@
     {% include 'templates/menu.twig' %}
     <section class="organizations">
     <h2>{{ organization.name }}</h2>
+      <h4>Cursos</h4>
       <ul class="mdcr-model-list">
-        {% for organization in organizations %}
+        {% for course in courses %}
           <li>
-            <span>{{ organization.name }}</span>
-            <span>{{ organization.tax_number }}</span>
+            <span>{{ course.name }}</span>
             <div class="actions">
-              <a href="/organizacoes/{{ organization.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/excluir">{{ icon('delete', 'red') }}</a>
+              <a href="/cursos/{{ course.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/cursos/{{ course.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/cursos/{{ course.id }}/excluir">{{ icon('delete', 'red') }}</a>
             </div>
           </li>
         {% endfor %}

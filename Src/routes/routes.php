@@ -21,6 +21,7 @@ $router->post(['/organizacoes/criar', 'OrganizationController@store', 'middlewar
 $router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'middleware' => ['auth']]);
 
 
+
 $router->get(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@create', 'middleware' => ['auth']]);
 $router->post(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@store', 'middleware' => ['auth']]);
 $router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' => ['auth']]);
@@ -28,8 +29,8 @@ $router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' =
 
 
 $router->get(['/baralhos', 'DeckController@index', 'middleware' => ['auth']]);
-$router->get(['/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
-$router->post(['/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
+$router->get(['/cursos/{courseId}/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
+$router->post(['/cursos/{courseId}/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/visualizar', 'DeckController@show', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/editar', 'DeckController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{id}/update', 'DeckController@update', 'middleware' => ['auth']]);
