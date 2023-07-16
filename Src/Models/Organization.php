@@ -4,15 +4,14 @@ namespace MDCR\Models;
 
 use MDCR\core\Model;
 
-class Deck extends Model
+class Organization extends Model
 {
-    protected $table = 'deck';
+    protected $table = 'organization';
     protected $fields = [
         'id' => ['integer'],
-		'user_id' => ['integer'],
-		'course_id' => ['integer'],
+        'user_id' => ['integer'],
         'name' => ['string'],
-        'isEnglish' => ['string']
+        'tax_number' => ['string']
     ];
 
     public function __construct()

@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 use MDCR\core\Router;
@@ -14,10 +15,29 @@ $router->get(['/test-get', 'HelloController@testGet']);
 $router->get(['/home', 'HelloController@home']);
 
 
+$router->get(['/organizacoes', 'OrganizationController@index', 'middleware' => ['auth']]);
+$router->get(['/organizacoes/criar', 'OrganizationController@create', 'middleware' => ['auth']]);
+$router->post(['/organizacoes/criar', 'OrganizationController@store', 'middleware' => ['auth']]);
+$router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'middleware' => ['auth']]);
+
+$router->get(['/categorias/{id}/visualizar', 'CategoryController@show', 'middleware' => ['auth']]);
+$router->get(['/categorias/{id}/editar', 'CategoryController@show', 'middleware' => ['auth']]);
+$router->get(['/categorias/{id}/excluir', 'CategoryController@show', 'middleware' => ['auth']]);
+
+
+$router->get(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@create', 'middleware' => ['auth']]);
+$router->post(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@store', 'middleware' => ['auth']]);
+$router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' => ['auth']]);
+
+
+$router->get(['/cursos/{courseId}/categorias/criar', 'CategoryController@create', 'middleware' => ['auth']]);
+$router->post(['/cursos/{courseId}/categorias/criar', 'CategoryController@store', 'middleware' => ['auth']]);
+
+
 
 $router->get(['/baralhos', 'DeckController@index', 'middleware' => ['auth']]);
-$router->get(['/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
-$router->post(['/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
+$router->get(['/cursos/{courseId}/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
+$router->post(['/cursos/{courseId}/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/visualizar', 'DeckController@show', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/editar', 'DeckController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{id}/update', 'DeckController@update', 'middleware' => ['auth']]);
@@ -73,6 +93,3 @@ $router->end();
 
 // Authentication routes
 // require_once( __DIR__ . '/' . './auth.php');
-
-
-
