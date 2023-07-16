@@ -20,11 +20,18 @@ $router->get(['/organizacoes/criar', 'OrganizationController@create', 'middlewar
 $router->post(['/organizacoes/criar', 'OrganizationController@store', 'middleware' => ['auth']]);
 $router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'middleware' => ['auth']]);
 
+$router->get(['/categorias/{id}/visualizar', 'CategoryController@show', 'middleware' => ['auth']]);
+$router->get(['/categorias/{id}/editar', 'CategoryController@show', 'middleware' => ['auth']]);
+$router->get(['/categorias/{id}/excluir', 'CategoryController@show', 'middleware' => ['auth']]);
 
 
 $router->get(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@create', 'middleware' => ['auth']]);
 $router->post(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@store', 'middleware' => ['auth']]);
 $router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' => ['auth']]);
+
+
+$router->get(['/cursos/{courseId}/categorias/criar', 'CategoryController@create', 'middleware' => ['auth']]);
+$router->post(['/cursos/{courseId}/categorias/criar', 'CategoryController@store', 'middleware' => ['auth']]);
 
 
 

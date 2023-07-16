@@ -3,8 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
-use App\Services\Course\StoreCourseService;
-use App\Services\Course\StoreDeckService;
+use App\Services\Category\StoreCategoryService;
 use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Category;
@@ -14,7 +13,7 @@ use MDCR\Models\Note;
 use MDCR\Models\Course;
 use MDCR\Models\User;
 
-class CourseController extends Controller
+class CategoryController extends Controller
 {
     public function index(Request $request)
     {
@@ -26,18 +25,18 @@ class CourseController extends Controller
     }
 
 
-    public function create(Request $request, $organizationId)
+    public function create(Request $request, $courseId)
     {
-        return $this->view('course/create.twig', ['organizationId' => $organizationId]);
+        return $this->view('category/create.twig', ['courseId' => $courseId]);
     }
 
-    public function store(Request $request,  $organizationId)
+    public function store(Request $request,  $courseId)
     {
-        $storeCourseService= new StoreCourseService();
+        $storeCatgoryService= new StoreCategoryService();
         $data = $request->all();
-        $data['organization_id'] = $organizationId;
-        $storeCourseService->run($data);
-        return $this->redirect("/organizacoes/${organizationId}/visualizar");
+        $data['course_id'] = $courseId;
+        $storeCatgoryService->run($data);
+        return $this->redirect("/cursos/$courseId/visualizar");
     }
 
     public function edit(Request $request, int $deckId, int $id)
@@ -108,15 +107,15 @@ class CourseController extends Controller
     public function show(Request $request, int $id)
     {
         $user = (new User())->getCurrentUser();
-        $course = new Course();
-        $course = $course->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $category = new Category();
-        $categories = $category->findAllByParams(['user_id' => $user->id, 'course_id' => $id]);
+        $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $deck = new Deck();
+        $decks = $deck->findAllByParams(['user_id' => $user->id]);
         return $this->view(
-            'course/show.twig',
+            'category/show.twig',
             [
-                'course' => $course,
-                'categories' => $categories,
+                'category' => $category,
+                'decks' => $decks,
             ]
         );
     }

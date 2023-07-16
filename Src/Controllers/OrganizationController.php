@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Repositories\Organization\StoreOrganizationRepository;
+use App\Services\Organization\GetAllOrganizationsService;
 use App\Services\Course\GetCoursesByOrganizationIdService;
 use MDCR\core\File;
 use MDCR\core\Request;
@@ -17,10 +19,8 @@ class OrganizationController extends Controller
 
     public function index(Request $request)
     {
-        $user = new User();
-        $user = $user->getCurrentUser();
-        $organization = new Organization();
-        $organizations = $organization->findAllByParams(['user_id' => $user->id]);
+        $getAllOrganizationService = new GetAllOrganizationsService();
+        $organizations = $getAllOrganizationService->run();
         return $this->view('organization/index.twig', ['organizations' => $organizations]);
     }
 
@@ -34,14 +34,10 @@ class OrganizationController extends Controller
 
     public function store(Request $request)
     {
-        $user = new User();
-        $user->getCurrentUser();
+
         $data = $request->all();
-        $data['user_id'] = $user->id;
-        $organization = new Organization();
-        $organization->create($data);
-        $user->ownFlashCardList[] = $organization;
-        $user->store();
+        $storeOrganizationService = new StoreOrganizationRepository();
+        $storeOrganizationService->run($data);
         return $this->redirect("/organizacoes");
     }
 

@@ -28,7 +28,6 @@ abstract class Model implements iModel
     public function create(array $data): object
     {
         $model = $this->connection->createModel($this->table);
-        // $model->dispense('teste');
         foreach ($this->fields as $field => $value) {
             $model = $this->checkIfKeyExistsInArray($field, $data, $model);
             $this->checkIfKeyIsUnique($field, $data);
@@ -57,7 +56,7 @@ abstract class Model implements iModel
             }
             $this->connection->update($model);
         }
-        
+
 
         return $model;
     }
@@ -158,7 +157,7 @@ abstract class Model implements iModel
         return $this;
     }
 
-    public function limit(int $total) 
+    public function limit(int $total)
     {
         $this->limitQuery = " limit $total";
         return $this;
@@ -180,7 +179,7 @@ abstract class Model implements iModel
             foreach ($item as $key => $column) {
                 $model->{$key} = $column;
             }
-            
+
             $models[] = $model;
         }
         return $models;

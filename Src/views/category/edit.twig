@@ -1,0 +1,293 @@
+{% extends './templates/base.twig' %}
+{% use "./templates/head.twig" %}
+{% block title %}
+  Editar cartão
+{% endblock %}
+{% block content %}
+  <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
+  <meta name="twitter:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://quilljs.com/standalone/full/" />
+  <meta property="og:image" content="https://quilljs.com/assets/images/brand-asset.png" />
+  <meta property="og:title" content="Full Editor - Quill" />
+  <meta property="og:site_name" content="Quill" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.core.css" />
+  <link rel="stylesheet" href="/assets/js/quill/quill.snow.css" />
+
+  <link rel="canonical" href="https://quilljs.com/standalone/full/" />
+  <link type="application/atom+xml" rel="alternate" href="https://quilljs.com/feed.xml" title="Quill - Your powerful rich text editor" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+  <div class="content">
+    <nav class="menu">
+      <ul>
+       <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/baralhos">Decks</a>
+        </li>
+        <li>
+          <a href="/baralhos/{{ currentDeck.id }}/visualizar">Ver baralho</a>
+        </li>
+      </ul>
+    </nav>
+    <h1>Editar flashcard - {{ currentDeck.name }}</h1>
+    <div class="container mdcr-h-center">
+      <div class="mdrc-card">
+        <form action="/baralhos/{{ currentDeck.id }}/flash-cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+          <div class="mdcr-form-group">
+            <label for="deck">Deck</label>
+            <select name="deck_id" id="">
+              {% for deck in decks %}
+                {% if deck.id == currentDeck.id %}
+                  <option value="{{ deck.id }}" selected>{{ deck.name }}</option>
+                {% else %}
+                  <option value="{{ deck.id }}">{{ deck.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mdcr-form-group">
+            <label for="front">Frente</label>
+            <input type="hidden" id="front" name="front" value="{{ card.front }}" placeholder="Frente" required />
+            <div id="standalone-container">
+              <div id="toolbar-container">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats"><button class="ql-clean"></button></span>
+              </div>
+              <div id="editor-container"></div>
+            </div>
+          </div>
+
+          <div class="mdcr-form-group">
+            <label for="back">Verso</label>
+            <input type="hidden" id="back" name="back" value="{{ card.back }}" placeholder="Verso" required />
+            <div id="standalone-container-back">
+              <div id="toolbar-container-back">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats"><button class="ql-clean"></button></span>
+              </div>
+              <div id="editor-container-back"></div>
+            </div>
+          </div>
+
+          {% if currentDeck.is_english == 'on' %}
+            <div class="mdcr-form-group">
+              <label for="audiofile">Audio</label>
+              <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
+            </div>
+
+            {% if card.audioFile64 %}
+              <div class="mdcr-form-group">
+                <audio controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+              <div class="mdcr-form-group">
+                <input type="hidden" name="audiofile64" id="audiofile64" value="{{ card.audioFile64 }}" />
+              </div>
+            {% else %}
+              <div class="mdcr-form-group">
+                <audio controls style="display: none;" src="{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+            {% endif %}
+          {% endif %}
+
+          <div class="mdcr-form-groups">
+            <input type="hidden" name="audio" capture id="audio" value="{{ card.audio }}" />
+          </div>
+
+          <div class="wrapper">
+            <section class="main-controls">
+              <canvas class="visualizer" height="60px"></canvas>
+              <div id="buttons">
+                <button class="record mdcr-half-button audio-control-buttons" type="button">Gravar</button>
+                <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
+              </div>
+            </section>
+
+            <section class="sound-clips">
+              <input type="hidden" value="{{ card.audio }}" name="audio-old" id="audio-old" />
+              {% if card.audio %}
+                <article class="clip" id="clip">
+                  <audio id="show-old-audio" controls="" src="data:audio/mpeg;base64,{{ card.audio64 }}"></audio>
+                  <button type="button" class="delete mdcr-half-button audio-control-buttons" onclick="removeOldAudio()">Excluir</button>
+                </article>
+              {% endif %}
+            </section>
+          </div>
+
+          <div class="mdcr-form-group submit">
+            <input type="submit" value="Editar flash card" />
+          </div>
+        </form>
+      </div>
+    </div>
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/audio-recorder.js"></script>
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    {# <script>
+         var options = {
+           debug: 'info',
+           modules: {
+             toolbar: '#toolbar'
+           },
+           placeholder: 'Compose an epic...',
+           readOnly: true
+           //theme: 'snow'
+         }
+         var container = document.getElementById('editor')
+         var editor = new Quill('#editor', options)
+       </script> #}
+    <script>
+      var quill = new Quill('#editor-container', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container'
+        },
+        placeholder: 'frente...',
+        theme: 'snow'
+      })
+      let frontInput = document.getElementById('front-input')
+      quill.setContents(JSON.parse(frontInput.value))
+      quill.on('editor-change', function (event, ...args) {
+        let inputFront = document.getElementById('front')
+        inputFront.value = JSON.stringify(quill.getContents())
+      })
+    </script>
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container-back'
+        },
+        placeholder: 'Verso...',
+        theme: 'snow'
+      })
+      let backInput = document.getElementById('back-input')
+      
+      quillBack.setContents(JSON.parse(backInput.value))
+      quillBack.on('editor-change', function (event, ...args) {
+        let inputBack = document.getElementById('back')
+        inputBack.value = JSON.stringify(quillBack.getContents())
+      })
+    </script>
+    <script>
+      function showPreview(event) {
+        if (event.target.files.length > 0) {
+          var src = URL.createObjectURL(event.target.files[0])
+          var preview = document.getElementById('image-preview-create')
+          preview.src = src
+          preview.style.display = 'block'
+        }
+      }
+      
+      function showPreviewAudio(event) {
+        if (event.target.files.length > 0) {
+          var src = URL.createObjectURL(event.target.files[0])
+          //var preview = document.getElementById('audio-preview-create')
+      
+          //preview.src = src
+          //preview.style.display = 'block'
+          let container = document.getElementById('audio-preview-container')
+          container.style.display = 'block'
+          container.setAttribute('src', src)
+        }
+      }
+      function removeOldAudio(event) {
+        let showOldAudio = document.getElementById('clip')
+        showOldAudio.remove()
+        let audioOldInput = document.getElementById('audio')
+        audioOldInput.value = ''
+      }
+    </script>
+  </div>
+{% endblock %}

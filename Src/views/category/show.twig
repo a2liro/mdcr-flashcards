@@ -1,0 +1,26 @@
+{% extends 'templates/base.twig' %}
+{% use "templates/head.twig" %}
+
+{% block content %}
+  <div class="content">
+    {% include 'templates/menu.twig' %}
+    <section class="organizations">
+    <h2>{{ category.name }}</h2>
+      <h4>Decks</h4>
+      <ul class="mdcr-model-list">
+        {% for deck in decks %}
+          <li>
+            <span>{{ deck.name }}</span>
+            <span>{{ deck.tax_number }}</span>
+            <div class="actions">
+              <a href="/baralhos/{{ deck.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/baralhos/{{ deck.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/baralhos/{{ deck.id }}/excluir">{{ icon('delete', 'red') }}</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+    <a class="add-new-float" href="/cursos/{{ course.id }}/baralhos/criar">+</a>
+  </div>
+{% endblock %}

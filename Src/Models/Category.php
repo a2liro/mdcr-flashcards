@@ -11,7 +11,7 @@ class Category extends Model
         'id' => ['integer'],
         'user_id' => ['integer'],
         'name' => ['string'],
-        'organization_id' => ['integer'],
+        'course_id' => ['integer'],
     ];
 
     public function __construct()
