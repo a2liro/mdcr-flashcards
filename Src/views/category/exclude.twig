@@ -30,7 +30,7 @@
     </nav>
     <h1>Confirmar exclusão do flashcard</h1>
     <div class="container mdcr-h-center">
-      <div class="mdrc-card">
+      <div class="mdcr-card">
         <form action="/baralhos/{{ deckId }}/flash-cards/{{ card.id }}/delete" method="GET" class="mdcr-form-middle">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
@@ -66,7 +66,7 @@
       var quill = new Quill('#editor-container', {
         theme: 'bubble'
       })
-       let frontInput = document.getElementById('front-input')      
+       let frontInput = document.getElementById('front-input')
       quill.setContents(JSON.parse(frontInput.value))
        quill.enable(false)
     </script>
@@ -75,7 +75,7 @@
         theme: 'bubble'
       })
        let backInput = document.getElementById('back-input')
-      
+
       quillBack.setContents(JSON.parse(backInput.value))
        quillBack.enable(false)
     </script>

@@ -36,7 +36,7 @@
     </nav>
     <h1>Editar flashcard - {{ currentDeck.name }}</h1>
     <div class="container mdcr-h-center">
-      <div class="mdrc-card">
+      <div class="mdcr-card">
         <form action="/baralhos/{{ currentDeck.id }}/flash-cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="deck">Deck</label>
@@ -253,7 +253,7 @@
         theme: 'snow'
       })
       let backInput = document.getElementById('back-input')
-      
+
       quillBack.setContents(JSON.parse(backInput.value))
       quillBack.on('editor-change', function (event, ...args) {
         let inputBack = document.getElementById('back')
@@ -269,12 +269,12 @@
           preview.style.display = 'block'
         }
       }
-      
+
       function showPreviewAudio(event) {
         if (event.target.files.length > 0) {
           var src = URL.createObjectURL(event.target.files[0])
           //var preview = document.getElementById('audio-preview-create')
-      
+
           //preview.src = src
           //preview.style.display = 'block'
           let container = document.getElementById('audio-preview-container')
