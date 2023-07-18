@@ -425,3 +425,13 @@ footer {
 .flex-wrap {
   flex-wrap: wrap;
 }
+
+.mx-1 {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+/*Text and fonts*/
+.font-weight-bold {
+  font-weight: bold;
+}

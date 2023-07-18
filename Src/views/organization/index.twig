@@ -4,11 +4,21 @@
 {% block content %}
   <div class="content">
     {% include 'templates/menu.twig' %}
+    <div>
+      <h2>Organizações</h2>
+      <hr>
+    </div>
     <section class="organizations">
       <ul class="mdcr-model-list">
+        <div class="mdcr-w-12 flex flex-row font-weight-bold">
+          <div class="mdcr-w-5">Organização</div>
+          <div class="mdcr-w-5">CPF/CNPJ</div>
+          <div class="mdcr-w-2">Acões</div>
+        </div>
+
         {% for organization in organizations %}
           <li>
-            <span>{{ organization.name }}</span>
+            <div class="mdcr-w-12">{{ organization.name }}</div>
             <span>{{ organization.tax_number }}</span>
             <div class="actions">
               <a href="/organizacoes/{{ organization.id }}/visualizar">{{ icon('show', 'blue') }}</a>
