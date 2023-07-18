@@ -26,7 +26,7 @@ class AuthController extends Controller
         if ($authenticad) {
             $_SESSION['logged'] = 'true';
             $_SESSION['user_id'] = $user->id;
-            $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/home';
+            $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/cursos';
             unset($_SESSION['nextUrl']);
             header('Location: ' . $next);
         }

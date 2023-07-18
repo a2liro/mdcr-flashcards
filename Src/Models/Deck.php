@@ -10,7 +10,7 @@ class Deck extends Model
     protected $fields = [
         'id' => ['integer'],
 		'user_id' => ['integer'],
-		'course_id' => ['integer'],
+		'category_id' => ['integer'],
         'name' => ['string'],
         'isEnglish' => ['string']
     ];

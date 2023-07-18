@@ -3,7 +3,7 @@
 namespace App\Services\Deck;
 
 use App\Repositories\Deck\StoreDeckRepository;
-use MDCR\Models\Course;
+use MDCR\Models\Category;
 use MDCR\Models\User;
 
 class StoreDeckService
@@ -18,9 +18,9 @@ class StoreDeckService
         $user->ownDeckList[] = $deck;
         $user->store();
 
-        $course = new Course();
-        $courseModel = $course->findOneByParams(['id' => $data['course_id']]);
-        $courseModel->ownDeckList[] = $deck;
-        $courseModel->store();
+        $category = new Category();
+        $categoryModel = $category->findOneByParams(['id' => $data['category_id']]);
+        $categoryModel->ownDeckList[] = $deck;
+        $categoryModel->store();
     }
 }
