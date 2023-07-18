@@ -11,6 +11,7 @@ class Course extends Model
         'id' => ['integer'],
         'user_id' => ['integer'],
         'name' => ['string'],
+        'thumbnail' => ['string'],
         'organization_id' => ['integer'],
     ];
 

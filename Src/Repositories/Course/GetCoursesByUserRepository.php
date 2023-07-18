@@ -13,6 +13,7 @@ class GetCoursesByUserRepository
     $user = new User();
     $user = $user->getCurrentUser();
     $course = new Course();
+
     return $course->findAllByParams(['user_id' => $user->id]);
   }
 }
