@@ -4,20 +4,30 @@
 {% block content %}
   <div class="content">
     {% include 'templates/menu.twig' %}
+      <div>
+          <h3>Cursos</h3>
+          <hr>
+      </div>
     <section class="organizations">
-      <ul class="mdcr-model-list">
-        {% for organization in organizations %}
-          <li>
-            <span>{{ organization.name }}</span>
-            <span>{{ organization.tax_number }}</span>
-            <div class="actions">
-              <a href="/organizacoes/{{ organization.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/organizacoes/{{ organization.id }}/excluir">{{ icon('delete', 'red') }}</a>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
+        <div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+
+            {% for course in courses %}
+                <a href="/cursos/{{ course.id }}/visualizar" class="mdcr-sm-w-12 mdcr-md-w-4 mdcr-lg-w-3 flex flex-column mx-lg-1 mx-1">
+
+              <div class="mdcr-card">
+                  <img src="/{{ course.thumbnail }}" />
+
+                <div class="mdcr-w-12">
+                    <h3>
+
+                    {{ course.name }}</div>
+                  </h3>
+
+              </div>
+            {% endfor %}
+        </div>
+        </a>
+
     </section>
     <a class="add-new-float" href="/organizacoes/criar">+</a>
   </div>

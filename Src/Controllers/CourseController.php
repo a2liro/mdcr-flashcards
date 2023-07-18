@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Course\GetCoursesByUserService;
 use App\Services\Course\StoreCourseService;
 use App\Services\Course\StoreDeckService;
 use MDCR\core\File;
@@ -18,10 +19,8 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        $user = new User();
-        $user = $user->getCurrentUser();
-        $course = new Course();
-        $courses = $course->findAllByParams(['user_id' => $user->id]);
+        $getCoursesByUser = new GetCoursesByUserService();
+        $courses = $getCoursesByUser->run();
         return $this->view('course/index.twig', ['courses' => $courses]);
     }
 

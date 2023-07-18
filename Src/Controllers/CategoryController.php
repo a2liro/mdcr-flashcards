@@ -110,7 +110,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $deck = new Deck();
-        $decks = $deck->findAllByParams(['user_id' => $user->id]);
+        $decks = $deck->findAllByParams(['category_id' => $category->id]);
         return $this->view(
             'category/show.twig',
             [
