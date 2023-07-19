@@ -15,22 +15,30 @@
         </li>
       </ul>
     </nav>
-    <h1>Novo baralho</h1>
+    <h1>Novo deck</h1>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/categorias/{{ categoryId }}/baralhos/criar" method="POST" class="mdcr-form-middle">
+        <form action="/categorias/{{ categoryId }}/baralhos/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
-            <label for="name">Nome do baralho</label>
-            <input type="text" name="name" placeholder="Novo baralho" required />
+            <label for="name">Nome do deck</label>
+            <input type="text" name="name" placeholder="Novo deck" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="name">Descrição</label>
+            <input type="text" name="description" placeholder="Descrição" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="thumbnail">Thumbnail do deck</label>
+            <input type="file" name="thumbnail" id="thumbnail" accept="image/jpeg" placeholder="Thumbnail do deck" />
           </div>
 
           <div class="mdcr-form-group mdcr-checkbox">
             <input type="checkbox" name="isEnglish" />
-            <label for="isEnglish">Este baralho é para estudo do idioma inglês?</label>
+            <label for="isEnglish">Este deck é para estudo do idioma inglês?</label>
           </div>
 
           <div class="mdcr-form-group">
-            <input type="submit" value="Cadastrar baralho" />
+            <input type="submit" value="Cadastrar deck" />
           </div>
         </form>
       </div>

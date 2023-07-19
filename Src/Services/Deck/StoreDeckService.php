@@ -3,6 +3,7 @@
 namespace App\Services\Deck;
 
 use App\Repositories\Deck\StoreDeckRepository;
+use MDCR\core\File;
 use MDCR\Models\Category;
 use MDCR\Models\User;
 
@@ -14,6 +15,9 @@ class StoreDeckService
         $user = new User();
         $user->getCurrentUser();
         $data['user_id'] = $user->id;
+        if ($_FILES['thumbnail']['size']) {
+            $data['thumbnail'] = File::save($_FILES['thumbnail'], 'decks');
+        }
         $deck = $storeDeckRepository->run($data, $user);
         $user->ownDeckList[] = $deck;
         $user->store();

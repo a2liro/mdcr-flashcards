@@ -12,6 +12,8 @@ class Deck extends Model
 		'user_id' => ['integer'],
 		'category_id' => ['integer'],
         'name' => ['string'],
+        'description' => ['string'],
+        'thumbnail' => ['string'],
         'isEnglish' => ['string']
     ];
 
