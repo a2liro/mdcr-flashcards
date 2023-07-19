@@ -2,33 +2,32 @@
 {% use "templates/head.twig" %}
 
 {% block content %}
-  <div class="content">
-    {% include 'templates/menu.twig' %}
-      <div>
-          <h3>Cursos</h3>
-          <hr>
-      </div>
-    <section class="organizations">
-        <div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
-
-            {% for course in courses %}
-                <a href="/cursos/{{ course.id }}/visualizar" class="mdcr-sm-w-12 mdcr-md-w-4 mdcr-lg-w-3 flex flex-column mx-lg-1 mx-1">
-
-              <div class="mdcr-card">
-                  <img src="/{{ course.thumbnail }}" />
-
-                <div class="mdcr-w-12">
-                    <h3>
-
-                    {{ course.name }}</div>
-                  </h3>
-
-              </div>
-            {% endfor %}
+    <div class="content">
+        {% include 'templates/menu.twig' %}
+        <div>
+            <h3>Cursos</h3>
+            <hr>
         </div>
-        </a>
+        <section class="organizations">
+            <div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
 
-    </section>
-    <a class="add-new-float" href="/organizacoes/criar">+</a>
-  </div>
+                {% for course in courses %}
+                    <a href="/cursos/{{ course.id }}/visualizar"
+                       class="mdcr-sm-w-12 mdcr-md-w-4 mdcr-lg-w-3 flex flex-column mx-lg-1 mx-1">
+
+                        <div class="mdcr-card">
+                            <img src="/{{ course.thumbnail }}"/>
+                            <div class="mdcr-w-12">
+                                <h3>
+                                {{ course.name }}</div>
+                            </h3>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+
+
+        </section>
+        <a class="add-new-float" href="/organizacoes/criar">+</a>
+    </div>
 {% endblock %}

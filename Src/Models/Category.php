@@ -11,6 +11,8 @@ class Category extends Model
         'id' => ['integer'],
         'user_id' => ['integer'],
         'name' => ['string'],
+        'description' => ['string'],
+        'thumbnail' => ['string'],
         'course_id' => ['integer'],
     ];
 
