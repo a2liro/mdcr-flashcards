@@ -36,7 +36,7 @@ class CourseController extends Controller
         $data = $request->all();
         $data['organization_id'] = $organizationId;
         $storeCourseService->run($data);
-        return $this->redirect("/organizacoes/${organizationId}/visualizar");
+        $this->redirect("/organizacoes/{$organizationId}/visualizar");
     }
 
     public function edit(Request $request, int $deckId, int $id)

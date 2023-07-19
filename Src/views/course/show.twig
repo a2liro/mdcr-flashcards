@@ -2,23 +2,34 @@
 {% use "templates/head.twig" %}
 
 {% block content %}
-  <div class="content">
-    {% include 'templates/menu.twig' %}
-    <section class="organizations">
-    <h2>{{ course.name }}</h2>{{ courses }}
-      <ul class="mdcr-model-list">
-        {% for category in categories %}
-          <li>
-            <span>{{ category.name }}</span>
-            <div class="actions">
-              <a href="/categorias/{{ category.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/categorias/{{ category.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/categorias/{{ category.id }}/excluir">{{ icon('delete', 'red') }}</a>
+    <div class="content">
+        {% include 'templates/menu.twig' %}
+        <section class="organizations">
+            <h2>{{ course.name }}</h2>
+            <div>
+                <h3>Categorias</h3>
+                <hr>
             </div>
-          </li>
-        {% endfor %}
-      </ul>
-    </section>
-    <a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
-  </div>
+          <div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+
+            {% for category in categories %}
+              <a href="/categorias/{{ category.id }}/visualizar"
+                 class="mdcr-sm-w-12 mdcr-md-w-4 mdcr-lg-w-3 flex flex-column mx-lg-1 mx-1 text-decoration-none">
+
+                <div class="mdcr-card">
+                  <img src="/{{ category.thumbnail }}"/>
+                  <div class="mdcr-w-12">
+                    <h3>
+                    {{ category.name }}</div>
+                  </h3>
+                    <hr>
+                    <span>{{ category.description }}</span>
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+
+        </section>
+        <a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
+    </div>
 {% endblock %}

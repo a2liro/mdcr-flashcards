@@ -18,10 +18,18 @@
     <h1>Nova categoria</h1>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/cursos/{{ courseId }}/categorias/criar" method="POST" class="mdcr-form-middle">
+        <form action="/cursos/{{ courseId }}/categorias/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="name">Nome da categoria</label>
             <input type="text" name="name" placeholder="Categoria" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="name">Descrição</label>
+            <input type="text" name="description" placeholder="Descrição" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="thumbnail">Thumbnail da categoria</label>
+            <input type="file" name="thumbnail" id="thumbnail" accept="image/jpeg" placeholder="Thumbnail da categoria" />
           </div>
 
           <div class="mdcr-form-group">
