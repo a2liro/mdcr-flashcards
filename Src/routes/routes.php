@@ -30,10 +30,10 @@ $router->post(['/categorias/{categoryId}/baralhos/criar', 'DeckController@store'
 
 $router->get(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@create', 'middleware' => ['auth']]);
 $router->post(['/organizacoes/{organizationId}/cursos/criar', 'CourseController@store', 'middleware' => ['auth']]);
-$router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' => ['auth']]);
 
 
 $router->get(['/cursos', 'CourseController@index', 'middleware' => ['auth']]);
+$router->get(['/cursos/{id}/visualizar', 'CourseController@show', 'middleware' => ['auth']]);
 $router->get(['/cursos/{courseId}/categorias/criar', 'CategoryController@create', 'middleware' => ['auth']]);
 $router->post(['/cursos/{courseId}/categorias/criar', 'CategoryController@store', 'middleware' => ['auth']]);
 

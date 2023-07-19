@@ -36,7 +36,7 @@ class CategoryController extends Controller
         $data = $request->all();
         $data['course_id'] = $courseId;
         $storeCatgoryService->run($data);
-        return $this->redirect("/cursos/$courseId/visualizar");
+        $this->redirect("/cursos/$courseId/visualizar");
     }
 
     public function edit(Request $request, int $deckId, int $id)
