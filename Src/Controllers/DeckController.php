@@ -3,10 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Card\CalcNoteService;
 use App\Services\Deck\StoreDeckService;
 use MDCR\core\File;
 use MDCR\core\Request;
-use MDCR\Models\FlashCard;
+use MDCR\Models\Card;
 use MDCR\Models\Deck;
 use MDCR\Models\User;
 use falahati\PHPMP3\MpegAudio;
@@ -23,7 +24,7 @@ class DeckController extends Controller
         $currentDate = date('Y-m-d H:i:s');
         foreach ($decks as $key => $deck) {
 
-            $cards = (new FlashCard)->select('id')
+            $cards = (new Card)->select('id')
                 ->where(
                     ['user_id', '=', $user->id],
                     ['deck_id', '=', $deck->id],
@@ -31,7 +32,7 @@ class DeckController extends Controller
                 )
                 ->get();
             $decks[$key]->cardsToPlay = sizeof($cards);
-            $cardsReverse = (new FlashCard)->select('id')
+            $cardsReverse = (new Card)->select('id')
                 ->where(
                     ['user_id', '=', $user->id],
                     ['deck_id', '=', $deck->id],
@@ -104,25 +105,26 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $deck = (new Deck())->findOneByParams(['id' => $id, 'user_id' => $user->id]);
 
-        $flashCards = (new FlashCard()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
+        $cards = (new Card()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
             ->where(
                 ['user_id', '=', $user->id],
                 ['deck_id', '=', $id]
             )
-            ->orderBy(['id', 'desc'])
+            ->orderBy(['id' => 'desc'])
             ->get();
+
 
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->select('id')
-            ->where(
-                ['user_id', '=', $user->id],
-                ['deck_id', '=', $id],
-                ['nextshow', '<=', "'$currentDate'"]
-            )
-            ->get();
+//        $cards = (new Card)->select('id')
+//            ->where(
+//                ['user_id', '=', $user->id],
+//                ['deck_id', '=', $id],
+//                ['nextshow', '<=', "'$currentDate'"]
+//            )
+//            ->get();
         $deck->cardsToPlay = sizeof($cards);
 
-        $reverseCards = (new FlashCard)->select('id')
+        $reverseCards = (new Card)->select('id')
             ->where(
                 ['user_id', '=', $user->id],
                 ['deck_id', '=', $id],
@@ -136,23 +138,24 @@ class DeckController extends Controller
             'deck/show.twig',
             [
                 'deck' => $deck,
-                'flashCards' => $flashCards,
+                'cards' => $cards,
             ]
         );
     }
 
     public function playFront(Request $request, int $deckId, int $cardId)
     {
+        var_dump($cardId);
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId],
             ['nextshow', '<=', "'$currentDate'"]
-        )->orderBy(['nextshow', 'asc'])
+        )->orderBy(['nextshow' => 'asc'])
             ->limit(1)
             ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+        // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (sizeof($cards)) {
@@ -170,14 +173,16 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
-            ['user_id', '=', $user->id],
+
+        $cards = (new Card)->where(
+            ['user_id', '=', intval($user->id)],
             ['deck_id', '=', $deckId],
-            ['nextshow', '<=', "'$currentDate'"]
-        )->orderBy(['nextshow', 'asc'])
+//            ['nextshow', '<=', "'$currentDate'"]
+        )
+//            ->orderBy(['nextshow' => 'asc'])
             ->limit(1)
             ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+         $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (sizeof($cards)) {
@@ -202,14 +207,14 @@ class DeckController extends Controller
     public function playBack(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();
-        $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         $image64 = File::getBase64($card->image);
         $card->image64 = $image64;
 
         for($count = 1; $count <= 5; $count++) {
-            $interval = FlashCardController::calcNote($count, $card->difficulty);
+            $interval = CalcNoteService::run($count, $card->difficulty); //CardController::calcNote($count, $card->difficulty);
             if($interval < 60) {
                 $card->intervals[$count] = $interval . ' minutos';
             } else if($interval < 1440) {
@@ -227,7 +232,7 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
         )
@@ -270,7 +275,7 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
         )
@@ -312,7 +317,7 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
 
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
@@ -328,14 +333,14 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
         )->orderBy(['nextshow_reverse', 'asc'])
             ->limit(1)
             ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+        // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (sizeof($cards)) {
@@ -348,7 +353,7 @@ class DeckController extends Controller
         }
 
         for($count = 1; $count <= 5; $count++) {
-            $interval = FlashCardController::calcNote($count, $cards[0]->difficulty_reverse);
+            $interval = CardController::calcNote($count, $cards[0]->difficulty_reverse);
             if($interval < 60) {
                 $cards[0]->intervals[$count] = $interval . ' minutos';
             } else if($interval < 1440) {

@@ -10,6 +10,7 @@ use MDCR\core\interfaces\iModel;
 abstract class Model implements iModel
 {
     protected $connection;
+    protected $fields = [];
 
     public function __construct(string $table, array $fields)
     {
@@ -83,7 +84,7 @@ abstract class Model implements iModel
         $modelInDb = null;
         foreach ($this->fields[$field] as $value) {
             if ($value == 'unique') {
-                // função para garatir que não exite no banco
+                // função para garatir que não existe no banco
                 $modelInDb = $this->connection->findOneByParams($this->table, [$field => $data[$field]]);
                 if ($modelInDb) {
                     echo '<br>________________________________________________<br>';
@@ -146,12 +147,13 @@ abstract class Model implements iModel
         return $this;
     }
 
-    public function orderBy(...$data) {
-        foreach ($data as $item) {
+    public function orderBy($data): Model
+    {
+        foreach ($data as $key => $item) {
             if (strlen($this->orderQuery) < 1) {
-                $this->orderQuery = "order by $item[0] $item[1]";
+                $this->orderQuery = "order by " . $key . " " . $item;
             } else {
-                $this->orderQuery = $this->orderQuery . ", order by $item[0] $item[1]";
+                $this->orderQuery = $this->orderQuery . ", order by " . $key . " " . $item;
             }
         }
         return $this;
@@ -183,5 +185,9 @@ abstract class Model implements iModel
             $models[] = $model;
         }
         return $models;
+    }
+
+    public function getFields() {
+        return $this->fields;
     }
 }

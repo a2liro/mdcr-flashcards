@@ -4,23 +4,15 @@ namespace MDCR\Models;
 
 use MDCR\core\Model;
 
-class FlashCard extends Model
+class Card extends Model
 {
-    protected $table = 'flashcard';
+    protected $table = 'card';
     protected $fields = [
         'id' => ['integer'],
 		'user_id' => ['integer'],
         'deck_id' => ['integer'],
         'front' => ['string'],
         'back' => ['string'],
-        'difficulty' => ['integer'],
-        'lastshow' => ['datetime'],
-        'nextshow' => ['datetime'],
-        'lastinterval' => ['integer'],
-        'difficultyReverse' => ['integer'],
-        'lastshowReverse' => ['datetime'],
-        'nextshowReverse' => ['datetime'],
-        'lastintervalReverse' => ['integer'],
         'audio' => ['string'],
         'image' => ['string'],
         'audiofile' => ['string'],

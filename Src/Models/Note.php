@@ -10,7 +10,7 @@ class Note extends Model
     protected $fields = [
         'id' => ['integer'],
 		'user_id' => ['integer'],
-        'flashcard_id' => ['integer'],
+        'card_id' => ['integer'],
         'note' => ['integer'],
         'showdate' => ['datetime'],
         'nextdate' => ['datetime'],

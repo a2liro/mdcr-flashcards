@@ -34,10 +34,10 @@
         </li>
       </ul>
     </nav>
-    <h1>Editar flashcard - {{ currentDeck.name }}</h1>
+    <h1>Editar card - {{ currentDeck.name }}</h1>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/baralhos/{{ currentDeck.id }}/flash-cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+        <form action="/baralhos/{{ currentDeck.id }}/cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="deck">Deck</label>
             <select name="deck_id" id="">

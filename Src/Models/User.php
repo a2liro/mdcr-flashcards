@@ -9,7 +9,7 @@ class User extends Model
     protected $table = 'user';
     protected $fields = [
         'name' => ['string'],
-        'email' => ['unique'],
+        'email' => ['string, unique'],
         'password' => ['string'],
     ];
 

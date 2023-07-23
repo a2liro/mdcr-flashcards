@@ -1,7 +1,7 @@
 {% extends './templates/base.twig' %}
 {% use "./templates/head.twig" %}
 {% block title %}
-  Novo cartão
+  Editar cartão
 {% endblock %}
 {% block content %}
   <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
@@ -23,24 +23,36 @@
   <div class="content">
     <nav class="menu">
       <ul>
-        <li>
+       <li>
           <a href="/">Home</a>
         </li>
         <li>
           <a href="/baralhos">Decks</a>
         </li>
         <li>
-          <a href="/baralhos/{{ deck.id }}/visualizar">Ver baralho</a>
+          <a href="/baralhos/{{ currentDeck.id }}/visualizar">Ver baralho</a>
         </li>
       </ul>
     </nav>
-    <h2>Novo flashcard - {{ deck.name }}</h2>
+    <h1>Editar card - {{ currentDeck.name }}</h1>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/baralhos/{{ deck.id }}/flash-cards/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+        <form action="/baralhos/{{ currentDeck.id }}/cards/{{ card.id }}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
+          <div class="mdcr-form-group">
+            <label for="deck">Deck</label>
+            <select name="deck_id" id="">
+              {% for deck in decks %}
+                {% if deck.id == currentDeck.id %}
+                  <option value="{{ deck.id }}" selected>{{ deck.name }}</option>
+                {% else %}
+                  <option value="{{ deck.id }}">{{ deck.name }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
-            <input type="hidden" id="front" name="front" placeholder="Frente" required />
+            <input type="hidden" id="front" name="front" value="{{ card.front }}" placeholder="Frente" required />
             <div id="standalone-container">
               <div id="toolbar-container">
                 <span class="ql-formats">
@@ -88,12 +100,10 @@
               <div id="editor-container"></div>
             </div>
           </div>
-          {# <div id="toolbar"></div>
-          <textarea id="editor"></textarea> #}
 
           <div class="mdcr-form-group">
             <label for="back">Verso</label>
-            <input type="hidden" id="back" name="back" placeholder="Verso" required />
+            <input type="hidden" id="back" name="back" value="{{ card.back }}" placeholder="Verso" required />
             <div id="standalone-container-back">
               <div id="toolbar-container-back">
                 <span class="ql-formats">
@@ -141,19 +151,29 @@
               <div id="editor-container-back"></div>
             </div>
           </div>
-          {% if deck.is_english == 'on' %}
+
+          {% if currentDeck.is_english == 'on' %}
             <div class="mdcr-form-group">
               <label for="audiofile">Audio</label>
               <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
             </div>
 
-            <div class="mdcr-form-group">
-              <audio controls style="display: none;" id="audio-preview-container"></audio>
-            </div>
+            {% if card.audioFile64 %}
+              <div class="mdcr-form-group">
+                <audio controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+              <div class="mdcr-form-group">
+                <input type="hidden" name="audiofile64" id="audiofile64" value="{{ card.audioFile64 }}" />
+              </div>
+            {% else %}
+              <div class="mdcr-form-group">
+                <audio controls style="display: none;" src="{{ card.audioFile64 }}" id="audio-preview-container"></audio>
+              </div>
+            {% endif %}
           {% endif %}
 
-          <div class="mdcr-form-group">
-            <input type="hidden" name="audio" capture id="audio" />
+          <div class="mdcr-form-groups">
+            <input type="hidden" name="audio" capture id="audio" value="{{ card.audio }}" />
           </div>
 
           <div class="wrapper">
@@ -164,66 +184,110 @@
                 <button class="stop mdcr-half-button audio-control-buttons" type="button">Parar</button>
               </div>
             </section>
-            <br />
-            <section class="sound-clips"></section>
+
+            <section class="sound-clips">
+              <input type="hidden" value="{{ card.audio }}" name="audio-old" id="audio-old" />
+              {% if card.audio %}
+                <article class="clip" id="clip">
+                  <audio id="show-old-audio" controls="" src="data:audio/mpeg;base64,{{ card.audio64 }}"></audio>
+                  <button type="button" class="delete mdcr-half-button audio-control-buttons" onclick="removeOldAudio()">Excluir</button>
+                </article>
+              {% endif %}
+            </section>
           </div>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-
-          <script src="/assets/js/audio-recorder.js"></script>
-          <script src="/assets/js/quill/quill.min.js"></script>
-
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
-
-          <script>
-            var quill = new Quill('#editor-container', {
-              modules: {
-                formula: true,
-                syntax: true,
-                toolbar: '#toolbar-container'
-              },
-              placeholder: 'Frente...',
-              theme: 'snow'
-            })
-            let inputFront = document.getElementById('front')
-            inputFront.value = '{"ops":[{"insert":""}]}'
-            quill.on('editor-change', function (event, ...args) {
-              let inputFront = document.getElementById('front')
-              inputFront.value = JSON.stringify(JSON.parse(JSON.stringify(quill.getContents())))
-            })
-          </script>
-          <script>
-            var quillBack = new Quill('#editor-container-back', {
-              modules: {
-                formula: true,
-                syntax: true,
-                toolbar: '#toolbar-container-back'
-              },
-              placeholder: 'Verso...',
-              theme: 'snow'
-            })
-            let inputBack = document.getElementById('back')
-            inputBack.value = '{"ops":[{"insert":""}]}'
-            quillBack.on('editor-change', function (event, ...args) {
-              let inputBack = document.getElementById('back')
-              inputBack.value = JSON.stringify(quillBack.getContents())
-            })
-          </script>
-          <script>
-            function showPreviewAudio(event) {
-              if (event.target.files.length > 0) {
-                var src = URL.createObjectURL(event.target.files[0])
-                let container = document.getElementById('audio-preview-container')
-                container.style.display = 'block'
-                container.setAttribute('src', src)
-              }
-            }
-          </script>
 
           <div class="mdcr-form-group submit">
-            <input type="submit" value="Cadastrar flash card" />
+            <input type="submit" value="Editar flash card" />
           </div>
         </form>
       </div>
     </div>
+    <input type="hidden" id="front-input" value="{{ card.front }}" />
+    <input type="hidden" id="back-input" value="{{ card.back }}" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+    <script src="/assets/js/audio-recorder.js"></script>
+    <script src="/assets/js/quill/quill.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
+
+    {# <script>
+         var options = {
+           debug: 'info',
+           modules: {
+             toolbar: '#toolbar'
+           },
+           placeholder: 'Compose an epic...',
+           readOnly: true
+           //theme: 'snow'
+         }
+         var container = document.getElementById('editor')
+         var editor = new Quill('#editor', options)
+       </script> #}
+    <script>
+      var quill = new Quill('#editor-container', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container'
+        },
+        placeholder: 'frente...',
+        theme: 'snow'
+      })
+      let frontInput = document.getElementById('front-input')
+      quill.setContents(JSON.parse(frontInput.value))
+      quill.on('editor-change', function (event, ...args) {
+        let inputFront = document.getElementById('front')
+        inputFront.value = JSON.stringify(quill.getContents())
+      })
+    </script>
+    <script>
+      var quillBack = new Quill('#editor-container-back', {
+        modules: {
+          formula: true,
+          syntax: true,
+          toolbar: '#toolbar-container-back'
+        },
+        placeholder: 'Verso...',
+        theme: 'snow'
+      })
+      let backInput = document.getElementById('back-input')
+
+      quillBack.setContents(JSON.parse(backInput.value))
+      quillBack.on('editor-change', function (event, ...args) {
+        let inputBack = document.getElementById('back')
+        inputBack.value = JSON.stringify(quillBack.getContents())
+      })
+    </script>
+    <script>
+      function showPreview(event) {
+        if (event.target.files.length > 0) {
+          var src = URL.createObjectURL(event.target.files[0])
+          var preview = document.getElementById('image-preview-create')
+          preview.src = src
+          preview.style.display = 'block'
+        }
+      }
+
+      function showPreviewAudio(event) {
+        if (event.target.files.length > 0) {
+          var src = URL.createObjectURL(event.target.files[0])
+          //var preview = document.getElementById('audio-preview-create')
+
+          //preview.src = src
+          //preview.style.display = 'block'
+          let container = document.getElementById('audio-preview-container')
+          container.style.display = 'block'
+          container.setAttribute('src', src)
+        }
+      }
+      function removeOldAudio(event) {
+        let showOldAudio = document.getElementById('clip')
+        showOldAudio.remove()
+        let audioOldInput = document.getElementById('audio')
+        audioOldInput.value = ''
+      }
+    </script>
   </div>
 {% endblock %}
