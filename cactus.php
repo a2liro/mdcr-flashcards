@@ -1,9 +1,10 @@
 <?php
 namespace App;
+define('MDCR_START', microtime(true));
+
 
 require_once 'vendor/autoload.php';
 require_once(__DIR__ . '/' . 'Src/MDCR/libs/rb.php');
-
 
 
 use MDCR\core\Connection;
@@ -11,25 +12,28 @@ use MDCR\core\Connection;
 $conn = new Connection();
 
 
-define('MDCR_START', microtime(true));
-
 echo $argc . "\n";
 echo $argv[1] . "\n";
 
 
 
 function migrateModel($table, $fields, $conn, $model) {
+
 //    $model = $conn->createModel($table, $conn);
 
+    $data = [];
     foreach ($fields as $key => $field) {
-        var_dump($field, $table);
         if(in_array('string', $field)) {
-            var_dump(true, $key);
-            $model->{$key} = 'string';
+            $data[$key] = 'string';
+        } elseif (in_array('integer', $field)) {
+            $data[$key] = intval(1);
+        } elseif (in_array('boolean', $field)) {
+            $data[$key] = boolval(true);
+        } elseif (in_array('datetime', $field)) {
+            $data[$key] = date('Y/m/d');
         }
     }
-    var_dump($model);
-    $model->store();
+    $model->create($data);
 }
 
 if($argv[1] === 'do') {
@@ -42,9 +46,7 @@ if($argv[1] === 'do') {
             $modelInstance = new $modelName();
             $fields = $modelInstance->getFields();
             $table = $modelInstance->getTable();
-            var_dump($modelInstance);
-            die();
-//            migrateModel($table, $fields, $conn, $modelInstance);
+            migrateModel($table, $fields, $conn, $modelInstance);
         }
     }
 }

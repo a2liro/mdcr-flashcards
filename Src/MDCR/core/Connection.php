@@ -28,7 +28,7 @@ class Connection
     public function createModel(string $table)
     {
         $this->loadDb();
-        $model =  \R::dispense($table);
+        $model = \R::dispense($table);
 
         return $model;
     }
