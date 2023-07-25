@@ -3,20 +3,21 @@
 namespace App\Repositories\PlayedCard;
 
 use MDCR\Models\User;
-use App\Models\PlayedCard;
+use MDCR\Models\PlayedCard;
 
 class StorePlayedCardRepository
 {
-  public static function run($data)
-  {
-    $user = new User();
-    $user->getCurrentUser();
-    $data['user_id'] = intval($user->id);
-    $playedCard = new PlayedCard();
-    var_dump($data);
-    $playedCard->create($data);
-    $user->ownPlayedCardList[] = $playedCard;
-    $user->store();
-    return $playedCard;
-  }
+    public static function run($data)
+    {
+        $data['created_at'] = date('Y-m-d h:i:s');
+        $data['updated_at'] = date('Y-m-d h:i:s');
+        $user = new User();
+        $user->getCurrentUser();
+        $data['user_id'] = intval($user->id);
+        $playedCard = new PlayedCard();
+        $playedCard->create($data);
+        $user->ownPlayedCardList[] = $playedCard;
+        $user->store();
+        return $playedCard;
+    }
 }

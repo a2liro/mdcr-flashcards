@@ -14,6 +14,8 @@ class Category extends Model
         'description' => ['string'],
         'thumbnail' => ['string'],
         'course_id' => ['integer'],
+        'created_at' => ['datetime'],
+        'updated_at' => ['datetime'],
     ];
 
     public function __construct()

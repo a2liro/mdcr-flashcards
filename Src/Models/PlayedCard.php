@@ -9,14 +9,16 @@ class PlayedCard extends Model
     protected $table = 'playedcard';
     protected $fields = [
         'id' => ['integer'],
-		'user_id' => ['integer'],
-		'card_id' => ['integer'],
-		'deck_id' => ['integer'],
+        'user_id' => ['integer'],
+        'card_id' => ['integer'],
+        'deck_id' => ['integer'],
         'difficulty' => ['integer'],
         'lastshow' => ['datetime'],
         'nextshow' => ['datetime'],
         'lastinterval' => ['integer'],
-        'is_reverse' => ['boolean']
+        'is_reverse' => ['boolean'],
+        'created_at' => ['datetime'],
+        'updated_at' => ['datetime'],
     ];
 
     public function __construct()

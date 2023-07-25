@@ -7,10 +7,12 @@ use MDCR\Models\Course;
 
 class StoreCourseRepository
 {
-  public function run($data, $user)
-  {
-    $course = new Course();
-    $course->create($data);
-    return $course;
-  }
+    public function run($data, $user)
+    {
+        $data['created_at'] = date('Y-m-d h:i:s');
+        $data['updated_at'] = date('Y-m-d h:i:s');
+        $course = new Course();
+        $course->create($data);
+        return $course;
+    }
 }

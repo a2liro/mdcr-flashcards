@@ -190,4 +190,5 @@ abstract class Model implements iModel
     public function getFields() {
         return $this->fields;
     }
+
 }

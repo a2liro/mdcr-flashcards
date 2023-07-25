@@ -18,9 +18,6 @@ echo $argv[1] . "\n";
 
 
 function migrateModel($table, $fields, $conn, $model) {
-
-//    $model = $conn->createModel($table, $conn);
-
     $data = [];
     foreach ($fields as $key => $field) {
         if(in_array('string', $field)) {

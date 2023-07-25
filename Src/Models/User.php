@@ -11,6 +11,8 @@ class User extends Model
         'name' => ['string'],
         'email' => ['string, unique'],
         'password' => ['string'],
+        'created_at' => ['datetime'],
+        'updated_at' => ['datetime'],
     ];
 
     public function __construct()
@@ -18,10 +20,10 @@ class User extends Model
         parent::__construct($this->table, $this->fields);
     }
 
-	public function getCurrentUser()
-	{
-		$userId = $_SESSION['user_id'];
-		$user = $this->findOneByParams(['id' => $userId]);
-		return $user;
-	}
+    public function getCurrentUser()
+    {
+        $userId = $_SESSION['user_id'];
+        $user = $this->findOneByParams(['id' => $userId]);
+        return $user;
+    }
 }

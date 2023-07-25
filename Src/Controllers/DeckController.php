@@ -54,7 +54,7 @@ class DeckController extends Controller
     {
         $storeDeckService = new StoreDeckService();
         $data = $request->all();
-        $data['category_id'] = $categoryId;
+        $data['category_id'] = intval($categoryId);
         $storeDeckService->run($data);
         return $this->redirect("/categorias/$categoryId/visualizar");
     }
@@ -95,7 +95,6 @@ class DeckController extends Controller
         if ($deck->id == $id) {
             $deck->update($data);
         }
-        var_dump($data);
         return header("Location: /baralhos/$deck->id/visualizar");
     }
 
@@ -145,7 +144,6 @@ class DeckController extends Controller
 
     public function playFront(Request $request, int $deckId, int $cardId)
     {
-        var_dump($cardId);
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
         $cards = (new Card)->where(

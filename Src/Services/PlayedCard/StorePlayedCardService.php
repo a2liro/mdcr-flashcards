@@ -19,8 +19,7 @@ class StorePlayedCardService
             'deck_id' => $deckId,
             'card_id' => $cardId,
         ];
-//        var_dump($playedCardsByCard);
-//        die();
+
         $playedCard = StorePlayedCardRepository::run($data);
 
         $deck = new Deck();

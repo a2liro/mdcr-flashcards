@@ -10,9 +10,13 @@ class Deck extends Model
     protected $fields = [
         'id' => ['integer'],
         'user_id' => ['integer'],
-        'card_id' => ['integer'],
-        'deck_id' => ['integer'],
-        'create_at' => ['datetime']
+        'name' => ['string'],
+        'description' => ['string'],
+        'is_english' => ['boolean'],
+        'category_id' => ['integer'],
+        'thumbnail' => ['string'],
+        'created_at' => ['datetime'],
+        'updated_at' => ['datetime'],
     ];
 
     public function __construct()
