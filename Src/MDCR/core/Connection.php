@@ -103,4 +103,9 @@ class Connection
         $models = \R::convertToBeans($table, $rows);
         return $models;
     }
+
+    public function exec(string $query, array $data)
+    {
+        return \R::getAll($query, $data);
+    }
 }

@@ -191,4 +191,9 @@ abstract class Model implements iModel
         return $this->fields;
     }
 
+    public function exec(string $query, array $data)
+    {
+        return $this->connection->exec($query, $data);
+    }
+
 }
