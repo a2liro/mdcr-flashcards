@@ -6,7 +6,6 @@ use Exception;
 use MDCR\core\interfaces\iModel;
 
 
-
 abstract class Model implements iModel
 {
     protected $connection;
@@ -62,7 +61,7 @@ abstract class Model implements iModel
         return $model;
     }
 
-    public function delete(): bool | null
+    public function delete(): bool|null
     {
         return $this->connection->delete($this);
     }
@@ -101,6 +100,7 @@ abstract class Model implements iModel
         }
         return $modelInDb;
     }
+
     public function findOneByParams(array $data)
     {
         $this->bean = $this->connection->findOneByParams($this->table, $data);
@@ -109,6 +109,7 @@ abstract class Model implements iModel
         }
         return $this;
     }
+
     public function findAllByParams(array $data)
     {
         return $this->connection->findAllByParams($this->table, $data);
@@ -172,8 +173,8 @@ abstract class Model implements iModel
             $this->select();
         }
         $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery
-        . " $this->orderQuery"
-        . $this->limitQuery;
+            . " $this->orderQuery"
+            . $this->limitQuery;
         $result = $this->connection->get($query, $this->table);
         $models = [];
         foreach ($result as $item) {
@@ -187,13 +188,24 @@ abstract class Model implements iModel
         return $models;
     }
 
-    public function getFields() {
+    public function getFields()
+    {
         return $this->fields;
     }
 
     public function exec(string $query, array $data)
     {
         return $this->connection->exec($query, $data);
+    }
+
+    public function toArray(): array
+    {
+        $modelData = [];
+        foreach ($this->fields as $key => $field) {
+            $modelData[$key] = $this->{$key};
+        }
+
+        return $modelData;
     }
 
 }
