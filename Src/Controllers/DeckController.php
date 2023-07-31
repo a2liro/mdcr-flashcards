@@ -218,7 +218,7 @@ class DeckController extends Controller
         $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
         $difficulty = 3;
 
-        if(sizeof($playedCard)) {
+        if(sizeof($playedCard) && $playedCard[0]->difficulty) {
             $difficulty = $playedCard[0]->difficulty;
         }
 

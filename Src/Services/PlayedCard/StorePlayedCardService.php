@@ -4,6 +4,7 @@ namespace App\Services\PlayedCard;
 
 use App\Repositories\PlayedCard\GetPlayedCardByCardIdRepository;
 use App\Repositories\PlayedCard\StorePlayedCardRepository;
+use App\Services\Card\CalcNoteService;
 use MDCR\core\File;
 use MDCR\Models\Category;
 use MDCR\Models\Deck;
@@ -15,9 +16,14 @@ class StorePlayedCardService
     public static function run(int $deckId, int $cardId, $note)
     {
 //        $playedCardsByCard = GetPlayedCardByCardIdRepository::run($cardId);
+        $lastFive = GetLastFivePlayedCardsByDeckService::run($cardId);
+        $nextTime = CalcNoteService::run($note, 5, $lastFive);
+        var_dump($nextTime);
+        die();
         $data = [
             'deck_id' => $deckId,
             'card_id' => $cardId,
+            'difficulty' => $note,
         ];
 
         $playedCard = StorePlayedCardRepository::run($data);

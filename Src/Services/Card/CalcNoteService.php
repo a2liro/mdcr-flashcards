@@ -4,7 +4,7 @@ namespace App\Services\Card;
 
 class CalcNoteService
 {
-    public static function run(int $note, int $cardDifficulty): int
+    public static function run(int $note, int $cardDifficulty, array $lastFive = []): int
     {
         if($note == 1) {
             switch($cardDifficulty) {
