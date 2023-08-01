@@ -4,91 +4,76 @@ namespace App\Services\Card;
 
 class CalcNoteService
 {
-    public static function run(int $note, int $cardDifficulty, array $lastFive = []): int
+    public static function run(int $note, array $lastFive = []): int
     {
-        if($note == 1) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 365 * 1440;
-                case 2:
-                    return 180 * 1440;
-                case 3:
-                    return 60 * 1440;
-                case 4:
-                    return 30 * 1440;
-                case 5:
-                    return 15 * 1440;
-                default:
-                    return 0 * 1440;
-            }
-        }
-        if($note == 2) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 180 * 1440;
-                case 2:
-                    return 60 * 1440;
-                case 3:
-                    return 30 * 1440;
-                case 4:
-                    return 15 * 1440;
-                case 5:
-                    return 8 * 1440;
-                default:
-                    return 0;
-            }
+        $weight = 0;
+        $lastFive = array_reverse($lastFive);
+        foreach ($lastFive as $key => $playedCard) {
+//            $playedCard = $playedCard->toArray();
+            echo '--';
+            print_r($playedCard->difficulty);
+            print_r($key);
+            echo '--|';
+            $weight += ($key + 2) * ($playedCard->difficulty + 1) * ($note + 1);
         }
 
-        if($note == 3) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 30 * 1440;
-                case 2:
-                    return 15 * 1440;
-                case 3:
-                    return 7 * 1440;
-                case 4:
-                    return 4 * 1440;
-                case 5:
-                    return 2 * 1440;
-                default:
-                    return 0 * 1440;
-            }
-        }
+//        var_dump($weight);
+//        die();
 
-        if($note == 4) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 5 * 1440 ;
-                case 2:
-                    return 3 * 1440 ;
-                case 3:
-                    return 2 * 1440 ;
-                case 4:
-                    return 1 * 1440 ;
-                case 5:
-                    return 720;
-                default:
-                    return 0;
-            }
-        }
 
-        if($note == 5) {
-            switch($cardDifficulty) {
-                case 1:
-                    return 2 * 1440;
-                case 2:
-                    return 1 * 1440;
-                case 3:
-                    return 100;
-                case 4:
-                    return 20;
-                case 5:
-                    return 10;
-                default:
-                    return 0;
-            }
+        return CalcNoteService::setTime($weight);
+    }
+
+    private static function setTime($value): int
+    {
+        if ($value >= 688) {
+            return 10;
+        } elseif ($value >= 656) {
+            return 60;
+        } elseif ($value >= 624) {
+            return 60 * 6;
+        } elseif ($value >= 592) {
+            return 60 * 24;
         }
-        return 0;
+        elseif ($value >= 560) {
+            return 60 * 72;
+        }
+        elseif ($value >= 528) {
+            return 60 * 24 * 7;
+        }
+        elseif ($value >= 496) {
+            return 60 * 24 * 20;
+        }
+        elseif ($value >= 464) {
+            return 60 * 24 * 60;
+        }
+        elseif ($value >= 432) {
+            return 60 * 24 * 180;
+        }elseif ($value >= 400) {
+            return 60;
+        } elseif ($value >= 368) {
+            return 60 * 6;
+        } elseif ($value >= 336) {
+            return 60 * 24;
+        }
+        elseif ($value >= 304) {
+            return 60 * 72;
+        }
+        elseif ($value >= 272) {
+            return 60 * 24 * 7;
+        }
+        elseif ($value >= 240) {
+            return 60 * 24 * 20;
+        }
+        elseif ($value >= 208) {
+            return 60 * 24 * 60;
+        }
+        elseif ($value >= 176) {
+            return 60 * 24 * 180;
+        }elseif ($value >= 144) {
+            return 60 * 24 * 180;
+        } else {
+            return 60 * 24 * 270;
+        }
     }
 }

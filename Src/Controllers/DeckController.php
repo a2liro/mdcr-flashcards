@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Controller;
 use App\Services\Card\CalcNoteService;
 use App\Services\Deck\StoreDeckService;
+use App\Services\PlayedCard\GetLastFivePlayedCardsByDeckService;
 use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Card;
@@ -225,8 +226,10 @@ class DeckController extends Controller
         $image64 = File::getBase64($card->image);
         $card->image64 = $image64;
 
+        $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($cardId);
+
         for ($count = 1; $count <= 5; $count++) {
-            $interval = CalcNoteService::run($count, $difficulty); //CardController::calcNote($count, $card->difficulty);
+            $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
             if ($interval < 60) {
                 $card->intervals[$count] = $interval . ' minutos';
             } else if ($interval < 1440) {

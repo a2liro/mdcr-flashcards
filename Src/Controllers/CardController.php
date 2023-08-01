@@ -174,7 +174,7 @@ class CardController extends Controller
     {
 
         StorePlayedCardService::run($deckId, $cardId, $note);
-//        header("Location: /baralhos/{$deckId}/jogar/frente/audio");
+        header("Location: /baralhos/{$deckId}/jogar/frente/audio");
     }
 
     public function noteReverse(Request $request, int $deckId, int $cardId, $note)

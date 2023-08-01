@@ -15,15 +15,13 @@ class StorePlayedCardService
 {
     public static function run(int $deckId, int $cardId, $note)
     {
-//        $playedCardsByCard = GetPlayedCardByCardIdRepository::run($cardId);
         $lastFive = GetLastFivePlayedCardsByDeckService::run($cardId);
-        $nextTime = CalcNoteService::run($note, 5, $lastFive);
-        var_dump($nextTime);
-        die();
+        $nextTime = CalcNoteService::run($note, $lastFive);
         $data = [
             'deck_id' => $deckId,
             'card_id' => $cardId,
             'difficulty' => $note,
+            'nexttime' => $nextTime,
         ];
 
         $playedCard = StorePlayedCardRepository::run($data);
