@@ -169,44 +169,60 @@ class DeckController extends Controller
 
     public function playFrontAudio(Request $request, int $deckId)
     {
-        $card = null;
+        $card = [];
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-
-        $playedCardModel = new PlayedCard();
         $cardModel = new Card();
-        $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
-        $cardsPlayedFromUser = $playedCardModel->where(['user_id', '=', $user->id])->where(['deck_id', '=', $deckId])->get();
-        $newCardsData = [];
 
-        foreach ($allCardsFromDeck as $key => $card){
-            foreach ($cardsPlayedFromUser as $played) {
-                if($played->card_id === $card->id) {
-                    $newCardsData = array_slice($allCardsFromDeck, $key, 1);
+
+        $cardsToPlayAgainData = $cardModel->exec('SELECT * FROM  (SELECT card.*, playedcard.nextshow from card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? order by playedcard.id desc limit 1) as a where a.nextshow < NOW()', [$deckId, $user->id]);
+
+        if (sizeof($cardsToPlayAgainData)) {
+            $card = $cardsToPlayAgainData[0];
+        } else {
+
+            $playedCardModel = new PlayedCard();
+            $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
+            $cardsPlayedFromUser = $playedCardModel->where(['user_id', '=', $user->id])->where(['deck_id', '=', $deckId])->get();
+            $newCardsData = [];
+
+            foreach ($allCardsFromDeck as $key => $card) {
+                foreach ($cardsPlayedFromUser as $played) {
+                    if ($played->card_id === $card->id) {
+                        $newCardsData = array_slice($allCardsFromDeck, $key, 1);
+                    }
                 }
+            }
+
+            if (sizeof($newCardsData)) {
+                $card = $newCardsData[0]->toArray();
             }
         }
 
-        if(sizeof($newCardsData)){
-            $card = $newCardsData[0];
+
+//        var_dump($card);
+//        die();
+
+        if(gettype($card) == 'array' && !sizeof($card)) {
+            header("Location: /baralhos/{$deckId}/visualizar");
+            die();
         }
 
-        $cardsToPlayAgainData = $cardModel->exec('SELECT * FROM  (SELECT card.*, playedcard.nextshow from card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? order by playedcard.id desc) as a where a.nextshow < NOW()', [$deckId, $user->id]);
 
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
 
-            $image64 = File::getBase64($card->image);
-            $audioFile64 = File::getBase64($card->audiofile);
-            if (!strlen($audioFile64) && !strlen($card->audio)) {
-                $this->playFront($request, $deckId, $card->id);
-                return 0;
-            }
-            $card->image64 = $image64;
-            $card->audioFile64 = $audioFile64;
+        $image64 = File::getBase64($card->image);
+        $audioFile64 = File::getBase64($card->audiofile);
+        if (!strlen($audioFile64) && !strlen($card->audio)) {
+            $this->playFront($request, $deckId, $card['id']);
+            return 0;
+        }
+        $card->image64 = $image64;
+        $card->audioFile64 = $audioFile64;
 
-            $audio64 = File::getBase64($card->audio);
-            $card->audio64 = $audio64;
+        $audio64 = File::getBase64($card->audio);
+        $card->audio64 = $audio64;
 
         return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
     }
@@ -219,7 +235,7 @@ class DeckController extends Controller
         $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
         $difficulty = 3;
 
-        if(sizeof($playedCard) && $playedCard[0]->difficulty) {
+        if (sizeof($playedCard) && $playedCard[0]->difficulty) {
             $difficulty = $playedCard[0]->difficulty;
         }
 
@@ -313,7 +329,7 @@ class DeckController extends Controller
             // }
             // else {
             //     $audio = MpegAudio::fromFile(__DIR__ . '/../../storage/' . $card->audiofile);
-                //     var_dump($audio->getTotalDuration());
+            //     var_dump($audio->getTotalDuration());
             //     $fullAudio->append($audio);
             // }
         }

@@ -16,12 +16,14 @@ class StorePlayedCardService
     public static function run(int $deckId, int $cardId, $note)
     {
         $lastFive = GetLastFivePlayedCardsByDeckService::run($cardId);
-        $nextTime = CalcNoteService::run($note, $lastFive);
+        $minutes = CalcNoteService::run($note, $lastFive);
+        $nextTime = new \DateTime(date('Y-m-d h:i:s'));
+        $nextTime->modify("+{$minutes} minutes");
         $data = [
             'deck_id' => $deckId,
             'card_id' => $cardId,
             'difficulty' => $note,
-            'nexttime' => $nextTime,
+            'nextshow' => $nextTime,
         ];
 
         $playedCard = StorePlayedCardRepository::run($data);
