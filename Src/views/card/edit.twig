@@ -152,7 +152,7 @@
             </div>
           </div>
 
-          {% if currentDeck.is_english == 'on' %}
+          {% if currentDeck.is_english == 'on' or currentDeck.is_english == 1 %}
             <div class="mdcr-form-group">
               <label for="audiofile">Audio</label>
               <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
