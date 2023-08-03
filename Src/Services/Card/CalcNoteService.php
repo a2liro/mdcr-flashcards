@@ -8,6 +8,10 @@ class CalcNoteService
     {
         $weight = 0;
         $lastFive = array_reverse($lastFive);
+        for($count = 5 -sizeof($lastFive); $count > 0; $count--) {
+            $obj = (object)array('difficulty' => 5);
+            array_unshift($lastFive, $obj);
+        }
         foreach ($lastFive as $key => $playedCard) {
             $weight += ($key + 2) * ($playedCard->difficulty + 1) * ($note + 1);
         }
