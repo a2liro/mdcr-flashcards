@@ -28,7 +28,7 @@ class Connection
     public function createModel(string $table)
     {
         $this->loadDb();
-        $model =  \R::dispense($table);
+        $model = \R::dispense($table);
 
         return $model;
     }
@@ -102,5 +102,10 @@ class Connection
         $rows = \R::getAll($query);
         $models = \R::convertToBeans($table, $rows);
         return $models;
+    }
+
+    public function exec(string $query, array $data)
+    {
+        return \R::getAll($query, $data);
     }
 }

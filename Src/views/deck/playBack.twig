@@ -35,15 +35,15 @@
       </ul>
     </nav>
     <h2>Deck: {{ deck.name }}</h2>
-    <section class="flash-cards-playing" id="flash-cards-playing">
+    <section class="cards-playing" id="cards-playing">
       <h3>Frente:</h3>
       <div id="standalone-container">
         <div id="editor-container"></div>
       </div>
       <hr />
       <h3>Verso:</h3>
-      <div class="flash-card-content">
-       
+      <div class="card-content">
+
         <div id="standalone-container">
           <div id="editor-container-back"></div>
         </div>
@@ -53,19 +53,19 @@
         <nav class="menu">
           <ul>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/1"><button>Muito fácil - ({{card.intervals[1]}})</button></a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/1"><button>Muito fácil - ({{card.intervals[1]}})</button></a>
             </li>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/2"><button>Fácil - ({{card.intervals[2]}})</button></a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/2"><button>Fácil - ({{card.intervals[2]}})</button></a>
             </li>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/3"><button>Médio - ({{card.intervals[3]}})</button></a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/3"><button>Médio - ({{card.intervals[3]}})</button></a>
             </li>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/4"><button>Difícil - ({{card.intervals[4]}})</button></a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/4"><button>Difícil - ({{card.intervals[4]}})</button></a>
             </li>
             <li class="mdcr-form-group">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/nota/5"><button>Muito Difícil - ({{card.intervals[5]}})</button></a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/5"><button>Muito Difícil - ({{card.intervals[5]}})</button></a>
             </li>
           </ul>
         </nav>
@@ -73,7 +73,7 @@
     </section>
     <input type="hidden" id="front-input" value="{{ card.front }}" />
     <input type="hidden" id="back-input" value="{{ card.back }}" />
-  
+
 
     <script>
       function play() {
@@ -81,9 +81,9 @@
         audio.play()
       }
       play()
-      
+
       window.onload = function () {
-        window.location = '#flash-cards-playing'
+        window.location = '#cards-playing'
       }
     </script>
 
@@ -111,6 +111,6 @@
       quillBack.enable(false)
     </script>
 
-    <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+    <a class="add-new-float" href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
   </div>
 {% endblock %}

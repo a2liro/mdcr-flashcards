@@ -36,12 +36,12 @@
     </nav>
     <h2>Deck: {{ deck.name }}</h2>
     {% if card.id %}
-      <section class="flash-cards-playing" id="flash-cards-playing">
+      <section class="cards-playing" id="cards-playing">
         <h3>Frente:</h3>
         {# <span>{{ card.front }}</span> #}
 
         <h3>Verso:</h3>
-        <div class="flash-card-content">
+        <div class="card-content">
           {# <span>{{ card.back }}</span> #}
           <div id="standalone-container">
             <div id="editor-container-back"></div>
@@ -58,11 +58,11 @@
           </nav>
         </div>
       </section>
-      <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+      <a class="add-new-float" href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
     {% else %}
       <h4>Nada a revisar no momento</h4>
       <div>
-        <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+        <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
       </div>
     {% endif %}
 
@@ -75,9 +75,9 @@
         audio.play()
       }
       play()
-      
+
       window.onload = function () {
-        window.location = '#flash-cards-playing'
+        window.location = '#cards-playing'
       }
     </script>
 

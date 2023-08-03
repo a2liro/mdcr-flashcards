@@ -20,10 +20,11 @@
       </ul>
     </nav>
     <h2>Deck: {{ deck.name }}</h2>
+      {{ card }}
     {% if card.id %}
-      <section class="flash-cards-playing" id="flash-cards-playing">
+      <section class="cards-playing" id="cards-playing">
         <h3>Audio:</h3>
-        <div class="flash-card-content">
+        <div class="card-content">
           {% if card.audioFile64 %}
             <h4>Arquivo de áudio</h4>
             <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio"></audio>
@@ -49,12 +50,12 @@
           </nav>
         </div>
       </section>
-      <a class="add-new-float" href="/baralhos/{{ deck.id }}/flash-cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+      <a class="add-new-float" href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
     {% else %}
       <section>
         <h1>Sem cards no momento</h1>
         <div>
-          <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+          <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
         </div>
       </section>
     {% endif %}
@@ -64,9 +65,9 @@
         audio.play()
       }
       play()
-      
+
       window.onload = function () {
-        window.location = '#flash-cards-playing'
+        window.location = '#cards-playing'
       }
     </script>
   </div>
