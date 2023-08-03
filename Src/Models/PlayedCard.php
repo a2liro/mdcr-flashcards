@@ -4,18 +4,19 @@ namespace MDCR\Models;
 
 use MDCR\core\Model;
 
-class Note extends Model
+class PlayedCard extends Model
 {
-    protected $table = 'note';
+    protected $table = 'playedcard';
     protected $fields = [
         'id' => ['integer'],
         'user_id' => ['integer'],
         'card_id' => ['integer'],
-        'note' => ['integer'],
-        'showdate' => ['datetime'],
-        'nextdate' => ['datetime'],
-        'interval' => ['integer'],
-        'isReverse' => ['boolean'],
+        'deck_id' => ['integer'],
+        'difficulty' => ['integer'],
+        'lastshow' => ['datetime'],
+        'nextshow' => ['datetime'],
+        'lastinterval' => ['integer'],
+        'is_reverse' => ['boolean'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

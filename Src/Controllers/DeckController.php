@@ -3,11 +3,14 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Card\CalcNoteService;
 use App\Services\Deck\StoreDeckService;
+use App\Services\PlayedCard\GetLastFivePlayedCardsByDeckService;
 use MDCR\core\File;
 use MDCR\core\Request;
-use MDCR\Models\FlashCard;
+use MDCR\Models\Card;
 use MDCR\Models\Deck;
+use MDCR\Models\PlayedCard;
 use MDCR\Models\User;
 use falahati\PHPMP3\MpegAudio;
 
@@ -23,7 +26,7 @@ class DeckController extends Controller
         $currentDate = date('Y-m-d H:i:s');
         foreach ($decks as $key => $deck) {
 
-            $cards = (new FlashCard)->select('id')
+            $cards = (new Card)->select('id')
                 ->where(
                     ['user_id', '=', $user->id],
                     ['deck_id', '=', $deck->id],
@@ -31,7 +34,7 @@ class DeckController extends Controller
                 )
                 ->get();
             $decks[$key]->cardsToPlay = sizeof($cards);
-            $cardsReverse = (new FlashCard)->select('id')
+            $cardsReverse = (new Card)->select('id')
                 ->where(
                     ['user_id', '=', $user->id],
                     ['deck_id', '=', $deck->id],
@@ -53,7 +56,7 @@ class DeckController extends Controller
     {
         $storeDeckService = new StoreDeckService();
         $data = $request->all();
-        $data['category_id'] = $categoryId;
+        $data['category_id'] = intval($categoryId);
         $storeDeckService->run($data);
         return $this->redirect("/categorias/$categoryId/visualizar");
     }
@@ -69,6 +72,7 @@ class DeckController extends Controller
 
         return $this->view('deck/edit.twig', ['deck' => $deck]);
     }
+
     public function update(Request $request, int $id)
     {
         $data = $request->all();
@@ -94,7 +98,6 @@ class DeckController extends Controller
         if ($deck->id == $id) {
             $deck->update($data);
         }
-        var_dump($data);
         return header("Location: /baralhos/$deck->id/visualizar");
     }
 
@@ -104,39 +107,40 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $deck = (new Deck())->findOneByParams(['id' => $id, 'user_id' => $user->id]);
 
-        $flashCards = (new FlashCard()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
-            ->where(
-                ['user_id', '=', $user->id],
-                ['deck_id', '=', $id]
-            )
-            ->orderBy(['id', 'desc'])
+        $cards = (new Card()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
+        ->where(
+            ['user_id', '=', $user->id],
+            ['deck_id', '=', $id]
+        )
+            ->orderBy(['id' => 'desc'])
             ->get();
+
 
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->select('id')
-            ->where(
-                ['user_id', '=', $user->id],
-                ['deck_id', '=', $id],
-                ['nextshow', '<=', "'$currentDate'"]
-            )
-            ->get();
+//        $cards = (new Card)->select('id')
+//            ->where(
+//                ['user_id', '=', $user->id],
+//                ['deck_id', '=', $id],
+//                ['nextshow', '<=', "'$currentDate'"]
+//            )
+//            ->get();
         $deck->cardsToPlay = sizeof($cards);
 
-        $reverseCards = (new FlashCard)->select('id')
+        $reverseCards = (new Card)->select('id')
             ->where(
                 ['user_id', '=', $user->id],
                 ['deck_id', '=', $id],
                 ['nextshow_reverse', '<=', "'$currentDate'"]
             )
             ->get();
-            $deck->cardsToPlayReverse = sizeof($reverseCards);
+        $deck->cardsToPlayReverse = sizeof($reverseCards);
 
 
         return $this->view(
             'deck/show.twig',
             [
                 'deck' => $deck,
-                'flashCards' => $flashCards,
+                'cards' => $cards,
             ]
         );
     }
@@ -145,14 +149,11 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
-            ['user_id', '=', $user->id],
+        $cards = (new Card)->where(
             ['id', '=', $cardId],
-            ['nextshow', '<=', "'$currentDate'"]
-        )->orderBy(['nextshow', 'asc'])
+        )
             ->limit(1)
             ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (sizeof($cards)) {
@@ -168,51 +169,82 @@ class DeckController extends Controller
 
     public function playFrontAudio(Request $request, int $deckId)
     {
+        $card = [];
         $user = (new User())->getCurrentUser();
-        $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
-            ['user_id', '=', $user->id],
-            ['deck_id', '=', $deckId],
-            ['nextshow', '<=', "'$currentDate'"]
-        )->orderBy(['nextshow', 'asc'])
-            ->limit(1)
-            ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $cardModel = new Card();
 
-        if (sizeof($cards)) {
-            $image64 = File::getBase64($cards[0]->image);
-            $audioFile64 = File::getBase64($cards[0]->audiofile);
-            if (!strlen($audioFile64) && !strlen($cards[0]->audio)) {
-                $this->playFront($request, $deckId, $cards[0]->id);
-                return 0;
+
+        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id]);
+
+        if (sizeof($cardsToPlayAgainData)) {
+            $card = $cardsToPlayAgainData[0];
+        } else {
+
+            $playedCardModel = new PlayedCard();
+            $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
+            $cardsPlayedFromUser = $playedCardModel->where(['user_id', '=', $user->id])->where(['deck_id', '=', $deckId])->get();
+
+            foreach ($allCardsFromDeck as $key => $item) {
+                foreach ($cardsPlayedFromUser as $keyInside => $played) {
+                    if ($played->card_id === $item->id) {
+                        unset($allCardsFromDeck[$key]);
+                    }
+                }
             }
-            $cards[0]->image64 = $image64;
-            $cards[0]->audioFile64 = $audioFile64;
 
-            $audio64 = File::getBase64($cards[0]->audio);
-            $cards[0]->audio64 = $audio64;
+            if (sizeof($allCardsFromDeck)) {
+                $values = array_values($allCardsFromDeck);
+                $card = array_shift($values)->toArray();
+            }
         }
 
 
+        if(gettype($card) == 'array' && !sizeof($card)) {
+            header("Location: /baralhos/{$deckId}/visualizar");
+            die();
+        }
 
-        return $this->view('deck/playFrontAudio.twig', ['card' => end($cards), 'deck' => $deck]);
+
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+
+        $image64 = File::getBase64($card->image);
+        $audioFile64 = File::getBase64($card->audiofile);
+        if (!strlen($audioFile64) && !strlen($card->audio)) {
+            $this->playFront($request, $deckId, $card['id']);
+            return 0;
+        }
+        $card->image64 = $image64;
+        $card->audioFile64 = $audioFile64;
+
+        $audio64 = File::getBase64($card->audio);
+        $card->audio64 = $audio64;
+
+        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
     }
 
     public function playBack(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();
-        $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
+        $difficulty = 3;
+
+        if (sizeof($playedCard) && $playedCard[0]->difficulty) {
+            $difficulty = $playedCard[0]->difficulty;
+        }
 
         $image64 = File::getBase64($card->image);
         $card->image64 = $image64;
 
-        for($count = 1; $count <= 5; $count++) {
-            $interval = FlashCardController::calcNote($count, $card->difficulty);
-            if($interval < 60) {
+        $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($cardId);
+
+        for ($count = 1; $count <= 5; $count++) {
+            $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
+            if ($interval < 60) {
                 $card->intervals[$count] = $interval . ' minutos';
-            } else if($interval < 1440) {
+            } else if ($interval < 1440) {
                 $card->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
             } else {
                 $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
@@ -227,7 +259,7 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
         )
@@ -259,7 +291,6 @@ class DeckController extends Controller
         $fullAudio64 = base64_encode($fullAudio);
 
 
-
         if (strlen($fullAudio64) < 100) {
             return header("Location: /baralhos/$deck->id/ouvir-todos/gravados");
         }
@@ -270,7 +301,7 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
         )
@@ -302,7 +333,6 @@ class DeckController extends Controller
         $fullAudio64 = base64_encode($fullAudio);
 
 
-
         return $this->view('deck/playAllAudiosRecorded.twig', ['deck' => $deck, 'fullAudio64' => $fullAudio64]);
     }
 
@@ -312,7 +342,7 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
 
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
@@ -328,14 +358,14 @@ class DeckController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
-        $cards = (new FlashCard)->where(
+        $cards = (new Card)->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
         )->orderBy(['nextshow_reverse', 'asc'])
             ->limit(1)
             ->get();
-        // $card = (new FlashCard())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+        // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (sizeof($cards)) {
@@ -347,11 +377,11 @@ class DeckController extends Controller
             $cards[0]->audio64 = $audio64;
         }
 
-        for($count = 1; $count <= 5; $count++) {
-            $interval = FlashCardController::calcNote($count, $cards[0]->difficulty_reverse);
-            if($interval < 60) {
+        for ($count = 1; $count <= 5; $count++) {
+            $interval = CardController::calcNote($count, $cards[0]->difficulty_reverse);
+            if ($interval < 60) {
                 $cards[0]->intervals[$count] = $interval . ' minutos';
-            } else if($interval < 1440) {
+            } else if ($interval < 1440) {
                 $cards[0]->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
             } else {
                 $cards[0]->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';

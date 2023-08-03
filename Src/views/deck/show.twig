@@ -31,7 +31,7 @@
 
   <div class="content">
     {% include 'templates/menu.twig' %}
-    <h1>Deck - {{ deck.name }} - {{ flashCards|length }} cartas</h1>
+    <h1>Deck - {{ deck.name }} - {{ cards|length }} cartas</h1>
     <div class="mdcr-form-group mdcr-form-group-row">
       {% if deck.cardsToPlay > 0 %}
         <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
@@ -50,32 +50,32 @@
     </div>
 
     <section class="categories">
-      <h2>flash-cards</h2>
-      <a href="/baralhos/{{ deck.id }}/flash-cards/criar">+ flash card</a>
+      <h2>cards</h2>
+      <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
       <ul class="mdcr-model-list">
-        {% for flashCard in flashCards %}
+        {% for card in cards %}
           <li>
             <span>
               <div id="standalone-container">
-                <div id="editor-container-{{ flashCard.id }}"></div>
+                <div id="editor-container-{{ card.id }}"></div>
               </div>
             </span>
 
-            {# <span>{{ flashCard.front }}</span> <span>{{ flashCard.back }}</span> #}
+            {# <span>{{ card.front }}</span> <span>{{ card.back }}</span> #}
             <div class="actions">
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/visualizar">{{ icon('show', 'blue') }}</a>
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/editar">{{ icon('edit', 'green') }}</a>
-              <a href="/baralhos/{{ deck.id }}/flash-cards/{{ flashCard.id }}/excluir">{{ icon('delete', 'red') }}</a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/visualizar">{{ icon('show', 'blue') }}</a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
+              <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/excluir">{{ icon('delete', 'red') }}</a>
             </div>
           </li>
-          <input type="hidden" id="front-input-{{ flashCard.id }}" value="{{ flashCard.front }}" />
+          <input type="hidden" id="front-input-{{ card.id }}" value="{{ card.front }}" />
 
           <script>
-            var quill = new Quill('#editor-container-{{ flashCard.id }}', {
+            var quill = new Quill('#editor-container-{{ card.id }}', {
               theme: 'bubble'
             })
-            let frontInput{{ flashCard.id }} = document.getElementById('front-input-{{ flashCard.id }}')
-            quill.setContents(JSON.parse(frontInput{{ flashCard.id }}.value))
+            let frontInput{{ card.id }} = document.getElementById('front-input-{{ card.id }}')
+            quill.setContents(JSON.parse(frontInput{{ card.id }}.value))
             quill.enable(false)
           </script>
         {% endfor %}

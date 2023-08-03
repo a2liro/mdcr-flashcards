@@ -59,22 +59,22 @@ $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}/reverso', 'DeckContr
 
 
 
-$router->get(['/baralhos/{deckId}/flash-cards', 'FlashCardController@index', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@create', 'middleware' => ['auth']]);
-$router->post(['/baralhos/{deckId}/flash-cards/criar', 'FlashCardController@store', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota/{note}', 'FlashCardController@note', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/nota-reversa/{note}', 'FlashCardController@noteReverse', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{id}/editar', 'FlashCardController@edit', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{id}/visualizar', 'FlashCardController@show', 'middleware' => ['auth']]);
-$router->post(['/baralhos/{deckId}/flash-cards/{id}/update', 'FlashCardController@update', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/excluir', 'FlashCardController@exclude', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/flash-cards/{cardId}/delete', 'FlashCardController@delete', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards', 'CardController@index', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/criar', 'CardController@create', 'middleware' => ['auth']]);
+$router->post(['/baralhos/{deckId}/cards/criar', 'CardController@store', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{cardId}/nota/{note}', 'CardController@note', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{cardId}/nota-reversa/{note}', 'CardController@noteReverse', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{id}/editar', 'CardController@edit', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{id}/visualizar', 'CardController@show', 'middleware' => ['auth']]);
+$router->post(['/baralhos/{deckId}/cards/{id}/update', 'CardController@update', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{cardId}/excluir', 'CardController@exclude', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/cards/{cardId}/delete', 'CardController@delete', 'middleware' => ['auth']]);
 
 
 
 
 
-$router->get(['/convert-audios', 'FlashCardController@convert64ToFile']);
+$router->get(['/convert-audios', 'CardController@convert64ToFile']);
 
 
 

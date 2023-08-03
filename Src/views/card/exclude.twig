@@ -1,7 +1,7 @@
 {% extends './templates/base.twig' %}
 {% use "./templates/head.twig" %}
 {% block title %}
-  Exibindo cartão
+  Editar cartão
 {% endblock %}
 {% block content %}
   <meta name="twitter:description" content="Quill is a free, open source rich text editor built for the modern web." />
@@ -24,19 +24,14 @@
       <ul>
         <li>
           <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/baralhos">Decks</a>
-        </li>
-        <li>
-          <a href="/baralhos/{{ card.deck_id }}/visualizar">Ver baralho</a>
+          <a href="/baralhos/{{ deckId }}/visualizar">Ver baralho</a>
         </li>
       </ul>
     </nav>
-    <h1>Confirmar exclusão do flashcard</h1>
+    <h1>Confirmar exclusão do card</h1>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/baralhos/{{ card.deck_id }}/flash-cards/{{ card.id }}/delete" method="GET" class="mdcr-form-middle">
+        <form action="/baralhos/{{ deckId }}/cards/{{ card.id }}/delete" method="GET" class="mdcr-form-middle">
           <div class="mdcr-form-group">
             <label for="front">Frente</label>
             <div id="standalone-container">
@@ -51,8 +46,8 @@
             </div>
           </div>
 
-          <div class="mdcr-form-group">
-            <a href="/baralhos/{{ card.deck_id }}/flash-cards/{{ card.id }}/editar"><button class="Editar card" type="button">Editar card</button></a>
+          <div class="mdcr-form-group submit">
+            <input type="submit" value="Excluir card" />
           </div>
         </form>
       </div>
@@ -71,18 +66,18 @@
       var quill = new Quill('#editor-container', {
         theme: 'bubble'
       })
-      let frontInput = document.getElementById('front-input')
+       let frontInput = document.getElementById('front-input')
       quill.setContents(JSON.parse(frontInput.value))
-      quill.enable(false)
+       quill.enable(false)
     </script>
     <script>
       var quillBack = new Quill('#editor-container-back', {
         theme: 'bubble'
       })
-      let backInput = document.getElementById('back-input')
+       let backInput = document.getElementById('back-input')
 
       quillBack.setContents(JSON.parse(backInput.value))
-      quillBack.enable(false)
+       quillBack.enable(false)
     </script>
   </div>
 {% endblock %}

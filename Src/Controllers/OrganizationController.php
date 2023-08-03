@@ -9,7 +9,7 @@ use App\Services\Course\GetCoursesByOrganizationIdService;
 use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Deck;
-use MDCR\Models\FlashCard;
+use MDCR\Models\Card;
 use MDCR\Models\Note;
 use MDCR\Models\Organization;
 use MDCR\Models\User;
@@ -45,7 +45,7 @@ class OrganizationController extends Controller
     {
         $user = new User();
         $user = $user->getCurrentUser();
-        $card = new FlashCard();
+        $card = new Card();
         $card = $card->findOneByParams(['id' => $id]);
 
         // $card->ownGiftList = $card->bean->ownGiftList;
@@ -73,21 +73,21 @@ class OrganizationController extends Controller
         $data = $request->all();
         $data['id'] = $id;
         if ($_FILES['image']['size']) {
-            $imagePath = File::save($_FILES['image'], 'flashcards');
+            $imagePath = File::save($_FILES['image'], 'cards');
             $data['image'] = $imagePath ? $imagePath : null;
         } else if (strlen($data['image64']) < 1) {
             $data['image'] = '';
         }
 
         if ($_FILES['audiofile']['size']) {
-            $imagePath = File::save($_FILES['audiofile'], 'flashcards');
+            $imagePath = File::save($_FILES['audiofile'], 'cards');
             $data['audiofile'] = $imagePath ? $imagePath : null;
         } else if (strlen($data['audiofile64']) < 1) {
             $data['audiofile'] = '';
         }
 
         if (strlen($data['audio']) > 255) {
-            $data['audio'] = $data['audio'] ? File::saveBase64ToFile($data["audio"], 'flashcards', 'mp3') : null;
+            $data['audio'] = $data['audio'] ? File::saveBase64ToFile($data["audio"], 'cards', 'mp3') : null;
         } else if (strlen($data['audio']) == 0) {
             $data['audio'] = null;
         }
@@ -95,7 +95,7 @@ class OrganizationController extends Controller
 
         $user = new User();
         $user = $user->getCurrentUser();
-        $organization = new FlashCard();
+        $organization = new Card();
         $organization = $organization->findOneByParams(['user_id' => $user->id, 'id' => $id]);
         /* $organization->update($data); */
         if ($organization->id == $id) {
@@ -126,7 +126,7 @@ class OrganizationController extends Controller
     public function exclude(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();
-        $cards = (new FlashCard())->where(
+        $cards = (new Card())->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
@@ -137,7 +137,7 @@ class OrganizationController extends Controller
     {
 
         $user = (new User())->getCurrentUser();
-        $cards = (new FlashCard())->where(
+        $cards = (new Card())->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
@@ -147,7 +147,7 @@ class OrganizationController extends Controller
             if ($delete) {
                 header("Location: /baralhos/{$deckId}/visualizar");
             } else {
-                header("Location: /baralhos/{$deckId}/flashcard/$cardId/erro");
+                header("Location: /baralhos/{$deckId}/card/$cardId/erro");
             }
         }
     }
@@ -155,7 +155,7 @@ class OrganizationController extends Controller
     public function note(Request $request, int $deckId, int $cardId, $note)
     {
         $user = (new User())->getCurrentUser();
-        $cards = (new FlashCard())->where(
+        $cards = (new Card())->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
@@ -167,7 +167,7 @@ class OrganizationController extends Controller
         $cards[0]->update();
         $noteData = [
             'user_id' => $user->id,
-            'flashcard_id' => $cardId,
+            'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshow,
             'nextdate' => $cards[0]->nextshow,
@@ -182,7 +182,7 @@ class OrganizationController extends Controller
     public function noteReverse(Request $request, int $deckId, int $cardId, $note)
     {
         $user = (new User())->getCurrentUser();
-        $cards = (new FlashCard())->where(
+        $cards = (new Card())->where(
             ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
@@ -194,7 +194,7 @@ class OrganizationController extends Controller
         $cards[0]->update();
         $noteData = [
             'user_id' => $user->id,
-            'flashcard_id' => $cardId,
+            'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshowReverse,
             'nextdate' => $cards[0]->nextshowReverse,
@@ -298,11 +298,11 @@ class OrganizationController extends Controller
     {
         $user = (new User())->getCurrentUser();
 
-        $cards = (new FlashCard())->get();
+        $cards = (new Card())->get();
 
         foreach ($cards as $key => $card) {
             if (isset($card->audio) && strlen($card->audio) > 100) {
-                $saveFile = File::saveBase64ToFile($card->audio, 'flashcards',);
+                $saveFile = File::saveBase64ToFile($card->audio, 'cards',);
                 if ($saveFile != false) {
                     $card->audio = $saveFile;
                     $card->update();

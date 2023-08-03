@@ -11,9 +11,11 @@ class Course extends Model
         'id' => ['integer'],
         'user_id' => ['integer'],
         'name' => ['string'],
-        'name' => ['description'],
+        'description' => ['string'],
         'thumbnail' => ['string'],
         'organization_id' => ['integer'],
+        'created_at' => ['datetime'],
+        'updated_at' => ['datetime'],
     ];
 
     public function __construct()
