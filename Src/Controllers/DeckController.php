@@ -199,7 +199,7 @@ class DeckController extends Controller
         }
 
 
-        if(gettype($card) == 'array' && !sizeof($card)) {
+        if (gettype($card) == 'array' && !sizeof($card)) {
             header("Location: /baralhos/{$deckId}/visualizar");
             die();
         }

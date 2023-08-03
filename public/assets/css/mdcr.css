@@ -83,12 +83,12 @@
 
 .mdcr-form-group input {
   height: 2.5em;
-  border: 1px #526E2A solid;
+  border: 1px #528461 solid;
   border-radius: 5px 5px 5px 5px;
 }
 
 .mdcr-form-group input[type=submit] {
-  background-color: #526E2A;
+  background-color: #528461;
   color: white;
   height: 3em;
   cursor: pointer;
@@ -96,19 +96,19 @@
 
 .mdcr-form-group select {
   height: 2.5em;
-  border: 1px #526E2A solid;
+  border: 1px #528461 solid;
   border-radius: 5px 5px 5px 5px;
 }
 
 .mdcr-form-group a button {
   height: 2.4em;
-  border: 1px #526E2A solid;
+  border: 1px #528461 solid;
   border-radius: 5px 5px 5px 5px;
   width: 100%;
   font-size: 1.2em;
   padding-left: 1em;
   padding-right: 1em;
-  background-color: #526E2A;
+  background-color: #528461;
   color: white;
 }
 
@@ -119,17 +119,17 @@
 }
 
 .mdcr-half-button {
-  border: 1px #526E2A solid;
+  border: 1px #528461 solid;
   height: 2.5em;
   width: 49%;
-  background-color: #526E2A;
+  background-color: #528461;
   color: white;
   height: 3em;
   cursor: pointer;
 }
 
 .mdcr-half-button:disabled {
-  /* border: 1px #526E2A solid;
+  /* border: 1px #528461 solid;
   height: 2.5em;
   width: 49%; */
   background-color: #a4c07c;
@@ -244,11 +244,11 @@ img {
 
 .menu a {
   text-decoration: none;
-  color: #526E2A;
+  color: #528461;
 }
 
 .add-new-float {
-  background-color: #526E2A;
+  background-color: #528461;
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
@@ -316,7 +316,7 @@ footer {
 }
 
 .submit input {
-  background-color: #526E2A;
+  background-color: #528461;
   /* color: white; */
   height: 3em;
 }
