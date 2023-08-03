@@ -17,7 +17,7 @@ class StorePlayedCardService
     {
         $lastFive = GetLastFivePlayedCardsByDeckService::run($cardId);
         $minutes = CalcNoteService::run($note, $lastFive);
-        $nextTime = new \DateTime(date('Y-m-d h:i:s'));
+        $nextTime = new \DateTime(date('Y-m-d H:i:s'));
         $nextTime->modify("+{$minutes} minutes");
         $data = [
             'deck_id' => $deckId,

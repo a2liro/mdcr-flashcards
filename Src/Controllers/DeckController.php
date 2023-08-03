@@ -171,11 +171,10 @@ class DeckController extends Controller
     {
         $card = [];
         $user = (new User())->getCurrentUser();
-        $currentDate = date('Y-m-d H:i:s');
         $cardModel = new Card();
 
 
-        $cardsToPlayAgainData = $cardModel->exec('SELECT * FROM  (SELECT card.*, playedcard.nextshow from card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? order by playedcard.id desc limit 1) as a where a.nextshow < NOW()', [$deckId, $user->id]);
+        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id]);
 
         if (sizeof($cardsToPlayAgainData)) {
             $card = $cardsToPlayAgainData[0];
@@ -184,24 +183,21 @@ class DeckController extends Controller
             $playedCardModel = new PlayedCard();
             $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
             $cardsPlayedFromUser = $playedCardModel->where(['user_id', '=', $user->id])->where(['deck_id', '=', $deckId])->get();
-            $newCardsData = [];
 
-            foreach ($allCardsFromDeck as $key => $card) {
-                foreach ($cardsPlayedFromUser as $played) {
-                    if ($played->card_id === $card->id) {
-                        $newCardsData = array_slice($allCardsFromDeck, $key, 1);
+            foreach ($allCardsFromDeck as $key => $item) {
+                foreach ($cardsPlayedFromUser as $keyInside => $played) {
+                    if ($played->card_id === $item->id) {
+                        unset($allCardsFromDeck[$key]);
                     }
                 }
             }
 
-            if (sizeof($newCardsData)) {
-                $card = $newCardsData[0]->toArray();
+            if (sizeof($allCardsFromDeck)) {
+                $values = array_values($allCardsFromDeck);
+                $card = array_shift($values)->toArray();
             }
         }
 
-
-//        var_dump($card);
-//        die();
 
         if(gettype($card) == 'array' && !sizeof($card)) {
             header("Location: /baralhos/{$deckId}/visualizar");
