@@ -6,6 +6,8 @@ use MDCR\core\Router;
 
 
 $router = new Router();
+$router->post(['/{deckId}/b', 'CardController@storePublic']);
+
 // $router->get(['path' => '/user/{id}/name/{name}', 'controller' => 'HelloController', 'action' => 'index']);
 $router->get(['/', 'HelloController@index']);
 $router->post(['/test-post', 'HelloController@testPost']);
