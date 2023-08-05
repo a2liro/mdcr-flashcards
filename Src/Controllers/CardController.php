@@ -62,6 +62,29 @@ class CardController extends Controller
         return $this->redirect("/baralhos/$deckId/cards/criar");
     }
 
+    public function storePublic(Request $request, int $deckId)
+    {
+        $imagePath = File::save($_FILES['image'], 'cards');
+        $audioPath = File::save($_FILES['audiofile'], 'cards');
+
+        $data = $request->all();
+        $data['user_id'] = 2;
+        $data['deck_id'] = $deckId;
+        $data['difficulty'] = 5;
+        $data['lastshow'] = date('Y-m-d H:i:s');
+        $data['nextshow'] = date('Y-m-d H:i:s');
+        $data['difficultyReverse'] = 5;
+        $data['lastshowReverse'] = date('Y-m-d H:i:s');
+        $data['nextshowReverse'] = date('Y-m-d H:i:s');
+        // $data['lastinterval'] = 0;
+        $data['image'] = $imagePath ? $imagePath : null;
+        $data['audiofile'] = $audioPath ? $audioPath : null;
+        $data['audio'] = $data['audio'] ? File::saveBase64ToFile($data["audio"], 'cards', 'mp3') : null;
+        $card = new Card();
+        $card->create($data);
+        return 'Card inserido com sucesso';
+    }
+
     public function edit(Request $request, int $deckId, int $id)
     {
         $user = new User();
