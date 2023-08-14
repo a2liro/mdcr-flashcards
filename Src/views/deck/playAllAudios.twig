@@ -23,17 +23,22 @@
     <section class="cards-playing" id="cards-playing">
       <h3>Audio dos arquivos</h3>
       <div class="card-content">
-        {% if fullAudio64 %}
-          <h4>Arquivo de áudio</h4>
-          <audio autoplay controls src="data:audio/mpeg;base64,{{ fullAudio64 }}" id="audio"></audio>
-        {% endif %}
+          {% if card.audioFile64 %}
+              <h4>Arquivo de áudio</h4>
+              <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio"></audio>
+          {% endif %}
+
+          {% if card.audio64 %}
+              <h4>Gravação de áudio</h4>
+              <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
+          {% endif %}
       </div>
 
       <div class="card-actions">
           <nav class="menu">
             <ul>
               <li class="mdcr-form-group">
-                <a href="/baralhos/{{ deck.id }}/ouvir-todos/gravados"><button>Virar</button></a>
+                <a href="/baralhos/{{deck.id}}/jogar/frente/card/{{card.id}}"><button>Próximo</button></a>
               </li>
             </ul>
           </nav>

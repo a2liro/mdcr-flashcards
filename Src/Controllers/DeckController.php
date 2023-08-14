@@ -164,10 +164,65 @@ class DeckController extends Controller
             $cards[0]->audioFile64 = $audioFile64;
             $cards[0]->audio64 = $audio64;
         }
+
+        return $this->view('deck/playFront.twig', ['card' => $cards[0]->toArray(), 'deck' => $deck]);
+    }
+
+    public function playFrontAudio(Request $request, int $deckId, int $cardId)
+    {
+        $user = (new User())->getCurrentUser();
+        $currentDate = date('Y-m-d H:i:s');
+        $cards = (new Card)->where(
+            ['id', '=', $cardId],
+        )
+            ->limit(1)
+            ->get();
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+
+        if (sizeof($cards)) {
+            $image64 = File::getBase64($cards[0]->image);
+            $audioFile64 = File::getBase64($cards[0]->audiofile);
+            $audio64 = File::getBase64($cards[0]->audio);
+            $cards[0]->image64 = $image64;
+            $cards[0]->audioFile64 = $audioFile64;
+            $cards[0]->audio64 = $audio64;
+        }
         return $this->view('deck/playFront.twig', ['card' => end($cards), 'deck' => $deck]);
     }
 
-    public function playFrontAudio(Request $request, int $deckId)
+    public function playBack(Request $request, int $deckId, int $cardId)
+    {
+        $user = (new User())->getCurrentUser();
+        $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
+        $difficulty = 3;
+
+        if (sizeof($playedCard) && $playedCard[0]->difficulty) {
+            $difficulty = $playedCard[0]->difficulty;
+        }
+
+        $image64 = File::getBase64($card->image);
+        $card->image64 = $image64;
+
+        $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($cardId);
+
+        for ($count = 1; $count <= 5; $count++) {
+            $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
+            if ($interval < 60) {
+                $card->intervals[$count] = $interval . ' minutos';
+            } else if ($interval < 1440) {
+                $card->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
+            } else {
+                $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
+            }
+
+        }
+
+        return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
+    }
+
+    public function playAllAudios(Request $request, int $deckId)
     {
         $card = [];
         $user = (new User())->getCurrentUser();
@@ -208,93 +263,24 @@ class DeckController extends Controller
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
 
-        $image64 = File::getBase64($card->image);
-        $audioFile64 = File::getBase64($card->audiofile);
-        if (!strlen($audioFile64) && !strlen($card->audio)) {
+        $image64 = File::getBase64($card['image']);
+        $audioFile64 = File::getBase64($card['audiofile']);
+
+
+
+        if (!strlen($audioFile64) && !strlen($card['audio'])) {
             $this->playFront($request, $deckId, $card['id']);
             return 0;
         }
-        $card->image64 = $image64;
-        $card->audioFile64 = $audioFile64;
 
-        $audio64 = File::getBase64($card->audio);
-        $card->audio64 = $audio64;
+        $card['image64'] = $image64;
+        $card['audioFile64'] = $audioFile64;
 
-        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
-    }
+        $audio64 = File::getBase64($card['audio']);
+        $card['audio64'] = $audio64;
 
-    public function playBack(Request $request, int $deckId, int $cardId)
-    {
-        $user = (new User())->getCurrentUser();
-        $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
-        $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
-        $difficulty = 3;
-
-        if (sizeof($playedCard) && $playedCard[0]->difficulty) {
-            $difficulty = $playedCard[0]->difficulty;
-        }
-
-        $image64 = File::getBase64($card->image);
-        $card->image64 = $image64;
-
-        $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($cardId);
-
-        for ($count = 1; $count <= 5; $count++) {
-            $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
-            if ($interval < 60) {
-                $card->intervals[$count] = $interval . ' minutos';
-            } else if ($interval < 1440) {
-                $card->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
-            } else {
-                $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
-            }
-
-        }
-
-        return $this->view('deck/playBack.twig', ['card' => $card, 'deck' => $deck]);
-    }
-
-    public function playAllAudios(Request $request, int $deckId)
-    {
-        $user = (new User())->getCurrentUser();
-        $currentDate = date('Y-m-d H:i:s');
-        $cards = (new Card)->where(
-            ['user_id', '=', $user->id],
-            ['deck_id', '=', $deckId],
-        )
-            ->orderBy(['id', 'asc'])
-            ->get();
-
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
-
-        $fullAudio = null;
-
-        foreach ($cards as $key => $card) {
-
-            if ($fullAudio == null) {
-                $fullAudio = file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);
-            } else {
-                $fullAudio = $fullAudio . file_get_contents(__DIR__ . '/../../storage/' . $card->audiofile);
-            }
-
-            // if($fullAudio == null) {
-            //     $fullAudio = MpegAudio::fromFile(__DIR__ . '/../../storage/' . $card->audiofile);
-            // }
-            // else {
-            //     $audio = MpegAudio::fromFile(__DIR__ . '/../../storage/' . $card->audiofile);
-            //     var_dump($audio->getTotalDuration());
-            //     $fullAudio->append($audio);
-            // }
-        }
-
-        $fullAudio64 = base64_encode($fullAudio);
-
-
-        if (strlen($fullAudio64) < 100) {
-            return header("Location: /baralhos/$deck->id/ouvir-todos/gravados");
-        }
-        return $this->view('deck/playAllAudios.twig', ['deck' => $deck, 'fullAudio64' => $fullAudio64]);
+//        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
+        return $this->view('deck/playAllAudios.twig', ['card' => $card, 'deck' => $deck]);
     }
 
     public function playAllAudiosRecorded(Request $request, int $deckId)
