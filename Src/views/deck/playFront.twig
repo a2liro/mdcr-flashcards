@@ -25,32 +25,20 @@
     <nav class="menu">
       <ul>
         <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/baralhos">Decks</a>
-        </li>
-        <li>
-          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+          <div class="back-button" onclick="history.back()">
+          {{ icon('back', '#528461') }} <span>Voltar</span>
+          </div>
         </li>
       </ul>
     </nav>
-    <h2>Deck: {{ deck.name }}</h2>
+    <h4>Deck: {{ deck.name }}</h4>
     {% if card.id %}
       <section class="cards-playing" id="cards-playing">
-        <h3>Frente:{{ card.id }}</h3>
+        <h3>Frente:</h3>
         <div class="card-content">
           <div id="standalone-container">
             <div id="editor-container"></div>
           </div>
-          {% if deck.is_english == 'on' %}
-            <div class="mdcr-form-group submit">
-              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
-              <div class="words" contenteditable>
-                <p id="p"></p>
-              </div>
-            </div>
-          {% endif %}
 
           {% if card.audioFile64 %}
             <h4>Arquivo de áudio</h4>
@@ -62,6 +50,15 @@
             <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
           {% endif %}
         </div>
+
+          {% if deck.is_english == '1' %}
+            <div class="mdcr-form-group submit">
+              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
+              <div class="words" contenteditable>
+                <p id="p"></p>
+              </div>
+            </div>
+          {% endif %}
 
         <div class="card-actions">
           <nav class="menu">
@@ -75,7 +72,7 @@
       </section>
     {% else %}
       <section>
-        <h1>Sem cards no momento</h1>
+        <h3>Sem cards no momento</h3>
         <div>
           <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
         </div>

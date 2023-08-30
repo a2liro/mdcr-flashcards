@@ -47,8 +47,8 @@ $router->post(['/cursos/{courseId}/baralhos/criar', 'DeckController@store', 'mid
 $router->get(['/baralhos/{id}/visualizar', 'DeckController@show', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{id}/editar', 'DeckController@edit', 'middleware' => ['auth']]);
 $router->post(['/baralhos/{id}/update', 'DeckController@update', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/jogar/frente/audio', 'DeckController@playFrontAudio', 'middleware' => ['auth']]);
-$router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@playFront', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/frente/audio', 'DeckController@playAllAudios', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@playFrontAudio', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos', 'DeckController@playAllAudios', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos/gravados', 'DeckController@playAllAudiosRecorded', 'middleware' => ['auth']]);

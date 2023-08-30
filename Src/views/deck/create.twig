@@ -15,7 +15,7 @@
         </li>
       </ul>
     </nav>
-    <h1>Novo deck</h1>
+    <h3>Novo deck</h3>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
         <form action="/categorias/{{ categoryId }}/baralhos/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
@@ -29,7 +29,7 @@
           </div>
           <div class="mdcr-form-group">
             <label for="thumbnail">Thumbnail do deck</label>
-            <input type="file" name="thumbnail" id="thumbnail" accept="image/jpeg" placeholder="Thumbnail do deck" />
+            <input type="file" name="thumbnail" id="thumbnail" accept="image/*" placeholder="Thumbnail do deck" />
           </div>
 
           <div class="mdcr-form-group mdcr-checkbox">

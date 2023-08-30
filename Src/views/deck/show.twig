@@ -31,7 +31,7 @@
 
   <div class="content">
     {% include 'templates/menu.twig' %}
-    <h1>Deck - {{ deck.name }} - {{ cards|length }} cartas</h1>
+    <h3>Deck - {{ deck.name }} - {{ cards|length }} cartas</h3>
     <div class="mdcr-form-group mdcr-form-group-row">
       {% if deck.cardsToPlay > 0 %}
         <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
@@ -50,7 +50,7 @@
     </div>
 
     <section class="categories">
-      <h2>cards</h2>
+      <h4>cards</h4>
       <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
       <ul class="mdcr-model-list">
         {% for card in cards %}

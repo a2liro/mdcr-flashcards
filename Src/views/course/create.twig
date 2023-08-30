@@ -15,7 +15,7 @@
         </li>
       </ul>
     </nav>
-    <h1>Novo Curso</h1>
+    <h3>Novo Curso</h3>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
         <form action="/organizacoes/{{ organizationId }}/cursos/criar" method="POST" class="mdcr-form-middle" enctype="multipart/form-data" >
@@ -31,7 +31,7 @@
 
           <div class="mdcr-form-group">
             <label for="thumbnail">Thumbnail do curso</label>
-            <input type="file" name="thumbnail" id="thumbnail" accept="image/jpeg" placeholder="Thumbnail do curso" />
+            <input type="file" name="thumbnail" id="thumbnail" accept="image/*" placeholder="Thumbnail do curso" />
           </div>
 
           <div class="mdcr-form-group">
