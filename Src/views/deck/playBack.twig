@@ -23,18 +23,14 @@
   <div class="content">
     <nav class="menu">
       <ul>
-       <li>
-          <a href="/">Home</a>
-        </li>
         <li>
-          <a href="/baralhos">Decks</a>
-        </li>
-        <li>
-          <a href="/baralhos/{{ deck.id }}/visualizar">Voltar ao baralho</a>
+          <div class="back-button" onclick="history.back()">
+          {{ icon('back', '#528461') }} <span>Voltar</span>
+          </div>
         </li>
       </ul>
     </nav>
-    <h2>Deck: {{ deck.name }}</h2>
+    <h4>Deck: {{ deck.name }}</h4>
     <section class="cards-playing" id="cards-playing">
       <h3>Frente:</h3>
       <div id="standalone-container">

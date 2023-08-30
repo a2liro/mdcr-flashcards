@@ -4,6 +4,10 @@
 @import "xl.css";
 @import "2xl.css";
 
+body {
+  color: #5b5f59;
+}
+
 
 .text-red {
   color: red;
@@ -439,3 +443,15 @@ footer {
 .text-decoration-none {
   text-decoration: none;
 }
+
+.back-button {
+  padding: .3em;
+  color: #528461;
+  display: flex;
+  align-items: center;
+}
+.back-button span {
+  margin-left: 0.8em;
+}
+
+
