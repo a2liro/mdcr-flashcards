@@ -43,14 +43,6 @@
           <div id="standalone-container">
             <div id="editor-container"></div>
           </div>
-          {% if deck.is_english == 'on' %}
-            <div class="mdcr-form-group submit">
-              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
-              <div class="words" contenteditable>
-                <p id="p"></p>
-              </div>
-            </div>
-          {% endif %}
 
           {% if card.audioFile64 %}
             <h4>Arquivo de áudio</h4>
@@ -62,6 +54,15 @@
             <audio controls src="data:audio/mpeg;base64,{{ card.audio64 }}" id="audio"></audio>
           {% endif %}
         </div>
+
+          {% if deck.is_english == '1' %}
+            <div class="mdcr-form-group submit">
+              <button id="start" class="mdcr-button audio-control-buttons" type="button">Treinar pronúncia</button>
+              <div class="words" contenteditable>
+                <p id="p"></p>
+              </div>
+            </div>
+          {% endif %}
 
         <div class="card-actions">
           <nav class="menu">
