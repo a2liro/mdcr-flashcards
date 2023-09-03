@@ -2,28 +2,101 @@
 {% use "./templates/head.twig" %}
 
 {% block content %}
-  <div class="content">
-    <nav class="menu">
-      <ul>
-        {% if user.id %}
-          <li>
-            <a href="/baralhos">Decks</a>
-          </li>
-          <li>
-            <a href="/logout">Sair</a>
-          </li>
-        {% else %}
-          <li>
-            <a href="/register">Registrar</a>
-          </li>
-          <li>
-            <a href="/login">Login</a>
-          </li>
-        {% endif %}
-      </ul>
-    </nav>
-      <div class="flex justify-center">
-          <img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!" />
-      </div>
-  </div>
+	{# <div class="content">
+										    <nav class="menu">
+										      <ul>
+										        {% if user.id %}
+										          <li>
+										            <a href="/baralhos">Decks</a>
+										          </li>
+										          <li>
+										            <a href="/logout">Sair</a>
+										          </li>
+										        {% else %}
+										          <li>
+										            <a href="/register">Registrar</a>
+										          </li>
+										          <li>
+										            <a href="/login">Login</a>
+										          </li>
+										        {% endif %}
+										      </ul>
+										    </nav>
+										      <div class="flex justify-center">
+										          <img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!" />
+										      </div>
+										  </div> #}
+
+	<link rel="stylesheet" href="{{ asset('css/landing_page.css') }}">
+
+	<div class="landing-page">
+		<nav class="landing-page-menu">
+			<ul>
+				<li><a href="/" class="a-home">Home</a></li>
+				<li><a href="/cursos">Cursos</a></li>
+				<li><a href="/login">Login</a></li>
+				<li><a href="/register">Registrar</a></li>
+			</ul>
+		</nav>
+		<h1>
+			Uma nova abordagem no ensino do idioma inglês!
+		</h1>
+		<h3>
+			Focamos na conversação, para você garantir aquela vaga 
+																											      internacional ou fazer aquela viagem dos seus sonhos!
+		</h3>
+		<div class="section-3">
+			<span>Depois pode ser tarde!</span>
+		</div>
+		<div class="section-3">
+			<div class="register-button">
+				<a href="/register">Cadastre-se gratuitamente agora</a>
+			</div>
+		</div>
+		<div class="section-3">
+			<div class="login-button">
+				<a href="/login">Ou entre na sua conta</a>
+			</div>
+		</div>
+
+		<div class="section-3 flags">
+			<img src="{{ asset('images/usa_flag.jpg') }}" alt="Bandeira dos Estados Unidos da America!"/>
+			<img src="{{ asset('images/uk_flag.png') }}" alt="Bandeira do Reino Unido"/>
+		</div>
+		<section class="section-methodology">
+			<h2>Nossa metodologia:</h2>
+			<p class="methodology-text">Durante alguns anos de consultas e pesquisas na literatura acerca do aprendizado de idiomas,
+												    juntamos material e conhecimento o suficiente para construirmos a plataforma de ensino/apredizagem de inglês
+				<a href="/">MDCR Learn</a>,
+															    baseada nas teorias da
+				<strong>Curva do esquecimento</strong>
+				e
+				<strong>Repetição espaçada</strong>, focando primariamente no listen (ouvir) e no speaking (falar) 
+															    e durante esse processo, o aluno vai adquirindo naturalmente o reading (ler) e o wrinting (escrever).<br>
+				De acordo com essas premissas, criamos decks diversos, abordando diferentes temas, desde histórias e fábulas, 
+								              até notícias e entrevistas, passando por temas específicos, como viagens e mercado de trabalho.
+			</p>
+		</section>
+		<section class="section-prices">
+    <h2>Preços e planos</h2>
+			<div class="div-prices">
+				<div class="card-price">
+        <h3>Gratuito</h3>
+        </div>
+				<div class="card-price">
+        <h3>Mensal</h3>
+        </div>
+				<div class="card-price">
+        <h3>Anual</h3>
+        </div>
+				<div class="card-price">
+        <h3>Empresarial</h3>
+        </div>
+			</div>
+		</section>
+
+		<br>
+		<br>
+
+	</div>
 {% endblock %}

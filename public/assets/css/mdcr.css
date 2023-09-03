@@ -3,9 +3,11 @@
 @import "lg.css";
 @import "xl.css";
 @import "2xl.css";
+/* @import "landing_page.css"; */
 
 body {
   color: #5b5f59;
+  margin: 0;;
 }
 
 
