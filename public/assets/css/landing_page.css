@@ -1,0 +1,185 @@
+html {
+    min-height: 100%;
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100%;
+}
+
+content {
+    display: block;
+    height: 100%;
+}
+
+#content {
+    display: block;
+    height: 100%;
+}
+
+.landing-page {
+    background-image: url('/assets/images/logo_opacity_2.png');
+    background-color: #528461;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    color: #eeeeee;
+}
+
+.landing-page-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.landing-page-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+.landing-page-menu a {
+    color: #eeeeee;
+    text-decoration: none;
+    padding: 1em;
+}
+
+.a-home {
+    font-weight: 600;
+}
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
+.section-3 {
+    font-size: 2em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.section-3 span {
+    margin-top: 1.5em;
+}
+
+a {
+    text-decoration: none;
+    
+}
+
+.register-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5em;
+    padding-left: .5em;
+    padding-right: .5em;
+}
+.login-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5em;
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.register-button a {
+    background-color: #ffffff;
+    color: #528461;
+    text-align: center;
+    padding: 0.7em;
+    border-radius: 10px;
+}
+.login-button a {
+    background-color: #528461;
+    color: #ffffff;
+    text-align: center;
+    padding: 0.7em;
+    border-radius: 10px;
+    border: #ffffff 1px solid;
+}
+
+.flags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 2em;
+}
+
+.flags img {
+    max-width: 10em;
+    min-width: 10em;
+    margin-top: 1em;
+    max-height: 6em;
+    min-height: 6em;
+    object-fit: fill;
+}
+.section-methodology {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.methodology-text {
+    font-size: 1.4em;
+    max-width: 29em;
+    text-align: justify;
+}
+.methodology-text a{
+    color: rgb(255, 223, 97);
+}
+
+.section-prices {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+.div-prices {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 70em;
+    justify-content: center;
+}
+
+.card-price {
+    width: 15em;
+    height: 25em;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    margin-left: 1em;
+    margin-right: 1em;
+    color: #528461;
+    margin-bottom: 2em;
+}
+
+.price-value {
+    font-size: 1.7em;
+    font-weight: 700;
+    width: 100%;
+    text-align: center;
+    color: #35573f;
+    padding-left: .3em;
+    padding-right: .3em;
+}
+
+.card-price ul {
+    height: 12em;
+    padding-right: 0.7em;
+}
+
+.action-links {
+    display: flex;
+    justify-content: center;
+}
+.action-links a {
+    color: #eeeeee;
+    background-color: #528461;
+    border-radius: 10px;
+    padding: .5em;
+    font-size: 1.2em;
+}

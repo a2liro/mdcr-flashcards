@@ -3,26 +3,35 @@
 
 
 {% block content %}
-<div class="container mdcr-h-center">
-  <div class="mdcr-card">
-    <form action="/register" method="POST" class="mdcr-form-middle">
-      <div class="mdcr-form-group">
-        <label for="email">Nome</label>
-        <input type="text" name="name">
-      </div>
-      <div class="mdcr-form-group">
-        <label for="email">Email</label>
-        <input type="email" name="email">
-      </div>
-      <div class="mdcr-form-group">
-        <label for="password">Senha</label>
-        <input type="password" name="password">
-      </div>
-      <div class="mdcr-form-group">
-        <input type="submit" value="Cadastrar">
-      </div>
-    </form>
-  </div>
+	<link rel="stylesheet" href="{{ asset('css/register.css') }}">
+	<div class="container mdcr-h-center">
+		<div class="mdcr-card">
+			<div class="flex justify-center logo">
+				<img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!"/>
+			</div>
+			<h2>Login</h2>
+			<form action="/register" method="POST" class="mdcr-form-middle">
+				<div class="mdcr-form-group">
+					<label for="email">Nome</label>
+					<input type="text" name="name">
+				</div>
+				<div class="mdcr-form-group">
+					<label for="email">Email</label>
+					<input type="email" name="email">
+				</div>
+				<div class="mdcr-form-group">
+					<label for="password">Senha</label>
+					<input type="password" name="password">
+				</div>
+				<div class="mdcr-form-group">
+					<input type="submit" value="Cadastrar">
+				</div>
+			</form>
+      <br>
+      <div>Já tem uma conta? <a href="/login">Entre</a></div>
+      <br>
+      <div>Não achou o que procura? <a href="/">Paǵina inicial</a></div>
+		</div>
 
-</div>
+	</div>
 {% endblock %}

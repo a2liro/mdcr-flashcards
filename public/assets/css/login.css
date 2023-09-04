@@ -1,0 +1,18 @@
+
+html {
+    height: 100%;
+    background-color: #528461;
+    background-image: url('/assets/images/logo_opacity_2.png');
+
+}
+
+.mdcr-card {
+    max-width: 18em;
+    background-color: #eeeeee;
+    box-shadow: 0px 1px 10px #333333;
+    margin-top: 5em;
+}
+
+.logo {
+    max-width: 6em;
+}

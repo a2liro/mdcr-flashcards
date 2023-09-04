@@ -1,0 +1,30 @@
+.courses {
+    max-width: 900px;
+    margin: auto;
+}
+.mdcr-card-a {
+    width: 18em;
+}
+
+.mdcr-card {
+    height: 14em;
+    width: 100%;
+}
+
+a {
+   text-decoration: none;
+   /* width: 34em; */
+}
+
+.mdcr-card h3 {
+    display: block;
+    text-overflow: ellipsis;
+    /* white-space: nowrap; */
+    word-wrap: break-word;
+    overflow: hidden;
+    line-clamp: 2;
+    color: #528461;
+    font-size: 1em;
+    min-height: 2em;
+    height: 2.3em;
+}
