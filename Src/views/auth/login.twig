@@ -3,8 +3,14 @@
 
 
 {% block content %}
+	<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
 	<div class="container mdcr-h-center">
 		<div class="mdcr-card">
+			<div class="flex justify-center logo">
+				<img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!"/>
+			</div>
+			<h2>Entrar</h2>
 			<form action="/login" method="POST" class="mdcr-form-middle">
 				<div class="mdcr-form-group">
 					<label for="email">Email</label>
@@ -18,6 +24,12 @@
 					<input type="submit" value="Login">
 				</div>
 			</form>
+			<br>
+			<div>Ainda não tem uma conta?
+				<a href="/register">Registre-se</a>
+			</div>
+			<br>
+      <div>Não achou o que procura? <a href="/">Paǵina inicial</a></div>
 		</div>
 
 	</div>

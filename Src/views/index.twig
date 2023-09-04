@@ -3,29 +3,29 @@
 
 {% block content %}
 	{# <div class="content">
-										    <nav class="menu">
-										      <ul>
-										        {% if user.id %}
-										          <li>
-										            <a href="/baralhos">Decks</a>
-										          </li>
-										          <li>
-										            <a href="/logout">Sair</a>
-										          </li>
-										        {% else %}
-										          <li>
-										            <a href="/register">Registrar</a>
-										          </li>
-										          <li>
-										            <a href="/login">Login</a>
-										          </li>
-										        {% endif %}
-										      </ul>
-										    </nav>
-										      <div class="flex justify-center">
-										          <img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!" />
-										      </div>
-										  </div> #}
+													    <nav class="menu">
+													      <ul>
+													        {% if user.id %}
+													          <li>
+													            <a href="/baralhos">Decks</a>
+													          </li>
+													          <li>
+													            <a href="/logout">Sair</a>
+													          </li>
+													        {% else %}
+													          <li>
+													            <a href="/register">Registrar</a>
+													          </li>
+													          <li>
+													            <a href="/login">Login</a>
+													          </li>
+													        {% endif %}
+													      </ul>
+													    </nav>
+													      <div class="flex justify-center">
+													          <img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!" />
+													      </div>
+													  </div> #}
 
 	<link rel="stylesheet" href="{{ asset('css/landing_page.css') }}">
 
@@ -36,6 +36,7 @@
 				<li><a href="/cursos">Cursos</a></li>
 				<li><a href="/login">Login</a></li>
 				<li><a href="/register">Registrar</a></li>
+				<li><a href="#section-prices">Preços</a></li>
 			</ul>
 		</nav>
 		<h1>
@@ -43,7 +44,7 @@
 		</h1>
 		<h3>
 			Focamos na conversação, para você garantir aquela vaga 
-																											      internacional ou fazer aquela viagem dos seus sonhos!
+																																				      internacional ou fazer aquela viagem dos seus sonhos!
 		</h3>
 		<div class="section-3">
 			<span>Depois pode ser tarde!</span>
@@ -66,32 +67,79 @@
 		<section class="section-methodology">
 			<h2>Nossa metodologia:</h2>
 			<p class="methodology-text">Durante alguns anos de consultas e pesquisas na literatura acerca do aprendizado de idiomas,
-												    juntamos material e conhecimento o suficiente para construirmos a plataforma de ensino/apredizagem de inglês
+																								    juntamos material e conhecimento o suficiente para construirmos a plataforma de ensino/apredizagem de inglês
 				<a href="/">MDCR Learn</a>,
-															    baseada nas teorias da
+																														    baseada nas teorias da
 				<strong>Curva do esquecimento</strong>
 				e
 				<strong>Repetição espaçada</strong>, focando primariamente no listen (ouvir) e no speaking (falar) 
-															    e durante esse processo, o aluno vai adquirindo naturalmente o reading (ler) e o wrinting (escrever).<br>
+																														    e durante esse processo, o aluno vai adquirindo naturalmente o reading (ler) e o wrinting (escrever).<br>
 				De acordo com essas premissas, criamos decks diversos, abordando diferentes temas, desde histórias e fábulas, 
-								              até notícias e entrevistas, passando por temas específicos, como viagens e mercado de trabalho.
+																				              até notícias e entrevistas, passando por temas específicos, como viagens e mercado de trabalho.
 			</p>
 		</section>
-		<section class="section-prices">
-    <h2>Preços e planos</h2>
+		<section class="section-prices" id="section-prices">
+			<h2>Preços e planos</h2>
 			<div class="div-prices">
 				<div class="card-price">
-        <h3>Gratuito</h3>
-        </div>
+					<h3>Gratuito</h3>
+					<div class="price-value">Gratis</div>
+					<ul>
+						<li>Acesso a diversos decks completo em todos os níveis.</li>
+						<li>Ferramentas de estudo completas nos decks liberados.</li>
+					</ul>
+				</div>
 				<div class="card-price">
-        <h3>Mensal</h3>
-        </div>
+					<h3>Mensal</h3>
+					<div class="price-value">R$ 15,00</div>
+
+					<ul>
+						<li>Acesso completo a todos os cursos.</li>
+						<li>Conteúdo temático em datas comemorativas.</li>
+						<li>Decks de músicas.
+						</li>
+						<li>Relatórios de estudos.
+						</li>
+					</ul>
+					<div class="action-links">
+						<a href="/contact">Assinar plano mensal</a>
+					</div>
+
+				</div>
 				<div class="card-price">
-        <h3>Anual</h3>
-        </div>
+					<h3>Anual</h3>
+					<div class="price-value">R$ 120,00</div>
+					<ul>
+						<li>Acesso completo a todos os cursos.</li>
+						<li>Conteúdo temático em datas comemorativas.</li>
+						<li>Decks de músicas.
+						</li>
+						<li>Relatórios de estudos.
+						</li>
+						<li>Melhor custo benefício.
+						</li>
+					</ul>
+					<div class="action-links">
+						<a href="/contact">Assinar plano anual</a>
+					</div>
+				</div>
 				<div class="card-price">
-        <h3>Empresarial</h3>
-        </div>
+					<h3>Empresarial</h3>
+					<div class="price-value">Consulte-nos</div>
+					<ul>
+						<li>Acesso completo a todos os cursos.</li>
+						<li>Conteúdo temático em datas comemorativas.</li>
+						<li>Decks de músicas.
+						</li>
+						<li>Relatórios de estudos.
+						</li>
+						<li>Possibilidade de criação de conteúdo direcionado para as necessidades da sua empresa.
+						</li>
+					</ul>
+					<div class="action-links">
+						<a href="/contact">Entrar em contato</a>
+					</div>
+				</div>
 			</div>
 		</section>
 
