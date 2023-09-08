@@ -2,33 +2,7 @@
 {% use "./templates/head.twig" %}
 
 {% block content %}
-	{# <div class="content">
-													    <nav class="menu">
-													      <ul>
-													        {% if user.id %}
-													          <li>
-													            <a href="/baralhos">Decks</a>
-													          </li>
-													          <li>
-													            <a href="/logout">Sair</a>
-													          </li>
-													        {% else %}
-													          <li>
-													            <a href="/register">Registrar</a>
-													          </li>
-													          <li>
-													            <a href="/login">Login</a>
-													          </li>
-													        {% endif %}
-													      </ul>
-													    </nav>
-													      <div class="flex justify-center">
-													          <img src="{{ asset('images/mdcr_logo.png') }}" alt="Logo!" />
-													      </div>
-													  </div> #}
-
 	<link rel="stylesheet" href="{{ asset('css/landing_page.css') }}">
-
 	<div class="landing-page">
 		<nav class="landing-page-menu">
 			<ul>
@@ -88,6 +62,11 @@
 						<li>Acesso a diversos decks completo em todos os níveis.</li>
 						<li>Ferramentas de estudo completas nos decks liberados.</li>
 					</ul>
+					<div class="register-or-signin">
+						<a href="/register">Cadastre-se</a>
+						<span> ou </span>
+						<a href="/login">Entre</a>
+					</div>
 				</div>
 				<div class="card-price">
 					<h3>Mensal</h3>

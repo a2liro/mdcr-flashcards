@@ -11,6 +11,7 @@ use MDCR\Models\Deck;
 use MDCR\Models\Card;
 use MDCR\Models\Note;
 use MDCR\Models\Course;
+use MDCR\Models\PlayedCard;
 use MDCR\Models\User;
 
 class CategoryController extends Controller
@@ -111,6 +112,20 @@ class CategoryController extends Controller
         $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $deck = new Deck();
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
+        if($decks){
+            foreach($decks as $key => $deck) {
+                $playedCardModel = new PlayedCard();
+                $playedCardData = $playedCardModel->findOneByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                // $playedCardData = $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                // var_dump(gettype($playedCardData), 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+                if(gettype($playedCardData) == 'object') {
+                    $deck->wasPlayed = true;
+                } else {
+                    $deck->wasPlayed = false;
+                }
+            }
+        }
+        
         return $this->view(
             'category/show.twig',
             [

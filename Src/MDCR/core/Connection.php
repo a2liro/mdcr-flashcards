@@ -69,8 +69,10 @@ class Connection
         }
         $model = \R::findOne($table, $query, $paramns);
 
-        if ($model) {
+        if ($model && $model != 'NULL') {
             return $model;
+        } else {
+            return null;
         }
     }
 

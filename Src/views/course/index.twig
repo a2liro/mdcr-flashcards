@@ -3,33 +3,33 @@
 
 {% block content %}
 	<link rel="stylesheet" href="{{ asset('css/courses.css') }}">
-    <div class="content">
-        {% include 'templates/menu.twig' %}
-        
-        <section class="courses">
-        <div>
-            <h3>Cursos</h3>
-            <hr>
-        </div>
-            <div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+	<div class="content">
+		{% include 'templates/menu.twig' %}
 
-                {% for course in courses %}
-                    <a href="/cursos/{{ course.id }}/visualizar"
-                       class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+		<section class="courses">
+			<div>
+				<h3>Cursos</h3>
+				<hr>
+			</div>
+			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
 
-                        <div class="mdcr-card">
-                            <img src="/{{ course.thumbnail }}"/>
-                            <div class="mdcr-w-12">
-                                <h3>
-                                {{ course.name }}</div>
-                            </h3>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
+				{% for course in courses %}
+					<a href="/cursos/{{ course.id }}/visualizar" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+
+						<div class="mdcr-card">
+							<img src="/{{ course.thumbnail }}"/>
+							<div class="mdcr-w-12">
+								<h3>
+									{{ course.name }}
+								</h3>
+							</div>
+						</div>
+					</a>
+				{% endfor %}
+			</div>
 
 
-        </section>
-        <a class="add-new-float" href="/organizacoes/criar">+</a>
-    </div>
+		</section>
+		<a class="add-new-float" href="/organizacoes/criar">+</a>
+	</div>
 {% endblock %}

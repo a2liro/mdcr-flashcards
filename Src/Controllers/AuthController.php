@@ -11,7 +11,7 @@ class AuthController extends Controller
     public function login()
     {
         if (self::auth()) {
-            header('Location: /home');
+            header('Location: /cursos');
         }
         $this->view('auth/login.twig');
     }

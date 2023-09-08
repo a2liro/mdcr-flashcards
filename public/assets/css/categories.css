@@ -16,7 +16,7 @@ a {
    /* width: 34em; */
 }
 
-.mdcr-card h3 {
+.card-title  {
     display: block;
     text-overflow: ellipsis;
     /* white-space: nowrap; */
@@ -24,8 +24,14 @@ a {
     overflow: hidden;
     line-clamp: 2;
     color: #528461;
-    font-size: 1em;
+    font-size: 1.2em;
     min-height: 2em;
     height: 2.3em;
+    margin-top: 0.5em;
+    color: #525a54;
+    font-weight: 600;
 }
 
+.manager {
+    margin-left: 1em;
+}
