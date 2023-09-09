@@ -33,7 +33,7 @@ class CategoryController extends Controller
 
     public function store(Request $request,  $courseId)
     {
-        $storeCatgoryService= new StoreCategoryService();
+        $storeCatgoryService = new StoreCategoryService();
         $data = $request->all();
         $data['course_id'] = $courseId;
         $storeCatgoryService->run($data);
@@ -112,20 +112,26 @@ class CategoryController extends Controller
         $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $deck = new Deck();
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
-        if($decks){
-            foreach($decks as $key => $deck) {
+        if ($decks) {
+            foreach ($decks as $key => $deck) {
                 $playedCardModel = new PlayedCard();
-                $playedCardData = $playedCardModel->findOneByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
-                // $playedCardData = $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
-                // var_dump(gettype($playedCardData), 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-                if(gettype($playedCardData) == 'object') {
-                    $deck->wasPlayed = true;
-                } else {
-                    $deck->wasPlayed = false;
-                }
+                // $playedCardData = $playedCardModel->findOneByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                $cardsToPlayAgain = $playedCardModel
+                    // ->exec('select id  from playedcard where user_id = ? and deck_id = ?;', [$user->id, $deck->id]); // $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                    ->exec(
+                        "SELECT * from (SELECT playedcard.*, MAX(nextshow) nextshowmax from card right
+                        join playedcard ON card.id = playedcard.card_id 
+                        where playedcard.user_id = ?
+                        and playedcard.deck_id = ?
+                        GROUP by playedcard.card_id) as t where t.nextshowmax < ?;",
+                        [$user->id, $deck->id, date('Y-m-d H:i:s')]
+                    ); // $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                    $deck->cardsToPlayAgain = sizeof($cardsToPlayAgain);
+
+                var_dump($cardsToPlayAgain, date('Y-m-d H:i:s'));
             }
         }
-        
+
         return $this->view(
             'category/show.twig',
             [

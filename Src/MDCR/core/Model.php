@@ -181,7 +181,6 @@ abstract class Model implements iModel
             . " $this->orderQuery"
             . $this->limitQuery;
 
-            var_dump($query);
         $result = $this->connection->get($query, $this->table);
         $models = [];
         foreach ($result as $item) {

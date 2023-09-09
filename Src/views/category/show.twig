@@ -29,7 +29,7 @@
 						</div>
 					</a>
           <a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
-          <a href="/baralhos/{{ deck.id }}/visualizar" class="manager">{{ deck.wasPlayed }}</a>
+          <a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Cards não vistos: {{ deck.cardsToPlayAgain }}</a>
           </div>
 				{% endfor %}
 			</div>
