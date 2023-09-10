@@ -114,10 +114,9 @@ class CategoryController extends Controller
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
         if ($decks) {
             foreach ($decks as $key => $deck) {
+                $isPlaying = false;
                 $playedCardModel = new PlayedCard();
-                // $playedCardData = $playedCardModel->findOneByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
-                $cardsToPlayAgain = $playedCardModel
-                    // ->exec('select id  from playedcard where user_id = ? and deck_id = ?;', [$user->id, $deck->id]); // $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
+                $totalCardsToPlayAgain = $playedCardModel
                     ->exec(
                         "SELECT * from (SELECT playedcard.*, MAX(nextshow) nextshowmax from card right
                         join playedcard ON card.id = playedcard.card_id 
@@ -125,10 +124,21 @@ class CategoryController extends Controller
                         and playedcard.deck_id = ?
                         GROUP by playedcard.card_id) as t where t.nextshowmax < ?;",
                         [$user->id, $deck->id, date('Y-m-d H:i:s')]
-                    ); // $playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $deck->id]);
-                    $deck->cardsToPlayAgain = sizeof($cardsToPlayAgain);
+                    );
+                $deck->totalCardsToPlayAgain = sizeof($totalCardsToPlayAgain);
 
-                var_dump($cardsToPlayAgain, date('Y-m-d H:i:s'));
+                $totalNewCards = 0;
+                $allCardsFromDeck = $playedCardModel->exec('select id  from card where deck_id = ?;', [$deck->id]);
+                foreach ($allCardsFromDeck as $card) {
+                    $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ?;', [$card['id'], $user->id]);
+                    if (sizeof($playedcard) == 0) {
+                        $totalNewCards++;
+                    } else {
+                        $isPlaying = true;
+                    }
+                }
+                $deck->totalNewCards = $totalNewCards;
+                $deck->isPlaying = $isPlaying;
             }
         }
 

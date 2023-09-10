@@ -7,30 +7,72 @@
 		{% include 'templates/menu.twig' %}
 
 		<section class="courses">
-			<h4>Categoria: {{ category.name }}</h4>
+			<h4>Categoria:
+				{{ category.name }}</h4>
 			<div>
-				<h3>Decks</h3>
+				<h3>Decks em andamento</h3>
 				<hr>
 			</div>
 			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
 
 				{% for deck in decks %}
-        <div>
-					<a href="/baralhos/{{ deck.id }}/jogar/frente/audio" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+					{% if deck.isPlaying == true %}
 
-						<div class="mdcr-card mdcr-card-course-show">
-							<img src="/{{ deck.thumbnail }}"/>
-							<div class="mdcr-w-12">
-								<div class="card-title">
-									{{ deck.name }}</div>
-							</div>
-							<hr>
-							{# <span>{{ category.description }}</span> #}
+						<div>
+							<a href="/baralhos/{{ deck.id }}/jogar/frente/audio" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+
+								<div class="mdcr-card mdcr-card-course-show">
+									<img src="/{{ deck.thumbnail }}"/>
+									<div class="mdcr-w-12">
+										<div class="card-title">
+											{{ deck.name }}</div>
+									</div>
+									<hr>
+									{# <span>{{ category.description }}</span> #}
+									<div>
+										<span>Novos:
+											<strong>{{ deck.totalNewCards }}</strong>
+										</span>
+										<span>A revisar:
+											<strong>{{ deck.totalCardsToPlayAgain }}</strong>
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
 						</div>
-					</a>
-          <a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
-          <a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Cards não vistos: {{ deck.cardsToPlayAgain }}</a>
-          </div>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<div>
+				<h3>Decks novos</h3>
+				<hr>
+			</div>
+			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+
+				{% for deck in decks %}
+					{% if deck.isPlaying == false %}
+						<div>
+							<a href="/baralhos/{{ deck.id }}/jogar/frente/audio" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+
+								<div class="mdcr-card mdcr-card-course-show">
+									<img src="/{{ deck.thumbnail }}"/>
+									<div class="mdcr-w-12">
+										<div class="card-title">
+											{{ deck.name }}</div>
+									</div>
+									<hr>
+									{# <span>{{ category.description }}</span> #}
+									<div>
+										<span>Total de cards:
+											<strong>{{ deck.totalNewCards }}</strong>
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
+						</div>
+					{% endif %}
 				{% endfor %}
 			</div>
 

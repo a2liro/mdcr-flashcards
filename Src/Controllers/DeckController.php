@@ -193,7 +193,8 @@ class DeckController extends Controller
     public function playBack(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();
-        $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        $card = (new Card())->findOneByParams(['deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
         $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
         $difficulty = 3;
@@ -253,14 +254,12 @@ class DeckController extends Controller
             }
         }
 
+        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
         if (gettype($card) == 'array' && !sizeof($card)) {
-            header("Location: /baralhos/{$deckId}/visualizar");
+            header("Location: /categorias/{$deck->category_id}/visualizar");
             die();
         }
-
-
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
 
 
         $image64 = File::getBase64($card['image']);
