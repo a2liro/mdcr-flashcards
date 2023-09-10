@@ -183,3 +183,15 @@ a {
     padding: .5em;
     font-size: 1.2em;
 }
+
+.register-or-signin {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2.3em;
+}
+
+.register-or-signin span {
+    margin-left: 0.4em;
+    margin-right: 0.4em;
+}

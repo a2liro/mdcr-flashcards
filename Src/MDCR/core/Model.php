@@ -104,10 +104,15 @@ abstract class Model implements iModel
     public function findOneByParams(array $data)
     {
         $this->bean = $this->connection->findOneByParams($this->table, $data);
-        foreach ($this->bean as $key => $value) {
-            $this->{$key} = $value;
+        if($this->bean != null) {
+            foreach ($this->bean as $key => $value) {
+                $this->{$key} = $value;
+            }
+            return $this;
+        } else {
+            return null;
         }
-        return $this;
+        
     }
 
     public function findAllByParams(array $data)
@@ -175,6 +180,7 @@ abstract class Model implements iModel
         $query = $this->columnsToSelect . "from $this->table " . $this->whereQuery
             . " $this->orderQuery"
             . $this->limitQuery;
+
         $result = $this->connection->get($query, $this->table);
         $models = [];
         foreach ($result as $item) {

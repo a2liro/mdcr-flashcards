@@ -69,8 +69,10 @@ class Connection
         }
         $model = \R::findOne($table, $query, $paramns);
 
-        if ($model) {
+        if ($model && $model != 'NULL') {
             return $model;
+        } else {
+            return null;
         }
     }
 
@@ -91,9 +93,10 @@ class Connection
         }
         $model = \R::findAll($table, $query, $paramns);
 
-        if ($model) {
-
+        if ($model && $model != 'NULL') {
             return $model;
+        } else {
+            return [];
         }
     }
 
@@ -106,6 +109,11 @@ class Connection
 
     public function exec(string $query, array $data)
     {
-        return \R::getAll($query, $data);
+        $model = \R::getAll($query, $data);
+        if ($model && $model != 'NULL') {
+            return $model;
+        } else {
+            return [];
+        }
     }
 }

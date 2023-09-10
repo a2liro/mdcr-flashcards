@@ -11,6 +11,7 @@ use MDCR\Models\Deck;
 use MDCR\Models\Card;
 use MDCR\Models\Note;
 use MDCR\Models\Course;
+use MDCR\Models\PlayedCard;
 use MDCR\Models\User;
 
 class CategoryController extends Controller
@@ -32,7 +33,7 @@ class CategoryController extends Controller
 
     public function store(Request $request,  $courseId)
     {
-        $storeCatgoryService= new StoreCategoryService();
+        $storeCatgoryService = new StoreCategoryService();
         $data = $request->all();
         $data['course_id'] = $courseId;
         $storeCatgoryService->run($data);
@@ -111,6 +112,36 @@ class CategoryController extends Controller
         $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
         $deck = new Deck();
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
+        if ($decks) {
+            foreach ($decks as $key => $deck) {
+                $isPlaying = false;
+                $playedCardModel = new PlayedCard();
+                $totalCardsToPlayAgain = $playedCardModel
+                    ->exec(
+                        "SELECT * from (SELECT playedcard.*, MAX(nextshow) nextshowmax from card right
+                        join playedcard ON card.id = playedcard.card_id 
+                        where playedcard.user_id = ?
+                        and playedcard.deck_id = ?
+                        GROUP by playedcard.card_id) as t where t.nextshowmax < ?;",
+                        [$user->id, $deck->id, date('Y-m-d H:i:s')]
+                    );
+                $deck->totalCardsToPlayAgain = sizeof($totalCardsToPlayAgain);
+
+                $totalNewCards = 0;
+                $allCardsFromDeck = $playedCardModel->exec('select id  from card where deck_id = ?;', [$deck->id]);
+                foreach ($allCardsFromDeck as $card) {
+                    $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ?;', [$card['id'], $user->id]);
+                    if (sizeof($playedcard) == 0) {
+                        $totalNewCards++;
+                    } else {
+                        $isPlaying = true;
+                    }
+                }
+                $deck->totalNewCards = $totalNewCards;
+                $deck->isPlaying = $isPlaying;
+            }
+        }
+
         return $this->view(
             'category/show.twig',
             [

@@ -16,7 +16,13 @@ class HelloController extends Controller
     // return $this->redirect('/casamento/josilene-e-andre');
   }
 
-  public function hello() {
+  public function contact()
+  {
+    $this->view('contact.twig');
+  }
+
+  public function hello()
+  {
     echo "hello";
   }
 

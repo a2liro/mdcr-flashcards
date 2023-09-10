@@ -15,6 +15,7 @@ $router->get(['/test-get', 'HelloController@testGet']);
 
 
 $router->get(['/home', 'HelloController@home']);
+$router->get(['/contact', 'HelloController@contact']);
 
 
 $router->get(['/organizacoes', 'OrganizationController@index', 'middleware' => ['auth']]);
