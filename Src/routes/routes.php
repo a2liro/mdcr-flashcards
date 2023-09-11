@@ -89,6 +89,9 @@ $router->get(['/login', 'AuthController@login']);
 $router->get(['/logout', 'AuthController@logout']);
 
 $router->post(['/login', 'AuthController@authorize']);
+$router->post(['/login-google', 'AuthController@authorizeGoogle']);
+// $router->post(['/login-google', 'AuthController@authorizeGoogle']);
+$router->post(['/api/login/google/callback', 'AuthController@googleCallback']);
 
 $router->get(['user/{id}', 'UserController@show']);
 
