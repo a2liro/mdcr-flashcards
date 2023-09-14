@@ -9,9 +9,19 @@
   "require": {
     "twig/twig": "^3.3",
     "symfony/asset": "^5.3",
-    "falahati/php-mp3": "dev-master"
+    "falahati/php-mp3": "dev-master",
+    "google/apiclient": "^2.15.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
+  },
+  "scripts": {
+    "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+  },
+  "extra": {
+      "google/apiclient-services": [
+          "Drive",
+          "YouTube"
+      ]
   }
 }

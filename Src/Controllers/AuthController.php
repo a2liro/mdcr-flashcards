@@ -1,9 +1,30 @@
 <?php
 
 namespace App\Controllers;
+/* Handle CORS */
+
+// // Specify domains from which requests are allowed
+// header('Access-Control-Allow-Origin: [::1]:8080');
+
+// // Specify which request methods are allowed
+// header('Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS');
+
+// // Additional headers which may be sent along with the CORS request
+// header('Access-Control-Allow-Headers: X-Requested-With,Authorization,Content-Type');
+
+// // Set the age to 1 day to improve speed/caching.
+// header('Access-Control-Max-Age: 86400');
+
+// // Exit early so the page isn't fully loaded for options requests
+// if (strtolower($_SERVER['REQUEST_METHOD']) == 'options') {
+//     exit();
+// }
+
 
 use MDCR\core\Request;
 use MDCR\Models\User;
+use Google\Client;
+use Google_Client;
 
 class AuthController extends Controller
 {
@@ -30,6 +51,30 @@ class AuthController extends Controller
             unset($_SESSION['nextUrl']);
             header('Location: ' . $next);
         }
+    }
+
+    public function authorizeGoogle(Request $request)
+    {        
+        $data = $request->all();
+        $userModel = new User(); // \R::findOne('user', 'email = ?', [$data['email']]);
+
+        $client = new Google_Client(['client_id' => $data['client_id']]);
+        $profile = $client->verifyIdToken($data['credential']);  
+
+        $user = $userModel->findOneByParams(['email' => $profile['email']]);
+        if($user == null) {
+            $userModel->create(['email' => $profile['email']]);
+        }
+        
+        
+            $_SESSION['logged'] = 'true';
+            $_SESSION['user_id'] = $user->id;
+            $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/cursos';
+            unset($_SESSION['nextUrl']);
+            // header('Location: ' . $next);
+
+            echo ['user' => $profile];
+        
     }
 
     public function create(Request $request)

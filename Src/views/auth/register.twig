@@ -27,11 +27,25 @@
 					<input type="submit" value="Cadastrar">
 				</div>
 			</form>
-      <br>
-      <div>Já tem uma conta? <a href="/login">Entre</a></div>
-      <br>
-      <div>Não achou o que procura? <a href="/">Paǵina inicial</a></div>
+			<br>
+
+			<!-- html do botão -->
+			<button id="googleSignIn">
+				<object data="{{ asset('icons/google.svg') }}"></object>
+				Ou Cadastre-se com o Google
+			</button>
+
+			<div>Já tem uma conta?
+				<a href="/login">Entre</a>
+			</div>
+			<br>
+			<div>Não achou o que procura?
+				<a href="/">Paǵina inicial</a>
+			</div>
 		</div>
 
 	</div>
+	 <script src="https://accounts.google.com/gsi/client" onload="console.log('TODO: add onload function')"></script>
+
+	<script src="{{ asset('js/google-login.js') }}"></script>
 {% endblock %}
