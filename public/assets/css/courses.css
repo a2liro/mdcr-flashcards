@@ -27,5 +27,10 @@ a {
     font-size: 1em;
     min-height: 2em;
     height: 2.3em;
+    margin-bottom: 0.2em;
+}
+
+.description {
+    color: rgb(129, 129, 129);
 }
 
