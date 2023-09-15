@@ -62,8 +62,12 @@ class AuthController extends Controller
         $profile = $client->verifyIdToken($data['credential']);  
 
         $user = $userModel->findOneByParams(['email' => $profile['email']]);
+        var_dump($profile, $user);
         if($user == null) {
-            $userModel->create(['email' => $profile['email']]);
+            $userModel->create([
+                'email' => $profile['email'],
+                'name' => $profile['name']
+            ]);
         }
         
         
