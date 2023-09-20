@@ -108,9 +108,9 @@ class CourseController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $course = new Course();
-        $course = $course->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $course = $course->findOneByParams(['id' => $id]);
         $category = new Category();
-        $categories = $category->findAllByParams(['user_id' => $user->id, 'course_id' => $id]);
+        $categories = $category->findAllByParams(['course_id' => $id]);
         return $this->view(
             'course/show.twig',
             [

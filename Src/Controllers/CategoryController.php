@@ -109,7 +109,7 @@ class CategoryController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $category = new Category();
-        $category = $category->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $category = $category->findOneByParams(['id' => $id]);
         $deck = new Deck();
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
         if ($decks) {
