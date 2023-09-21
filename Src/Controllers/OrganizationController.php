@@ -112,7 +112,7 @@ class OrganizationController extends Controller
         $getCoursesByOrganizationIdService = new GetCoursesByOrganizationIdService();
         $user = (new User())->getCurrentUser();
         $organization = new Organization();
-        $organization = $organization->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $organization = $organization->findOneByParams(['id' => $id]);
         $courses = $getCoursesByOrganizationIdService->run(organizationId: $id);
         return $this->view(
             'organization/show.twig',

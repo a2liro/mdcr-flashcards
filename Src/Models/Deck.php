@@ -15,6 +15,7 @@ class Deck extends Model
         'is_english' => ['boolean'],
         'category_id' => ['integer'],
         'thumbnail' => ['string'],
+        'audiofile' => ['string'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

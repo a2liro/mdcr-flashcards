@@ -32,6 +32,15 @@
             <input type="file" name="thumbnail" id="thumbnail" accept="image/*" placeholder="Thumbnail do deck" />
           </div>
 
+            <div class="mdcr-form-group">
+              <label for="audiofile">Audio</label>
+              <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
+            </div>
+
+            <div class="mdcr-form-group">
+              <audio controls style="display: none;" id="audio-preview-container"></audio>
+            </div>
+
           <div class="mdcr-form-group mdcr-checkbox">
             <input type="checkbox" name="isEnglish" />
             <label for="isEnglish">Este deck é para estudo do idioma inglês?</label>
