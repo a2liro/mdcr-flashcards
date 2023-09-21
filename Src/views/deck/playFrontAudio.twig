@@ -24,7 +24,6 @@
         <h3>Audio:</h3>
         <div class="card-content">
           {% if card.audioFile64 %}
-            <h4>Arquivo de áudio</h4>
             <audio autoplay controls src="data:audio/mpeg;base64,{{ card.audioFile64 }}" id="audio"></audio>
           {% endif %}
 

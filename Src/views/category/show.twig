@@ -40,7 +40,19 @@
 								</div>
 							</a>
 							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
+							<a href="#" class="manager" id="deck-listen-{{ deck.id }}">Ouvir</a>
 						</div>
+						<script>
+							let audioElement{{ deck.id }} = document.getElementById('deck-listen-{{ deck.id }}')
+							audioElement{{ deck.id }}.addEventListener('click', function (event) {
+								event.preventDefault();
+								console.log('jaaaaaaaaaava')
+								let audioPlayElement = document.getElementById('audioplay-full');
+								audioPlayElement.src = '/{{ deck.audiofile }}'
+								let audioPlayDivElement = document.getElementById('audioplay-full-div');
+								audioPlayDivElement.style.display = 'block';		
+							})
+						</script>
 					{% endif %}
 				{% endfor %}
 			</div>
@@ -49,6 +61,14 @@
 				<hr>
 			</div>
 			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+				<div id="audioplay-full-div">
+					<div id="audioplay-full-close"><div>x &nbsp;</div></div>
+					<audio autoplay controls src="" id="audioplay-full">
+						O seu navegador não suporta o elemento
+						<code>audio</code>.
+					</audio>
+				</div>
+				
 
 				{% for deck in decks %}
 					{% if deck.isPlaying == false %}
@@ -71,12 +91,36 @@
 								</div>
 							</a>
 							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
+							<a href="#" class="manager" id="deck-listen-{{ deck.id }}">Ouvir</a>
+
 						</div>
+						<script>
+							let audioElement{{ deck.id }} = document.getElementById('deck-listen-{{ deck.id }}')
+							audioElement{{ deck.id }}.addEventListener('click', function (event) {
+								event.preventDefault();
+								console.log('jaaaaaaaaaava')
+								let audioPlayElement = document.getElementById('audioplay-full');
+								audioPlayElement.src = '/{{ deck.audiofile }}'
+								let audioPlayDivElement = document.getElementById('audioplay-full-div');
+								audioPlayDivElement.style.display = 'block';		
+							})
+						</script>
 					{% endif %}
 				{% endfor %}
+				
 			</div>
+
 
 		</section>
 		<a class="add-new-float" href="/categorias/{{ category.id }}/baralhos/criar">+</a>
+		<script>
+		let closeBtn = document.getElementById('audioplay-full-close');
+		closeBtn.addEventListener('click', function(event) {
+			let audioPlayElement = document.getElementById('audioplay-full');
+			audioPlayElement.src = ''
+			let audioPlayDivElement = document.getElementById('audioplay-full-div');
+			audioPlayDivElement.style.display = 'none';
+		})
+		</script>
 	</div>
 {% endblock %}

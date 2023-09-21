@@ -87,29 +87,45 @@ class DeckController extends Controller
         // }
         // return $this->view('deck/user/edit.twig', ['deck' => $deck]);
 
+        
+        if ($_FILES['audiofile']['size']) {
+            $audioPath = File::save($_FILES['audiofile'], 'decks');
+            $data['audiofile'] = $audioPath ? $audioPath : null;
+        }
+
+        if ($_FILES['thumbnail']['size']) {
+            $thumbnailPath = File::save($_FILES['thumbnail'], 'decks');
+            $data['thumbnail'] = $thumbnailPath ? $thumbnailPath : null;
+        }
+
         $user = new User();
         $user = $user->getCurrentUser();
         $deck = new Deck();
-        $deck = $deck->findOneByParams(['user_id' => $user->id, 'id' => $id]);
+        $deck = $deck->findOneByParams(['id' => $id]);
         /* $deck->update($data); */
 
         $data['isEnglish'] = isset($data['isEnglish']) ? $data['isEnglish'] : null;
 
         if ($deck->id == $id) {
+            if(strlen($data['audiofile']) < 3) {
+                $data['audiofile'] = $deck->audiofile;
+            }
+            if(strlen($data['thumbnail']) < 3) {
+                $data['thumbnail'] = $deck->thumbnail;
+            }
             $deck->update($data);
         }
-        return header("Location: /baralhos/$deck->id/visualizar");
+        return header("Location: /categorias/$deck->category_id/visualizar");
     }
 
 
     public function show(Request $request, $id)
     {
         $user = (new User())->getCurrentUser();
-        $deck = (new Deck())->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $deck = (new Deck())->findOneByParams(['id' => $id]);
 
         $cards = (new Card()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
         ->where(
-            ['user_id', '=', $user->id],
             ['deck_id', '=', $id]
         )
             ->orderBy(['id' => 'desc'])

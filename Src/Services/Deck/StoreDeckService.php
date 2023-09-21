@@ -18,6 +18,9 @@ class StoreDeckService
         if ($_FILES['thumbnail']['size']) {
             $data['thumbnail'] = File::save($_FILES['thumbnail'], 'decks');
         }
+        if ($_FILES['audiofile']['size']) {
+            $data['audiofile'] = File::save($_FILES['audiofile'], 'decks');
+        }
         $deck = $storeDeckRepository->run($data, $user);
         $user->ownDeckList[] = $deck;
         $user->store();

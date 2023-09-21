@@ -13,6 +13,6 @@ class GetCoursesByOrganizationIdRepository
     $user = new User();
     $user = $user->getCurrentUser();
     $course = new Course();
-    return $course->findAllByParams(['user_id' => $user->id, 'organization_id' => $organizationId]);
+    return $course->findAllByParams(['organization_id' => $organizationId]);
   }
 }

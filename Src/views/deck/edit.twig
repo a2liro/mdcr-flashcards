@@ -18,13 +18,30 @@
     <h3>Editar baralho</h3>
     <div class="container mdcr-h-center">
       <div class="mdcr-card">
-        <form action="/baralhos/{{deck.id}}/update" method="POST" class="mdcr-form-middle">
+        <form action="/baralhos/{{deck.id}}/update" method="POST" class="mdcr-form-middle" enctype="multipart/form-data">
           <div class="mdcr-form-group">
             <label for="name">Nome do baralho</label>
             <input type="text" name="name" value="{{ deck.name }}" placeholder="Novo baralho" required />
           </div>
+          <div class="mdcr-form-group">
+            <label for="name">Descrição</label>
+            <input type="text" name="description" value="{{deck.description}}" placeholder="Descrição" required />
+          </div>
+          <div class="mdcr-form-group">
+            <label for="thumbnail">Thumbnail do deck</label>
+            <input type="file" name="thumbnail" id="thumbnail" accept="image/*" placeholder="Thumbnail do deck" />
+          </div>
+
+            <div class="mdcr-form-group">
+              <label for="audiofile">Audio</label>
+              <input type="file" name="audiofile" id="audiofile" accept="audio/*" onchange="showPreviewAudio(event)" placeholder="Arquivo de áudio" />
+            </div>
+
+            <div class="mdcr-form-group">
+              <audio controls style="display: none;" id="audio-preview-container"></audio>
+            </div>
           <div class="mdcr-form-group mdcr-checkbox">
-            {% if deck.is_english == 'on' %}
+            {% if deck.is_english == 'on' or deck.is_english == '1' %}
               <input type="checkbox" name="isEnglish" checked />
             {% else %}
               <input type="checkbox" name="isEnglish" />
