@@ -30,7 +30,6 @@ class CardController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $deck = (new Deck())->where(
-          ['user_id', '=', $user->id],
           ['id', '=', $deckId]
         )->get();
         return $this->view('card/create.twig', ['deck' => $deck[0]]);
@@ -106,7 +105,6 @@ class CardController extends Controller
           )->get();
 
           $currentDeck = (new Deck())->where(
-            ['user_id', '=', $user->id],
             ['id', '=', $deckId]
           )->get()[0];
 
@@ -140,7 +138,7 @@ class CardController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $card = new Card();
-        $card = $card->findOneByParams(['user_id' => $user->id, 'id' => $id]);
+        $card = $card->findOneByParams([ 'id' => $id]);
         /* $card->update($data); */
         if ($card->id == $id) {
             $card->update($data);

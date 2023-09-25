@@ -124,7 +124,7 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $deck = (new Deck())->findOneByParams(['id' => $id]);
 
-        $cards = (new Card()) //->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]);
+        $cards = (new Card())
         ->where(
             ['deck_id', '=', $id]
         )
@@ -133,23 +133,7 @@ class DeckController extends Controller
 
 
         $currentDate = date('Y-m-d H:i:s');
-//        $cards = (new Card)->select('id')
-//            ->where(
-//                ['user_id', '=', $user->id],
-//                ['deck_id', '=', $id],
-//                ['nextshow', '<=', "'$currentDate'"]
-//            )
-//            ->get();
-        $deck->cardsToPlay = sizeof($cards);
 
-        $reverseCards = (new Card)->select('id')
-            ->where(
-                ['user_id', '=', $user->id],
-                ['deck_id', '=', $id],
-                ['nextshow_reverse', '<=', "'$currentDate'"]
-            )
-            ->get();
-        $deck->cardsToPlayReverse = sizeof($reverseCards);
 
 
         return $this->view(
@@ -170,7 +154,7 @@ class DeckController extends Controller
         )
             ->limit(1)
             ->get();
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
         if (sizeof($cards)) {
             $image64 = File::getBase64($cards[0]->image);
@@ -254,7 +238,7 @@ class DeckController extends Controller
 
             $playedCardModel = new PlayedCard();
             $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
-            $cardsPlayedFromUser = $playedCardModel->where(['user_id', '=', $user->id])->where(['deck_id', '=', $deckId])->get();
+            $cardsPlayedFromUser = $playedCardModel->where(['deck_id', '=', $deckId])->get();
 
             foreach ($allCardsFromDeck as $key => $item) {
                 foreach ($cardsPlayedFromUser as $keyInside => $played) {
@@ -303,13 +287,12 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
         $cards = (new Card)->where(
-            ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
         )
             ->orderBy(['id', 'asc'])
             ->get();
 
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
         $fullAudio = null;
 
@@ -344,13 +327,12 @@ class DeckController extends Controller
 
         $currentDate = date('Y-m-d H:i:s');
         $cards = (new Card)->where(
-            ['user_id', '=', $user->id],
             ['deck_id', '=', $deckId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
         )->orderBy(['nextshow_reverse', 'asc'])
             ->limit(1)
             ->get();
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
         return $this->view('deck/playFrontReverse.twig', ['card' => $cards[0], 'deck' => $deck]);
     }
@@ -360,14 +342,13 @@ class DeckController extends Controller
         $user = (new User())->getCurrentUser();
         $currentDate = date('Y-m-d H:i:s');
         $cards = (new Card)->where(
-            ['user_id', '=', $user->id],
             ['id', '=', $cardId],
             ['nextshow_reverse', '<=', "'$currentDate'"]
         )->orderBy(['nextshow_reverse', 'asc'])
             ->limit(1)
             ->get();
         // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
-        $deck = (new Deck())->findOneByParams(['user_id' => $user->id, 'id' => $deckId]);
+        $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
         if (sizeof($cards)) {
             $image64 = File::getBase64($cards[0]->image);

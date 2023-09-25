@@ -32,22 +32,6 @@
   <div class="content">
     {% include 'templates/menu.twig' %}
     <h3>Deck - {{ deck.name }} - {{ cards|length }} cartas</h3>
-    <div class="mdcr-form-group mdcr-form-group-row">
-      {% if deck.cardsToPlay > 0 %}
-        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/audio"><button class="mdcr-half-button">Estudar ({{ deck.cardsToPlay }})</button></a>
-      {% else %}
-        <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
-      {% endif %}
-      {% if deck.cardsToPlayReverse > 0 %}
-        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/jogar/frente/reverso"><button class="mdcr-half-button">Estudar reverso ({{ deck.cardsToPlayReverse }})</button></a>
-      {% else %}
-        <a class="mdcr-half-button" href="#"><button class="mdcr-half-button">Nada por aqui</button></a>
-      {% endif %}
-
-      {% if deck.is_english == 'on' %}
-        <a class="mdcr-half-button" href="/baralhos/{{ deck.id }}/ouvir-todos"><button class="mdcr-half-button">Ouvir todos</button></a>
-      {% endif %}
-    </div>
 
     <section class="categories">
       <h4>cards</h4>
@@ -58,10 +42,15 @@
             <span>
               <div id="standalone-container">
                 <div id="editor-container-{{ card.id }}"></div>
+                
+              </div>
+            </span>
+            <span>
+              <div id="standalone-container">
+                <div id="editor-container-back{{ card.id }}"></div>
               </div>
             </span>
 
-            {# <span>{{ card.front }}</span> <span>{{ card.back }}</span> #}
             <div class="actions">
               <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/visualizar">{{ icon('show', 'blue') }}</a>
               <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'green') }}</a>
@@ -69,6 +58,7 @@
             </div>
           </li>
           <input type="hidden" id="front-input-{{ card.id }}" value="{{ card.front }}" />
+          <input type="hidden" id="back-input{{ card.id }}" value="{{ card.back }}" />
 
           <script>
             var quill = new Quill('#editor-container-{{ card.id }}', {
@@ -77,6 +67,15 @@
             let frontInput{{ card.id }} = document.getElementById('front-input-{{ card.id }}')
             quill.setContents(JSON.parse(frontInput{{ card.id }}.value))
             quill.enable(false)
+          </script>
+
+           <script>
+            var quillBack = new Quill('#editor-container-back{{ card.id }}', {
+              theme: 'bubble'
+            })
+            let backInput{{ card.id }} = document.getElementById('back-input{{ card.id }}')
+            quillBack.setContents(JSON.parse(backInput{{ card.id }}.value))
+            quillBack.enable(false)
           </script>
         {% endfor %}
       </ul>
