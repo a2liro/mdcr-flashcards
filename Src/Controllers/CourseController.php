@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Course\GetCourseCategoriesAndDecksService;
 use App\Services\Course\GetCoursesByUserService;
 use App\Services\Course\StoreCourseService;
 use App\Services\Course\StoreDeckService;
@@ -106,11 +107,14 @@ class CourseController extends Controller
 
     public function show(Request $request, int $id)
     {
+        $getCourseCategoriesAndDecksService = new GetCourseCategoriesAndDecksService();
         $user = (new User())->getCurrentUser();
         $course = new Course();
         $course = $course->findOneByParams(['id' => $id]);
         $category = new Category();
         $categories = $category->findAllByParams(['course_id' => $id]);
+        $course->data = $getCourseCategoriesAndDecksService->run(courseId: $id);
+
         return $this->view(
             'course/show.twig',
             [
