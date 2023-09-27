@@ -21,9 +21,6 @@ class GetCourseCategoriesAndDecksRepository
       where course.id = ?",
             [$courseId]
         );
-
-        var_dump($courseId);
-
         
         if ($decks) {
             foreach ($decks as $key => $deck) {
@@ -55,7 +52,6 @@ class GetCourseCategoriesAndDecksRepository
             }
         }
         
-        // var_dump($decks);
         usort($decks, function($a, $b) {
             return $a['totalCardsToPlayAgain'] < $b['totalCardsToPlayAgain'];
         });
