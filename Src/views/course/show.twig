@@ -15,22 +15,125 @@
 			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
 
 				{% for category in categories %}
-					<a href="/categorias/{{ category.id }}/visualizar" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+					<a href="/categorias/{{ category.id }}/visualizar" class="mdcr-sm-w-122 mdcr-md-w-42  flex mx-lg-12 mx-1 mdcr-card-a2">
 
-						<div class="mdcr-card mdcr-card-course-show">
-							<img src="/{{ category.thumbnail }}"/>
+						<div class="mdcr-card2 mdcr-card-course-show">
+							{# <img src="/{{ category.thumbnail }}"/> #}
 							<div class="mdcr-w-12">
-								<h3>
+								<span>
 									{{ category.name }}
-								</h3>
+								</span>
 							</div>
 							<hr>
 							{# <span>{{ category.description }}</span> #}
 						</div>
-					</a>
+					</a> |
 				{% endfor %}
 			</div>
 
+		</section>
+
+		<section>
+		<div>
+				<h3>Decks em andamento</h3>
+				<hr>
+			</div>
+			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+
+				{% for deck in course.data %}
+					{% if deck.isPlaying == true %}
+
+						<div>
+							<a href="/baralhos/{{ deck.id }}/jogar/frente/audio" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+
+								<div class="mdcr-card mdcr-card-course-show">
+									<img src="/{{ deck.thumbnail }}"/>
+									<div class="mdcr-w-12">
+										<div class="card-title">
+											{{ deck.name }}</div>
+									</div>
+									<hr>
+									{# <span>{{ category.description }}</span> #}
+									<div>
+										<span>Novos:
+											<strong>{{ deck.totalNewCards }}</strong>
+										</span>
+										<span>A revisar:
+											<strong>{{ deck.totalCardsToPlayAgain }}</strong>
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
+							<a href="#" class="manager" id="deck-listen-{{ deck.id }}">Ouvir</a>
+						</div>
+						<script>
+							let audioElement{{ deck.id }} = document.getElementById('deck-listen-{{ deck.id }}')
+							audioElement{{ deck.id }}.addEventListener('click', function (event) {
+								event.preventDefault();
+								console.log('jaaaaaaaaaava')
+								let audioPlayElement = document.getElementById('audioplay-full');
+								audioPlayElement.src = '/{{ deck.audiofile }}'
+								let audioPlayDivElement = document.getElementById('audioplay-full-div');
+								audioPlayDivElement.style.display = 'block';		
+							})
+						</script>
+					{% endif %}
+				{% endfor %}
+			</div>
+			<div>
+				<h3>Decks novos</h3>
+				<hr>
+			</div>
+			<div class="flex flex-md-row flex-sm-column flex-wrap justify-center">
+				<div id="audioplay-full-div">
+					<div id="audioplay-full-close"><div>x &nbsp;</div></div>
+					<audio autoplay controls src="" id="audioplay-full">
+						O seu navegador não suporta o elemento
+						<code>audio</code>.
+					</audio>
+				</div>
+				
+
+				{% for deck in course.data %}
+					{% if deck.isPlaying == false %}
+						<div>
+							<a href="/baralhos/{{ deck.id }}/jogar/frente/audio" class="mdcr-sm-w-12 mdcr-md-w-4  flex mx-lg-1 mx-1 mdcr-card-a">
+
+								<div class="mdcr-card mdcr-card-course-show">
+									<img src="/{{ deck.thumbnail }}"/>
+									<div class="mdcr-w-12">
+										<div class="card-title">
+											{{ deck.name }}</div>
+									</div>
+									<hr>
+									{# <span>{{ category.description }}</span> #}
+									<div>
+										<span>Total de cards:
+											<strong>{{ deck.totalNewCards }}</strong>
+										</span>
+									</div>
+								</div>
+							</a>
+							<a href="/baralhos/{{ deck.id }}/visualizar" class="manager">Gerenciar</a>
+							<a href="#" class="manager" id="deck-listen-{{ deck.id }}">Ouvir</a>
+
+						</div>
+						<script>
+							let audioElement{{ deck.id }} = document.getElementById('deck-listen-{{ deck.id }}')
+							audioElement{{ deck.id }}.addEventListener('click', function (event) {
+								event.preventDefault();
+								console.log('jaaaaaaaaaava')
+								let audioPlayElement = document.getElementById('audioplay-full');
+								audioPlayElement.src = '/{{ deck.audiofile }}'
+								let audioPlayDivElement = document.getElementById('audioplay-full-div');
+								audioPlayDivElement.style.display = 'block';		
+							})
+						</script>
+					{% endif %}
+				{% endfor %}
+				
+			</div>
 		</section>
 		<a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
 	</div>
