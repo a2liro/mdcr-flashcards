@@ -136,5 +136,14 @@
 			</div>
 		</section>
 		<a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
+		<script>
+		let closeBtn = document.getElementById('audioplay-full-close');
+closeBtn.addEventListener('click', function (event) {
+let audioPlayElement = document.getElementById('audioplay-full');
+audioPlayElement.src = ''
+let audioPlayDivElement = document.getElementById('audioplay-full-div');
+audioPlayDivElement.style.display = 'none';
+})
+	</script>
 	</div>
 {% endblock %}

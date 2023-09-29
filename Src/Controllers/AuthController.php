@@ -62,17 +62,21 @@ class AuthController extends Controller
         $profile = $client->verifyIdToken($data['credential']);  
 
         $user = $userModel->findOneByParams(['email' => $profile['email']]);
-        var_dump($profile, $user);
         if($user == null) {
-            $userModel->create([
+            $newUser = $userModel->create([
                 'email' => $profile['email'],
-                'name' => $profile['name']
+                'name' => $profile['name'],
+                'type' => 'student'
             ]);
+            $_SESSION['logged'] = 'true';
+            $_SESSION['user_id'] = $newUser->id;
+        }else {
+            $_SESSION['logged'] = 'true';
+            $_SESSION['user_id'] = $user->id;
         }
         
         
-            $_SESSION['logged'] = 'true';
-            $_SESSION['user_id'] = $user->id;
+            
             $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/cursos';
             unset($_SESSION['nextUrl']);
             // header('Location: ' . $next);

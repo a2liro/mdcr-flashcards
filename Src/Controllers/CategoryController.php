@@ -13,6 +13,7 @@ use MDCR\Models\Note;
 use MDCR\Models\Course;
 use MDCR\Models\PlayedCard;
 use MDCR\Models\User;
+use PhpParser\Comment\Doc;
 
 class CategoryController extends Controller
 {
@@ -108,8 +109,10 @@ class CategoryController extends Controller
     public function show(Request $request, int $id)
     {
         $user = (new User())->getCurrentUser();
-        $category = new Category();
-        $category = $category->findOneByParams(['id' => $id]);
+        $categoryModel = new Category();
+        
+        $category = $categoryModel->findOneByParams(['id' => $id]);
+        $categories = $categoryModel->findAllByParams(['course_id' => intval($category->course_id)]);
         $deck = new Deck();
         $decks = $deck->findAllByParams(['category_id' => $category->id]);
         if ($decks) {
@@ -145,6 +148,7 @@ class CategoryController extends Controller
         return $this->view(
             'category/show.twig',
             [
+                'categories' => $categories,
                 'category' => $category,
                 'decks' => $decks,
             ]

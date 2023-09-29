@@ -310,7 +310,6 @@ class DeckController extends Controller
             // }
             // else {
             //     $audio = MpegAudio::fromFile(__DIR__ . '/../../storage/' . $card->audiofile);
-            //     var_dump($audio->getTotalDuration());
             //     $fullAudio->append($audio);
             // }
         }
