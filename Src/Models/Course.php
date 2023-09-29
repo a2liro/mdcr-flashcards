@@ -14,6 +14,7 @@ class Course extends Model
         'description' => ['string'],
         'thumbnail' => ['string'],
         'organization_id' => ['integer'],
+        'type' => ['string'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

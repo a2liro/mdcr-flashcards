@@ -36,6 +36,7 @@ class CourseController extends Controller
         $storeCourseService= new StoreCourseService();
         $data = $request->all();
         $data['organization_id'] = $organizationId;
+        $data['type'] = 'private';
         $storeCourseService->run($data);
         $this->redirect("/organizacoes/{$organizationId}/visualizar");
     }
