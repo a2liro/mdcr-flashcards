@@ -85,6 +85,7 @@ class AuthController extends Controller
     {
         $user = new User();
         $data = $request->all();
+        $data['type'] = 'student';
         if (isset($data['password'])) {
             $options = [
                 'cost' => 10
@@ -92,7 +93,7 @@ class AuthController extends Controller
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT, $options);
         }
         if ($user->create($data)) {
-            return $this->redirect('/home');
+            return $this->redirect('/cursos');
         }
     }
 

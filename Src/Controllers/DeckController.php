@@ -47,16 +47,17 @@ class DeckController extends Controller
     }
 
 
-    public function create(Request $request, $categoryId)
+    public function create(Request $request, $categoryId, $courseId)
     {
-        return $this->view('deck/create.twig', ['categoryId' => $categoryId]);
+        return $this->view('deck/create.twig', ['categoryId' => $categoryId, 'courseId' => $courseId]);
     }
 
-    public function store(Request $request, $categoryId)
+    public function store(Request $request, $categoryId, $courseId)
     {
         $storeDeckService = new StoreDeckService();
         $data = $request->all();
         $data['category_id'] = intval($categoryId);
+        $data['course_id'] = intval($courseId);
         $storeDeckService->run($data);
         return $this->redirect("/categorias/$categoryId/visualizar");
     }
