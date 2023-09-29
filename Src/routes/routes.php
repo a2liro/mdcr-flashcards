@@ -26,8 +26,8 @@ $router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'm
 $router->get(['/categorias/{id}/visualizar', 'CategoryController@show', 'middleware' => ['auth']]);
 $router->get(['/categorias/{id}/editar', 'CategoryController@show', 'middleware' => ['auth']]);
 $router->get(['/categorias/{id}/excluir', 'CategoryController@show', 'middleware' => ['auth']]);
-$router->get(['/categorias/{categoryId}/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
-$router->post(['/categorias/{categoryId}/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
+$router->get(['/cursos/{courseId}/categorias/{categoryId}/baralhos/criar', 'DeckController@create', 'middleware' => ['auth']]);
+$router->post(['/cursos/{courseId}/categorias/{categoryId}/baralhos/criar', 'DeckController@store', 'middleware' => ['auth']]);
 
 
 
