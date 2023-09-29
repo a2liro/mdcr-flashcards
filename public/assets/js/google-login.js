@@ -1,5 +1,3 @@
-
-
 const handleCredentialResponse = function (obj) {
   if (!obj.credential) {
     alert("Não foi possível fazer login com sua conta do google");
@@ -7,25 +5,24 @@ const handleCredentialResponse = function (obj) {
   }
 
   const options = {
-    method: 'POST',
+    method: "POST",
     // mode: 'cors',
     headers: {
-        'Content-Type': 'application/json',
-        // 'Access-Control-Allow-Origin': '[::1]:8080',
-        // 'X-Requested-With': 'XmlHttpRequest'
+      "Content-Type": "application/json",
+      // 'Access-Control-Allow-Origin': '[::1]:8080',
+      // 'X-Requested-With': 'XmlHttpRequest'
     },
     body: JSON.stringify(obj),
-  }
+  };
 
-  fetch('/login-google', options)
-  .then((response) => response.text())
-  .then((text) => {
-    console.log(text);
-    window.location.href = '/cursos'
-  })
-  .catch((error) => {
-    console.log('Error: ', error)
-  })
+  fetch("/login-google", options)
+    .then((response) => response.text())
+    .then((text) => {
+      window.location.href = "/cursos";
+    })
+    .catch((error) => {
+      console.log("Error: ", error);
+    });
 };
 
 const googleSignIn = document.getElementById("googleSignIn");
@@ -38,6 +35,11 @@ window.addEventListener("load", function () {
   });
 
   googleSignIn.addEventListener("click", function () {
+    let Cookies = document.cookie.split(";");
+    for (let i = 0; i < Cookies.length; i++) {
+      document.cookie =
+        Cookies[i] + "=; expires=" + new Date(0).toUTCString();
+    }
     document.cookie = "g_astate";
     google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
