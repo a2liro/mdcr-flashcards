@@ -31,6 +31,7 @@ function migrateModel($table, $fields, $conn, $model) {
         }
     }
     $model->create($data);
+    $model->delete();
 }
 
 if($argv[1] === 'do') {

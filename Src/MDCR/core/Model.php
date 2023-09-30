@@ -40,7 +40,13 @@ abstract class Model implements iModel
 
     public function store()
     {
-        $this->connection->store($this->bean);
+        $model = $this->connection->createModel($this->table);
+        $modelArray =  $this->bean->export();
+        foreach ($this->fields as $field => $value) {
+            $model = $this->checkIfKeyExistsInArray($field, $modelArray, $model);
+            $this->checkIfKeyIsUnique($field, $modelArray);
+        }
+        $this->connection->store($model);
     }
 
     public function update(array $data = null): object
