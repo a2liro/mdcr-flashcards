@@ -30,7 +30,7 @@ abstract class Model implements iModel
         $model = $this->connection->createModel($this->table);
         foreach ($this->fields as $field => $value) {
             $model = $this->checkIfKeyExistsInArray($field, $data, $model);
-            $this->checkIfKeyIsUnique($field, $data);
+            $this->checkIfKeyIsUnique($field, $data, 'store');
         }
 
         $this->connection->store($model);
@@ -38,13 +38,16 @@ abstract class Model implements iModel
         return $model;
     }
 
+    /**
+     * Update model
+     */
     public function store()
     {
         $model = $this->connection->createModel($this->table);
         $modelArray =  $this->bean->export();
         foreach ($this->fields as $field => $value) {
             $model = $this->checkIfKeyExistsInArray($field, $modelArray, $model);
-            $this->checkIfKeyIsUnique($field, $modelArray);
+            $this->checkIfKeyIsUnique($field, $modelArray, 'update', $model);
         }
         $this->connection->store($model);
     }
@@ -58,7 +61,7 @@ abstract class Model implements iModel
         } else {
             foreach ($this->fields as $field => $value) {
                 $model = $this->checkIfKeyExistsInArray($field, $data, $this);
-                $this->checkIfKeyIsUnique($field, $data);
+                $this->checkIfKeyIsUnique($field, $data, 'update', $model);
             }
             $this->connection->update($model);
         }
@@ -84,12 +87,23 @@ abstract class Model implements iModel
         return $model;
     }
 
-    protected function checkIfKeyIsUnique(string $field, array $data)
+    protected function checkIfKeyIsUnique(string $field, array $data, $operationType, $oldValues = null)
+
     {
         $modelInDb = null;
         foreach ($this->fields[$field] as $value) {
-            if (str_contains($value, 'unique')) {
+            if (
+                (str_contains($value, 'unique') &&
+                    $operationType == 'store') ||
+                (str_contains($value, 'unique') &&
+                    $operationType == 'update' &&
+                    $data[$field] != $oldValues[$field])
+
+            ) {
                 // função para garatir que não existe no banco
+
+
+
                 $modelInDb = $this->connection->findOneByParams($this->table, [$field => $data[$field]]);
                 if ($modelInDb) {
                     echo '<br>________________________________________________<br>';
@@ -110,7 +124,7 @@ abstract class Model implements iModel
     public function findOneByParams(array $data)
     {
         $this->bean = $this->connection->findOneByParams($this->table, $data);
-        if($this->bean != null) {
+        if ($this->bean != null) {
             foreach ($this->bean as $key => $value) {
                 $this->{$key} = $value;
             }
@@ -118,7 +132,6 @@ abstract class Model implements iModel
         } else {
             return null;
         }
-        
     }
 
     public function findAllByParams(array $data)
@@ -219,5 +232,4 @@ abstract class Model implements iModel
 
         return $modelData;
     }
-
 }
