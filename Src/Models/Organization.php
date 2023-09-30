@@ -11,7 +11,7 @@ class Organization extends Model
         'id' => ['integer'],
         'user_id' => ['integer'],
         'name' => ['string'],
-        'tax_number' => ['string'],
+        'tax_number' => ['string,unique'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];
