@@ -88,7 +88,7 @@ abstract class Model implements iModel
     {
         $modelInDb = null;
         foreach ($this->fields[$field] as $value) {
-            if ($value == 'unique') {
+            if (str_contains($value, 'unique')) {
                 // função para garatir que não existe no banco
                 $modelInDb = $this->connection->findOneByParams($this->table, [$field => $data[$field]]);
                 if ($modelInDb) {

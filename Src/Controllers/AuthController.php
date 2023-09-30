@@ -98,7 +98,11 @@ class AuthController extends Controller
             ];
             $data['password'] = password_hash($data['password'], PASSWORD_BCRYPT, $options);
         }
-        if ($user->create($data)) {
+        $newUser = $user->create($data);
+        if ($newUser) {
+
+            $_SESSION['logged'] = 'true';
+            $_SESSION['user_id'] = $newUser->id;
             return $this->redirect('/cursos');
         }
     }
