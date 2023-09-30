@@ -17,6 +17,7 @@ class Deck extends Model
         'course_id' => ['integer'],
         'thumbnail' => ['string'],
         'audiofile' => ['string'],
+        'status' => ['string'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

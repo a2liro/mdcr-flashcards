@@ -58,6 +58,7 @@ class DeckController extends Controller
         $data = $request->all();
         $data['category_id'] = intval($categoryId);
         $data['course_id'] = intval($courseId);
+        $data['status'] = 'closed';
         $storeDeckService->run($data);
         return $this->redirect("/categorias/$categoryId/visualizar");
     }

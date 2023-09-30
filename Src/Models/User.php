@@ -12,6 +12,7 @@ class User extends Model
         'email' => ['string, unique'],
         'password' => ['string'],
         'type' => ['string'],
+        'organization_id' => ['integer'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

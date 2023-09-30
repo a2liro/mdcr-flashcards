@@ -15,13 +15,23 @@ class GetCourseCategoriesAndDecksRepository
         $user = new User();
         $user = $user->getCurrentUser();
         $deckModel = new Deck();
-        $decks = $deckModel->exec(
-            "SELECT deck.* from deck join category on category.id = deck.category_id
-      join course on course.id = category.course_id
-      where course.id = ?",
-            [$courseId]
-        );
-        
+        if ($user->type == 'student') {
+            $decks = $deckModel->exec(
+                "SELECT deck.* from deck join category on category.id = deck.category_id
+          join course on course.id = category.course_id
+          where deck.status = 'open' and course.id = ?",
+                [$courseId]
+            );
+        } else {
+            $decks = $deckModel->exec(
+                "SELECT deck.* from deck join category on category.id = deck.category_id
+          join course on course.id = category.course_id
+          where course.id = ?",
+                [$courseId]
+            );
+        }
+
+
         if ($decks) {
             foreach ($decks as $key => $deck) {
                 $isPlaying = false;
@@ -51,12 +61,10 @@ class GetCourseCategoriesAndDecksRepository
                 $decks[$key]['isPlaying'] = $isPlaying;
             }
         }
-        
-        usort($decks, function($a, $b) {
+
+        usort($decks, function ($a, $b) {
             return $a['totalCardsToPlayAgain'] < $b['totalCardsToPlayAgain'];
         });
         return $decks;
     }
-
-    
 }

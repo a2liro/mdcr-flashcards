@@ -66,7 +66,8 @@ class AuthController extends Controller
             $newUser = $userModel->create([
                 'email' => $profile['email'],
                 'name' => $profile['name'],
-                'type' => 'student'
+                'type' => 'student',
+                'organization_id' => 1
             ]);
             $_SESSION['logged'] = 'true';
             $_SESSION['user_id'] = $newUser->id;
@@ -90,6 +91,7 @@ class AuthController extends Controller
         $user = new User();
         $data = $request->all();
         $data['type'] = 'student';
+        $data['organization_id'] = 1;
         if (isset($data['password'])) {
             $options = [
                 'cost' => 10

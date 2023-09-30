@@ -114,7 +114,12 @@ class CategoryController extends Controller
         $category = $categoryModel->findOneByParams(['id' => $id]);
         $categories = $categoryModel->findAllByParams(['course_id' => intval($category->course_id)]);
         $deck = new Deck();
-        $decks = $deck->findAllByParams(['category_id' => $category->id]);
+        if($user->type == 'student') {
+            $decks = $deck->findAllByParams(['category_id' => $category->id, 'status' => 'open']);
+        } else {
+            $decks = $deck->findAllByParams(['category_id' => $category->id]);
+        }
+        
         if ($decks) {
             foreach ($decks as $key => $deck) {
                 $isPlaying = false;
