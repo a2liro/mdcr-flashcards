@@ -30,7 +30,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"></script>
 
   <div class="content">
-    {% include 'templates/menu.twig' %}
+    {% include 'templates/menu.twig' with {user:user} only %}
     <h3>Deck: {{ deck.name }}</h3>
     <h3>Cards novos: {{ totalNewCards }}</h3>
     <h3>Cards para repetir: {{ totalCardsToPlayAgain }} </h3>

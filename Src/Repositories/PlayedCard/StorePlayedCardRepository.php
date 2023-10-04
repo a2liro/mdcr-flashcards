@@ -17,7 +17,7 @@ class StorePlayedCardRepository
         $playedCard = new PlayedCard();
         $playedCard->create($data);
         $user->ownPlayedCardList[] = $playedCard;
-        $user->store();
+        // $user->store();
         return $playedCard;
     }
 }

@@ -152,7 +152,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 1em;
+  margin: 0.25em;
   border: 1px #b8c7a3 solid;
   border-radius: .5em;
   width: 85%;
@@ -497,5 +497,22 @@ footer {
   justify-content: end;
   margin-right: 2em;
   cursor: pointer;
+}
+
+.deck-actions {
+  /* background-color: red; */
+  display: flex;
+  justify-content: space-between;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.deck-actions a {
+  /* background-color: #528461; */
+  width: 2em;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 

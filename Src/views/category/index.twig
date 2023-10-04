@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="content">
-    {% include 'templates/menu.twig' %}
+    {% include 'templates/menu.twig' with {user:user} only %}
     <section class="organizations">
       <ul class="mdcr-model-list">
         {% for organization in organizations %}
