@@ -24,6 +24,7 @@ class StorePlayedCardService
             'card_id' => $cardId,
             'difficulty' => $note,
             'nextshow' => $nextTime,
+            'was_deleted' => false,
         ];
 
         $playedCard = StorePlayedCardRepository::run($data);

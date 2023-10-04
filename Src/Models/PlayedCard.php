@@ -17,6 +17,7 @@ class PlayedCard extends Model
         'nextshow' => ['datetime'],
         'lastinterval' => ['integer'],
         'is_reverse' => ['boolean'],
+        'was_deleted' => ['boolean'],
         'created_at' => ['datetime'],
         'updated_at' => ['datetime'],
     ];

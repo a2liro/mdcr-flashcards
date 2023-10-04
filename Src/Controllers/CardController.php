@@ -165,7 +165,6 @@ class CardController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
         return $this->view('card/exclude.twig', ['card' => $cards[0], 'deckId' => $deckId]);
@@ -176,7 +175,6 @@ class CardController extends Controller
 
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
             ['id', '=', $cardId]
         )->get();
 

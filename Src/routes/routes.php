@@ -53,6 +53,8 @@ $router->get(['/baralhos/{deckId}/jogar/frente/card/{cardId}', 'DeckController@p
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}', 'DeckController@playBack', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos', 'DeckController@playAllAudios', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/ouvir-todos/gravados', 'DeckController@playAllAudiosRecorded', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/reiniciar', 'DeckController@restartView', 'middleware' => ['auth']]);
+$router->get(['/baralhos/{deckId}/restart', 'DeckController@restart', 'middleware' => ['auth']]);
 //reverse
 $router->get(['/baralhos/{deckId}/jogar/frente/reverso', 'DeckController@playFrontReverse', 'middleware' => ['auth']]);
 $router->get(['/baralhos/{deckId}/jogar/verso/card/{cardId}/reverso', 'DeckController@playBackReverse', 'middleware' => ['auth']]);
