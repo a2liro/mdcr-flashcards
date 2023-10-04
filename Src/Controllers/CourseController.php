@@ -121,6 +121,7 @@ class CourseController extends Controller
             [
                 'course' => $course,
                 'categories' => $categories,
+                'user' => $user,
             ]
         );
     }

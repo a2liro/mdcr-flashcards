@@ -31,10 +31,17 @@
 
   <div class="content">
     {% include 'templates/menu.twig' %}
-    <h3>Deck - {{ deck.name }} - {{ cards|length }} cartas</h3>
+    <h3>Deck: {{ deck.name }}</h3>
+    <h3>Cards novos: {{ totalNewCards }}</h3>
+    <h3>Cards para repetir: {{ totalCardsToPlayAgain }} </h3>
+    <h3>Total de cards: {{ cards|length }}</h3>
+    <h3>Repetições executadas: {{ totalPlayedCards }}</h3>
 
     <section class="categories">
-      <h4>cards</h4>
+      {% if user.type == 'student' %}
+        <a href="/baralhos/{{ deck.id }}/reiniciar">Reiniciar deck</a>
+      {% else %}
+       <h4>cards</h4>
       <a href="/baralhos/{{ deck.id }}/cards/criar">+ flash card</a>
       <ul class="mdcr-model-list">
         {% for card in cards %}
@@ -79,6 +86,7 @@
           </script>
         {% endfor %}
       </ul>
+      {% endif %}
     </section>
 
     <a class="add-new-float" href="/baralhos/criar">+</a>
