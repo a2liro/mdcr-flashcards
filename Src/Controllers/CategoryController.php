@@ -156,6 +156,7 @@ class CategoryController extends Controller
                 'categories' => $categories,
                 'category' => $category,
                 'decks' => $decks,
+                'user' => $user,
             ]
         );
     }

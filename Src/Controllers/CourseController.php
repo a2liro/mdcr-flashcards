@@ -20,9 +20,11 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
+        $user = new User();
+        $user = $user->getCurrentUser();
         $getCoursesByUser = new GetCoursesByUserService();
         $courses = $getCoursesByUser->run();
-        return $this->view('course/index.twig', ['courses' => $courses]);
+        return $this->view('course/index.twig', ['courses' => $courses, 'user' => $user,]);
     }
 
 
