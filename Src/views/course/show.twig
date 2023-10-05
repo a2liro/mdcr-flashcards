@@ -147,7 +147,9 @@
 				
 			</div>
 		</section>
-		<a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
+		{% if user.type == 'admin'%}
+			<a class="add-new-float" href="/cursos/{{ course.id }}/categorias/criar">+</a>
+		{% endif %}
 		<script>
 		let closeBtn = document.getElementById('audioplay-full-close');
 closeBtn.addEventListener('click', function (event) {
