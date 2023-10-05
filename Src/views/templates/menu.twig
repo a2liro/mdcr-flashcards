@@ -28,21 +28,21 @@
 			transform: translate(0, -11px) rotate(45deg);
 		}
 
-    .global-menu {
-      opacity: 0;
-      height: 1px;
-      position:relative;
-      top: -12em;
-      transition: all 1s;
-    }
+		.global-menu {
+			opacity: 0;
+			height: 1px;
+			position: relative;
+			top: -12em;
+			transition: all 1s;
+		}
 
-     .global-menu-open {
-      opacity: 1;
-      height: 10em;
-      position: relative;
-      top: 0em;
-      transition: all 0.5s linear;
-    }
+		.global-menu-open {
+			opacity: 1;
+			height: 10em;
+			position: relative;
+			top: 0;
+			transition: all 0.5s linear;
+		}
 	</style>
 	<nav class="menu">
 		<div class="container" onclick="myFunction(this)">
@@ -50,22 +50,49 @@
 			<div class="bar2"></div>
 			<div class="bar3"></div>
 		</div>
-    <div id="global-menu" class="global-menu">
-		<ul>
-			<li><a href="/">Home</a></li>
-			<li><a href="/organizacoes">Organização</a></li>
-			<li><a href="/cursos">Cursos</a></li>
-			<li><a href="/perfil">Perfil - {{ user.name }}</a></li>
-			<li><a href="/logout">Sair</a></li>
-		</ul>
-    	</div>
-	</nav>
+		<div id="global-menu" class="global-menu">
+			{% if user.type == 'student' %}
+				<ul>
+					<li>
+						<a href="/">Home</a>
+					</li>
+					<li>
+						<a href="/cursos">Cursos</a>
+					</li>
+					<li>
+						<a href="/perfil">Perfil -
+							{{ user.name }}</a>
+					</li>
+					<li>
+						<a href="/logout">Sair</a>
+					</li>
+				</ul>
+			{% else %}
+				<li>
+					<a href="/">Home</a>
+				</li>
+				<li>
+					<a href="/organizacoes">Organização</a>
+				</li>
+				<li>
+					<a href="/cursos">Cursos</a>
+				</li>
+				<li>
+					<a href="/perfil">Perfil -
+						{{ user.name }}</a>
+				</li>
+				<li>
+					<a href="/logout">Sair</a>
+				</li>
+				{%  %}
+			</div>
+		</nav>
 
-	<script>
-		function myFunction(x) {
+		<script>
+			function myFunction(x) {
 x.classList.toggle("change");
 let menuButton = document.getElementById('global-menu');
 menuButton.classList.toggle("global-menu-open");
 }
-	</script>
-{% endblock %}
+		</script>
+	{% endblock %}
