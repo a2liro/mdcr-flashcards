@@ -115,14 +115,14 @@ body {
 
 .mdcr-form-group a button {
   height: 2.4em;
-  border: 1px #528461 solid;
+  border: 2px #528461 solid;
   border-radius: 5px 5px 5px 5px;
   width: 100%;
   font-size: 1.2em;
   padding-left: 1em;
   padding-right: 1em;
-  background-color: #528461;
-  color: white;
+  background-color: white;
+  color: #528461;
 }
 
 .mdcr-form-group-row {
@@ -252,7 +252,7 @@ img {
 
 .menu ul li {
   padding: .5em;
-  border-bottom: 3px solid #EADEDB;
+  /* border-bottom: 3px solid #EADEDB; */
 }
 
 .menu a {
@@ -317,6 +317,10 @@ footer {
 
 .audio-control-buttons {
   height: 3em;
+  background-color: white;
+  color: red;
+  border: 2px solid red;
+  border-radius: 0.4em;
 }
 
 .submit {
@@ -345,6 +349,7 @@ footer {
 
 .background-red {
   background-color: red;
+  color: white;
 }
 
 .mdcr-checkbox {
@@ -588,4 +593,21 @@ footer {
   border: #a708d7 solid 2px;
   color: white;
   font-weight: 700;
+}
+
+del {
+  text-decoration: none;
+  color: #b30000;
+  background: #fadad7;
+}
+
+ins {
+  background: #eaf2c2;
+  color: #406619;
+  text-decoration: none;
+}
+
+#result {
+  margin-top: 1em;
+  font-size: 1.3em;
 }
