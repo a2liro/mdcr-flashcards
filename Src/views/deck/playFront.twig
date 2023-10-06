@@ -69,12 +69,27 @@ var b = document.getElementById('p');
 var result = document.getElementById('result');
 
 function changed() {
-  let aValue = a.value
-  .replace('"ops":', '')
-  .replace('"insert":', '')
-  .replace("\\n", '')
+
+  a.value = a.value.split('/')[0];
+
+  a.value = a.value
+  .replaceAll('"ops":', '')
+  .replaceAll('"insert":', '')
+  .replaceAll('"attributes":', '')
+  .replaceAll('"size":', '')
+  .replaceAll('"large"', '')
+  .replaceAll('"normal"', '')
+  .replaceAll('"color":', '')
+  .replaceAll('"background":', '')
+  .replaceAll("\\n", '')
+  .replaceAll("],", '')
+  .replaceAll("},", '')
+  .replaceAll("{,", '')
+  .replace(/",/g, '')
+  .replaceAll(/#[0-9A-Fa-f]{6}/g, '')
   .replace(/[\[\]{}"]/g, '')
-  .toLowerCase();
+
+  let aValue = a.value.toLowerCase();
 	var diff = JsDiff['diffChars'](aValue, b.textContent.toLowerCase());
 	var fragment = document.createDocumentFragment();
 	for (var i=0; i < diff.length; i++) {
