@@ -236,11 +236,11 @@ class DeckController extends Controller
         for ($count = 1; $count <= 5; $count++) {
             $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
             if ($interval < 60) {
-                $card->intervals[$count] = $interval . ' minutos';
+                $card->intervals[$count] = $interval . 'm';
             } else if ($interval < 1440) {
-                $card->intervals[$count] = intdiv($interval, 60) . ' hora(s)';
+                $card->intervals[$count] = intdiv($interval, 60) . 'h';
             } else {
-                $card->intervals[$count] = intdiv($interval, 1440) . ' dia(s)';
+                $card->intervals[$count] = intdiv($interval, 1440) . 'd';
             }
         }
 
