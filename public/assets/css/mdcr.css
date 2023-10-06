@@ -521,3 +521,71 @@ footer {
 .title-card-side {
   font-size: 1.3em;
 }
+
+.notes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.notes-group {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+  /* gap: 1; */
+}
+
+.notes-group a {
+  width: auto;
+}
+
+.notes-group .notes-button-line-1 {
+  width: 49%;
+}
+
+.notes-group .notes-button-line-2 {
+  width: 32%;
+}
+
+.notes-group button {
+  width: 100%;
+  height: 3em;
+  border-radius: .5em;
+}
+
+.button-note-very-easy {
+  background-color: #3f9d3a;
+  border: #3f9d3a solid 2px;
+  color: white;
+  font-weight: 700;
+}
+
+.button-note-easy {
+  background-color: white;
+  border: #3f9d3a solid 2px;
+  color: #3f9d3a;
+  font-weight: 700;
+}
+
+.button-note-normal {
+  background-color: white;
+  border: #876a38 solid 2px;
+  color: #876a38;
+  font-weight: 700;
+}
+
+.button-note-hard {
+  background-color: white;
+  border: #fe5252 solid 2px;
+  color: #fe5252;
+  font-weight: 700;
+}
+
+
+.button-note-very-hard {
+  background-color: #a708d7;
+  border: #a708d7 solid 2px;
+  color: white;
+  font-weight: 700;
+}

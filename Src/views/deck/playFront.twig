@@ -141,6 +141,8 @@
         btnStart.innerHTML = 'Treinar pronúncia'
       })
     </script>
-    <a class="add-new-float" href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+    {% if user.type == 'admin'%}
+			<a class="add-new-float" href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/editar">{{ icon('edit', 'white') }}</a>
+		{% endif %}
   </div>
 {% endblock %}
