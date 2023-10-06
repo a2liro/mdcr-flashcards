@@ -32,44 +32,44 @@ class CalcNoteService
             return 80;
         }
         elseif ($value >= 560) {
-            return 160;
+            return 120;
         }
         elseif ($value >= 528) {
-            return 320;
+            return 200;
         }
         elseif ($value >= 496) {
-            return 640;
+            return 333;
         }
         elseif ($value >= 464) {
-            return 1280;
+            return 550;
         }
         elseif ($value >= 432) {
-            return 2560;
+            return 913;
         }elseif ($value >= 400) {
-            return 5120;
+            return 1510;
         } elseif ($value >= 368) {
-            return 10240;
+            return 2510;
         } elseif ($value >= 336) {
-            return 20480;
+            return 4166;
         }
         elseif ($value >= 304) {
-            return 40960;
+            return 6640;
         }
         elseif ($value >= 272) {
-            return 81920;
+            return 12000;
         }
         elseif ($value >= 240) {
-            return 150000;
+            return 22200;
         }
         elseif ($value >= 208) {
-            return 280000;
+            return 40000;
         }
         elseif ($value >= 176) {
-            return 320000;
+            return 65000;
         }elseif ($value >= 144) {
-            return 390000;
+            return 95000;
         } else {
-            return 450000 - 5*5;
+            return 120000;
         }
     }
 }

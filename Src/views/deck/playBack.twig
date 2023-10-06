@@ -32,12 +32,12 @@
     </nav>
     <h4>Deck: {{ deck.name }}</h4>
     <section class="cards-playing" id="cards-playing">
-      <h3>Frente:</h3>
+      <span class="title-card-side">Frente:</span>
       <div id="standalone-container">
         <div id="editor-container"></div>
       </div>
       <hr />
-      <h3>Verso:</h3>
+      <span class="title-card-side">Verso:</span>
       <div class="card-content">
 
         <div id="standalone-container">
@@ -48,9 +48,9 @@
       <div class="card-actions">
         <nav class="menu">
           <ul>
-            {# <li class="mdcr-form-group">
+            <li class="mdcr-form-group">
               <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/1"><button>Muito fácil - ({{card.intervals[1]}})</button></a>
-            </li> #}
+            </li>
             <li class="mdcr-form-group">
               <a href="/baralhos/{{ deck.id }}/cards/{{ card.id }}/nota/2"><button>Fácil - ({{card.intervals[2]}})</button></a>
             </li>

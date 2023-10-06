@@ -135,7 +135,6 @@
 							let audioElement{{ deck.id }} = document.getElementById('deck-listen-{{ deck.id }}')
 							audioElement{{ deck.id }}.addEventListener('click', function (event) {
 								event.preventDefault();
-								console.log('jaaaaaaaaaava')
 								let audioPlayElement = document.getElementById('audioplay-full');
 								audioPlayElement.src = '/{{ deck.audiofile }}'
 								let audioPlayDivElement = document.getElementById('audioplay-full-div');
