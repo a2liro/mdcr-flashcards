@@ -53,23 +53,23 @@ class CalcNoteService
             return 4166;
         }
         elseif ($value >= 304) {
-            return 6640;
+            return 8000;
         }
         elseif ($value >= 272) {
-            return 12000;
+            return 15000;
         }
         elseif ($value >= 240) {
-            return 22200;
+            return 35000;
         }
         elseif ($value >= 208) {
-            return 40000;
+            return 60000;
         }
         elseif ($value >= 176) {
-            return 65000;
+            return 90000;
         }elseif ($value >= 144) {
-            return 95000;
+            return 150000;
         } else {
-            return 120000;
+            return 259500;
         }
     }
 }
