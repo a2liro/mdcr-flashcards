@@ -150,6 +150,10 @@ class CategoryController extends Controller
             }
         }
 
+        usort($decks, function ($a, $b) {
+            return $a['totalCardsToPlayAgain'] < $b['totalCardsToPlayAgain'];
+        });
+
         return $this->view(
             'category/show.twig',
             [

@@ -254,7 +254,7 @@ class DeckController extends Controller
         $cardModel = new Card();
 
 
-        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id]);
+        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? and playedcard.was_deleted = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id, 0]);
 
         if (sizeof($cardsToPlayAgainData)) {
             $card = $cardsToPlayAgainData[0];
