@@ -2,6 +2,8 @@
 
 namespace MDCR\Models;
 
+use App\Services\User\GetAuthenticatedUserService;
+use App\Services\User\GetCurrentUserService;
 use MDCR\core\Model;
 
 class User extends Model
@@ -24,8 +26,6 @@ class User extends Model
 
     public function getCurrentUser()
     {
-        $userId = $_SESSION['user_id'];
-        $user = $this->findOneByParams(['id' => $userId]);
-        return $user;
+        return GetAuthenticatedUserService::run();
     }
 }

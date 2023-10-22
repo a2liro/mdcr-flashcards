@@ -98,6 +98,12 @@ $router->post(['/api/login/google/callback', 'AuthController@googleCallback']);
 $router->get(['user/{id}', 'UserController@show']);
 
 
+// Rotas da api
+
+$router->post(['/api/login', 'AuthController@apiLogin']);
+$router->get(['/api/courses', 'CourseController@apiIndex', 'middleware' => ['auth_api']]);
+
+
 
 
 
