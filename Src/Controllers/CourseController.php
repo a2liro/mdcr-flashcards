@@ -137,6 +137,21 @@ public function apiIndex(Request $request)
         );
     }
 
+    public function apiShow(Request $request, mixed $id)
+    {
+        $getCourseCategoriesAndDecksService = new GetCourseCategoriesAndDecksService();
+        $category = new Category();
+        $categories = $category->findAllByParams(['course_id' => $id]);
+        $data = $getCourseCategoriesAndDecksService->run(courseId: $id);
+
+        return $this->json(
+            [
+                'decks' => $data,
+                'categories' => $categories,
+            ]
+        );
+    }
+
     public function exclude(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();

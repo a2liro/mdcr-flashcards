@@ -146,6 +146,7 @@ class AuthController extends Controller
     {
 
         $data = $request->all();
+        // var_dump($data);
         $user = new User(); // \R::findOne('user', 'email = ?', [$data['email']]);
 
         $user = $user->findOneByParams(['email' => $data['email']]);
