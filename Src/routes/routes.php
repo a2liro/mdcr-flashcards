@@ -103,6 +103,8 @@ $router->get(['user/{id}', 'UserController@show']);
 $router->post(['/api/login', 'AuthController@apiLogin']);
 $router->get(['/api/courses', 'CourseController@apiIndex', 'middleware' => ['auth_api']]);
 $router->get(['/api/courses/show/{id}', 'CourseController@apiShow', 'middleware' => ['auth_api']]);
+$router->get(['/api/decks/play/{deckId}', 'DeckController@apiPlayAllAudios', 'middleware' => ['auth_pai']]);
+
 
 
 

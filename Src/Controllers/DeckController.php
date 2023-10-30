@@ -420,4 +420,66 @@ class DeckController extends Controller
         $playedCardModel->exec("update playedcard set was_deleted = true where deck_id = ? and user_id = ?", [$deckId, $user->id]);
         header("Location: /baralhos/{$deckId}/visualizar");
     }
+
+    public function apiPlayAllAudios(Request $request, int $deckId)
+    {
+        $card = [];
+        $user = (new User())->getCurrentUser();
+        $cardModel = new Card();
+
+        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? and playedcard.was_deleted = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id, 0]);
+
+        if (sizeof($cardsToPlayAgainData)) {
+            $card = $cardsToPlayAgainData[0];
+        } else {
+
+            $playedCardModel = new PlayedCard();
+            $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
+            $cardsPlayedFromUser = $playedCardModel
+                ->where(['deck_id', '=', $deckId])
+                ->where(['user_id', '=', $user['id']])
+                ->where(['was_deleted', '=', 0])
+                ->get();
+
+            foreach ($allCardsFromDeck as $key => $item) {
+                foreach ($cardsPlayedFromUser as $keyInside => $played) {
+                    if ($played->card_id === $item->id) {
+                        unset($allCardsFromDeck[$key]);
+                    }
+                }
+            }
+
+            if (sizeof($allCardsFromDeck)) {
+                $values = array_values($allCardsFromDeck);
+                $card = array_shift($values)->toArray();
+            }
+        }
+
+        $deck = (new Deck())->findOneByParams(['id' => $deckId]);
+
+        if (gettype($card) == 'array' && !sizeof($card)) {
+            header("Location: /categorias/{$deck->category_id}/visualizar");
+            die();
+        }
+
+
+        // $image64 = File::getBase64($card['image']);
+        // $audioFile64 = File::getBase64($card['audiofile']);
+
+
+
+        // if (!strlen($audioFile64) && !strlen($card['audio'])) {
+        //     $this->playFront($request, $deckId, $card['id']);
+        //     return 0;
+        // }
+
+        // $card['image64'] = $image64;
+        // $card['audioFile64'] = $audioFile64;
+
+        // $audio64 = File::getBase64($card['audio']);
+        // $card['audio64'] = $audio64;
+
+        //        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
+        return $this->json( ['card' => $card]);
+    }
 }
