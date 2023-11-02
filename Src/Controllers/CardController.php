@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\Controller;
+use App\Services\Deck\GetNextCardByDeckService;
 use App\Services\PlayedCard\StorePlayedCardService;
 use MDCR\core\File;
 use MDCR\core\Request;
@@ -327,5 +328,14 @@ class CardController extends Controller
             }
         }
 
+    }
+
+    public function apiNote(Request $request, int $deckId, int $cardId, $note)
+    {
+
+        StorePlayedCardService::run($deckId, $cardId, $note);
+        $card = GetNextCardByDeckService::run($deckId);
+
+        return $this->json( ['message' => 'success', 'card' => $card ] );
     }
 }
