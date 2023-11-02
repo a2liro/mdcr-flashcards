@@ -480,6 +480,20 @@ class DeckController extends Controller
         // $card['audio64'] = $audio64;
 
         //        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
+
+        $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($card["id"]);
+
+
+        for ($count = 1; $count <= 5; $count++) {
+            $interval = CalcNoteService::run($count, $lasFiveNotes); //CardController::calcNote($count, $card->difficulty);
+            if ($interval < 60) {
+                $card['intervals'][$count] = $interval . 'm';
+            } else if ($interval < 1440) {
+                $card['intervals'][$count] = intdiv($interval, 60) . 'h';
+            } else {
+                $card['intervals'][$count] = intdiv($interval, 1440) . 'd';
+            }
+        }
         return $this->json( ['card' => $card]);
     }
 }
