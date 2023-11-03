@@ -66,7 +66,7 @@ class GetCourseCategoriesAndDecksRepository
             $totalNewCards = 0;
             $allCardsFromDeck = $playedCardModel->exec('select id  from card where deck_id = ?;', [$deck['id']]);
             foreach ($allCardsFromDeck as $card) {
-                $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ? and was_deleted = 0;', [$card['id'], $user->id]);
+                $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ? and was_deleted = 0;', [$card['id'], $user['id']]);
                 if (sizeof($playedcard) == 0) {
                     $totalNewCards++;
                 } else {
