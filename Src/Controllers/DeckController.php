@@ -6,6 +6,7 @@ use App\Controllers\Controller;
 use App\Repositories\Course\GetCourseCategoriesAndDecksRepository;
 use App\Services\Card\CalcNoteService;
 use App\Services\Course\GetCourseCategoriesAndDecksService;
+use App\Services\Deck\GetNextCardByDeckService;
 use App\Services\Deck\StoreDeckService;
 use App\Services\PlayedCard\GetLastFivePlayedCardsByDeckService;
 use MDCR\core\File;
@@ -263,8 +264,8 @@ class DeckController extends Controller
             $playedCardModel = new PlayedCard();
             $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
             $cardsPlayedFromUser = $playedCardModel
-                ->where(['deck_id', '=', $deckId, 'user_id' => $user->id])
-                ->where(['user_id', '=', $user->id])
+                ->where(['deck_id', '=', $deckId])
+                ->where(['user_id', '=', $user['id']])
                 ->where(['was_deleted', '=', 0])
                 ->get();
 
@@ -419,5 +420,11 @@ class DeckController extends Controller
         $playedCardModel = new PlayedCard();
         $playedCardModel->exec("update playedcard set was_deleted = true where deck_id = ? and user_id = ?", [$deckId, $user->id]);
         header("Location: /baralhos/{$deckId}/visualizar");
+    }
+
+    public function apiPlayAllAudios(Request $request, int $deckId)
+    {
+        $card = GetNextCardByDeckService::run($deckId);
+        return $this->json( ['card' => $card]);
     }
 }

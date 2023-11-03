@@ -28,6 +28,7 @@ class HelloController extends Controller
 
   public function api(Request $request)
   {
+    
     $arr = array();
     $arr['name'] = 'André';
     $arr['age'] = 21;

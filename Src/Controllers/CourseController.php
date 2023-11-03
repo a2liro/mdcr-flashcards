@@ -7,6 +7,7 @@ use App\Services\Course\GetCourseCategoriesAndDecksService;
 use App\Services\Course\GetCoursesByUserService;
 use App\Services\Course\StoreCourseService;
 use App\Services\Course\StoreDeckService;
+use App\Services\User\AuthenticUserByToken;
 use MDCR\core\File;
 use MDCR\core\Request;
 use MDCR\Models\Category;
@@ -25,6 +26,14 @@ class CourseController extends Controller
         $getCoursesByUser = new GetCoursesByUserService();
         $courses = $getCoursesByUser->run();
         return $this->view('course/index.twig', ['courses' => $courses, 'user' => $user,]);
+    }
+public function apiIndex(Request $request)
+    {
+        $user = new User();
+        $user = $user->getCurrentUser();
+        $getCoursesByUser = new GetCoursesByUserService();
+        $courses = $getCoursesByUser->run();
+        return $this->json(['courses' => $courses]);
     }
 
 
@@ -124,6 +133,21 @@ class CourseController extends Controller
                 'course' => $course,
                 'categories' => $categories,
                 'user' => $user,
+            ]
+        );
+    }
+
+    public function apiShow(Request $request, mixed $id)
+    {
+        $getCourseCategoriesAndDecksService = new GetCourseCategoriesAndDecksService();
+        $category = new Category();
+        $categories = $category->findAllByParams(['course_id' => $id]);
+        $data = $getCourseCategoriesAndDecksService->run(courseId: $id);
+
+        return $this->json(
+            [
+                'decks' => $data,
+                'categories' => $categories,
             ]
         );
     }

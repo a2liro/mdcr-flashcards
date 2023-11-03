@@ -14,7 +14,7 @@ class GetLastFivePlayedCardsByDeckProvider
     $user = $user->getCurrentUser();
     $playedCard = new PlayedCard();
     return $playedCard->where(['card_id', '=', $cardId])
-        ->where(['user_id', '=', $user->id])
+        ->where(['user_id', '=', $user['id']])
         ->where(['was_deleted', '=', '0'])
         ->orderBy(['id' => 'desc'])
         ->limit(5)

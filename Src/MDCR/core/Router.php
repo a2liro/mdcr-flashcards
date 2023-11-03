@@ -191,7 +191,8 @@ class Router implements iRouter
     private function checkMiddlewares ($middlewares): bool
     {
         $this->middlewares = [
-            'auth' => AuthController::class
+            'auth' => AuthController::class,
+            'auth_api' => AuthController::class
         ];
         foreach ($middlewares as $middleware) {
             if (array_key_exists($middleware, $this->middlewares)) {

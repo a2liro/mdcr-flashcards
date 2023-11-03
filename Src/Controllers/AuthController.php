@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+
 /* Handle CORS */
 
 // // Specify domains from which requests are allowed
@@ -21,10 +22,12 @@ namespace App\Controllers;
 // }
 
 
+use App\Services\User\AuthenticUserByToken;
 use MDCR\core\Request;
 use MDCR\Models\User;
-use Google\Client;
 use Google_Client;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class AuthController extends Controller
 {
@@ -54,15 +57,15 @@ class AuthController extends Controller
     }
 
     public function authorizeGoogle(Request $request)
-    {        
+    {
         $data = $request->all();
         $userModel = new User(); // \R::findOne('user', 'email = ?', [$data['email']]);
 
         $client = new Google_Client(['client_id' => $data['client_id']]);
-        $profile = $client->verifyIdToken($data['credential']);  
+        $profile = $client->verifyIdToken($data['credential']);
 
         $user = $userModel->findOneByParams(['email' => $profile['email']]);
-        if($user == null) {
+        if ($user == null) {
             $newUser = $userModel->create([
                 'email' => $profile['email'],
                 'name' => $profile['name'],
@@ -71,19 +74,19 @@ class AuthController extends Controller
             ]);
             $_SESSION['logged'] = 'true';
             $_SESSION['user_id'] = $newUser->id;
-        }else {
+        } else {
             $_SESSION['logged'] = 'true';
             $_SESSION['user_id'] = $user->id;
         }
-        
-        
-            
-            $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/cursos';
-            unset($_SESSION['nextUrl']);
-            // header('Location: ' . $next);
 
-            echo ['user' => $profile];
-        
+
+
+        $next = $_SESSION['nextUrl'] ? $_SESSION['nextUrl'] : '/cursos';
+        unset($_SESSION['nextUrl']);
+        // header('Location: ' . $next);
+
+        echo ['user' => $profile];
+
     }
 
     public function create(Request $request)
@@ -127,5 +130,44 @@ class AuthController extends Controller
             // header('Location: /login');
             return false;
         }
+    }
+    public static function auth_api()
+    {
+        $user = new User();
+        $authenticated = $user->getCurrentUser();
+        if (sizeof($authenticated) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function apiLogin(Request $request)
+    {
+
+        $data = $request->all();
+        // var_dump($data);
+        $user = new User(); // \R::findOne('user', 'email = ?', [$data['email']]);
+
+        $user = $user->findOneByParams(['email' => $data['email']]);
+        $authenticad = password_verify($data['password'], $user->password);
+        $userData = array();
+        if ($authenticad) {
+            $envFile = parse_ini_file(dirname(__DIR__) . "/../.env");
+            $key = $envFile["SECRET_KEY"];
+            $payload = [
+                "password" => $user->password,
+                "name" => $user->name,
+                "email" => $user->email
+            ];
+
+            $token = JWT::encode($payload, $key, 'HS256');
+            $decoded = JWT::decode($token, new Key($key, 'HS256'));
+
+            $userData['user'] = $user->toArray();
+            $userData['user']['token'] = $token;
+            unset($userData['user']['password']);
+        }
+        $this->json($userData);
     }
 }

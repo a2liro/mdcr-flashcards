@@ -36,6 +36,5 @@ class StorePlayedCardService
         $card = new Card();
         $cardModel = $deck->findOneByParams(['id' => $deckId]);
         $cardModel->ownPlayedCardList[] = $playedCard;
-
     }
 }

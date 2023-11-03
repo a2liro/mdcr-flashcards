@@ -15,7 +15,7 @@ class GetCoursesByUserRepository
     $course = new Course();
 
     $publicCourses = $course->findAllByParams(['type' => 'public']);
-    $coursesByMyOrganization = $course->findAllByParams(['type' => 'private', 'organization_id' => $user->organization_id]);
+    $coursesByMyOrganization = $course->findAllByParams(['type' => 'private', 'organization_id' => $user['organization_id']]);
 
     $allMyCourses = array_merge($publicCourses, $coursesByMyOrganization);
 
