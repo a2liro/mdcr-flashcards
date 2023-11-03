@@ -264,8 +264,8 @@ class DeckController extends Controller
             $playedCardModel = new PlayedCard();
             $allCardsFromDeck = $cardModel->where(['deck_id', '=', $deckId])->get();
             $cardsPlayedFromUser = $playedCardModel
-                ->where(['deck_id', '=', $deckId, 'user_id' => $user->id])
-                ->where(['user_id', '=', $user->id])
+                ->where(['deck_id', '=', $deckId])
+                ->where(['user_id', '=', $user['id']])
                 ->where(['was_deleted', '=', 0])
                 ->get();
 

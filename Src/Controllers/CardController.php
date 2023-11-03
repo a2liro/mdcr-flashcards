@@ -336,6 +336,12 @@ class CardController extends Controller
         StorePlayedCardService::run($deckId, $cardId, $note);
         $card = GetNextCardByDeckService::run($deckId);
 
-        return $this->json( ['message' => 'success', 'card' => $card ] );
+        $message = 'success';
+
+        if(sizeof($card) === 0) { 
+            $message = 'no_cards';
+        }
+
+        return $this->json( ['message' => $message, 'card' => $card ] );
     }
 }

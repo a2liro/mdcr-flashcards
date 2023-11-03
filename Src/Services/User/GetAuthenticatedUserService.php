@@ -28,7 +28,10 @@ class GetAuthenticatedUserService
             $user = new User();
             $userId = $_SESSION['user_id'];
             $user = $user->findOneByParams(['id' => $userId]);
-            return $user->toArray();
+            if($user !== null) {
+                return $user->toArray();
+            }  
+            
         }
 
     }

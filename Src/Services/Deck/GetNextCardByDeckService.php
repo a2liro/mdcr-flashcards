@@ -56,28 +56,8 @@ class GetNextCardByDeckService
     $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
     if (gettype($card) == 'array' && !sizeof($card)) {
-      header("Location: /categorias/{$deck->category_id}/visualizar");
-      die();
+      return $card;
     }
-
-
-    // $image64 = File::getBase64($card['image']);
-    // $audioFile64 = File::getBase64($card['audiofile']);
-
-
-
-    // if (!strlen($audioFile64) && !strlen($card['audio'])) {
-    //     $this->playFront($request, $deckId, $card['id']);
-    //     return 0;
-    // }
-
-    // $card['image64'] = $image64;
-    // $card['audioFile64'] = $audioFile64;
-
-    // $audio64 = File::getBase64($card['audio']);
-    // $card['audio64'] = $audio64;
-
-    //        return $this->view('deck/playFrontAudio.twig', ['card' => $card, 'deck' => $deck]);
 
     $lasFiveNotes = GetLastFivePlayedCardsByDeckService::run($card["id"]);
 
