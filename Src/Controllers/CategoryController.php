@@ -22,7 +22,7 @@ class CategoryController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $course = new Course();
-        $courses = $course->findAllByParams(['user_id' => $user->id]);
+        $courses = $course->findAllByParams(['user_id' => $user['id']]);
         return $this->view('course/index.twig', ['courses' => $courses]);
     }
 
@@ -58,11 +58,11 @@ class CategoryController extends Controller
         $card->audio64 = $audio64;
 
         $decks = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
         )->get();
 
         $currentDeck = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $deckId]
         )->get()[0];
 
@@ -96,7 +96,7 @@ class CategoryController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $course = new Card();
-        $course = $course->findOneByParams(['user_id' => $user->id, 'id' => $id]);
+        $course = $course->findOneByParams(['user_id' => $user['id'], 'id' => $id]);
         /* $course->update($data); */
         if ($course->id == $id) {
             $course->update($data);
@@ -131,14 +131,14 @@ class CategoryController extends Controller
                         where playedcard.user_id = ?
                         and playedcard.deck_id = ?
                         GROUP by playedcard.card_id) as t where t.nextshowmax < ?;",
-                        [$user->id, $deck->id, date('Y-m-d H:i:s')]
+                        [$user['id'], $deck->id, date('Y-m-d H:i:s')]
                     );
                 $deck->totalCardsToPlayAgain = sizeof($totalCardsToPlayAgain);
 
                 $totalNewCards = 0;
                 $allCardsFromDeck = $playedCardModel->exec('select id  from card where deck_id = ?;', [$deck->id]);
                 foreach ($allCardsFromDeck as $card) {
-                    $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ?;', [$card['id'], $user->id]);
+                    $playedcard = $playedCardModel->exec('select id  from playedcard where card_id = ? and user_id = ?;', [$card['id'], $user['id']]);
                     if (sizeof($playedcard) == 0) {
                         $totalNewCards++;
                     } else {
@@ -169,7 +169,7 @@ class CategoryController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         return $this->view('course/exclude.twig', ['card' => $cards[0], 'deckId' => $deckId]);
@@ -180,7 +180,7 @@ class CategoryController extends Controller
 
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
 
@@ -198,7 +198,7 @@ class CategoryController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty);
@@ -208,7 +208,7 @@ class CategoryController extends Controller
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshow,
@@ -225,7 +225,7 @@ class CategoryController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
@@ -235,7 +235,7 @@ class CategoryController extends Controller
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshowReverse,

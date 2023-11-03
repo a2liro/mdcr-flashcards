@@ -14,7 +14,7 @@ class StoreOrganizationRepository
         $data['updated_at'] = date('Y-m-d H:i:s');
         $user = new User();
         $user->getCurrentUser();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         $organization = new Organization();
         $organization->create($data);
         $user->ownOrganizatiionList[] = $organization;

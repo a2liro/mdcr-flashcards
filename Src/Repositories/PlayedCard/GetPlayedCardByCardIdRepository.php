@@ -12,6 +12,6 @@ class GetPlayedCardByCardIdRepository
     {
         $user = GetCurrentUserService::run();
         $playedCard = new PlayedCard();
-        return $playedCard->where(['card_id', '=', $cardId], ['user_id', '=', $user->id])->orderBy(['id' => 'desc', 'user_id' => 'asc'])->get();
+        return $playedCard->where(['card_id', '=', $cardId], ['user_id', '=', $user['id']])->orderBy(['id' => 'desc', 'user_id' => 'asc'])->get();
     }
 }

@@ -15,7 +15,7 @@ class StoreOrganizationService
         $storeOrganizationRepository = new StoreOrganizationRepository();
         $user = new User();
         $user->getCurrentUser();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         $organization = $storeOrganizationRepository->run($data);
         $user->ownOrganizationList[] = $organization;
         return $organization;

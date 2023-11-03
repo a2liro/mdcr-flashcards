@@ -15,7 +15,7 @@ class StoreCourseService
         $storeCourseRepository = new StoreCourseRepository();
         $user = new User();
         $user->getCurrentUser();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         if ($_FILES['thumbnail']['size']) {
             $data['thumbnail'] = File::save($_FILES['thumbnail'], 'courses');
         }
