@@ -21,7 +21,7 @@ class CardController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $card = new Card();
-        $cards = $card->findAllByParams(['user_id' => $user->id]);
+        $cards = $card->findAllByParams(['user_id' => $user['id']]);
         return $this->view('card/index.twig', ['cards' => $cards]);
     }
 
@@ -43,7 +43,7 @@ class CardController extends Controller
         $user = new User();
         $user->getCurrentUser();
         $data = $request->all();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         $data['deck_id'] = $deckId;
         $data['difficulty'] = 5;
         $data['lastshow'] = date('Y-m-d H:i:s');
@@ -102,7 +102,7 @@ class CardController extends Controller
         $card->audio64 = $audio64;
 
         $decks = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
           )->get();
 
           $currentDeck = (new Deck())->where(
@@ -153,7 +153,7 @@ class CardController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $card = new Card();
-        $card = $card->findOneByParams(['id' => $id, 'user_id' => $user->id]);
+        $card = $card->findOneByParams(['id' => $id, 'user_id' => $user['id']]);
         return $this->view(
             'card/show.twig',
             [
@@ -201,7 +201,7 @@ class CardController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
@@ -211,7 +211,7 @@ class CardController extends Controller
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshowReverse,

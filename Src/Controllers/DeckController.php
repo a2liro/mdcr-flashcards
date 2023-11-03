@@ -24,14 +24,14 @@ class DeckController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $deck = new Deck();
-        $decks = $deck->findAllByParams(['user_id' => $user->id]);
+        $decks = $deck->findAllByParams(['user_id' => $user['id']]);
 
         $currentDate = date('Y-m-d H:i:s');
         foreach ($decks as $key => $deck) {
 
             $cards = (new Card)->select('id')
                 ->where(
-                    ['user_id', '=', $user->id],
+                    ['user_id', '=', $user['id']],
                     ['deck_id', '=', $deck->id],
                     ['nextshow', '<=', "'$currentDate'"]
                 )
@@ -39,7 +39,7 @@ class DeckController extends Controller
             $decks[$key]->cardsToPlay = sizeof($cards);
             $cardsReverse = (new Card)->select('id')
                 ->where(
-                    ['user_id', '=', $user->id],
+                    ['user_id', '=', $user['id']],
                     ['deck_id', '=', $deck->id],
                     ['nextshow_reverse', '<=', "'$currentDate'"]
                 )
@@ -85,7 +85,7 @@ class DeckController extends Controller
         // $user = new User();
         // $user = $user->getCurrentUser();
         // $deck = new Deck();
-        // $deck = $deck->findOneByParams(['user_id' => $user->id]);
+        // $deck = $deck->findOneByParams(['user_id' => $user['id']]);
         // /* $deck->update($data); */
         // if ($deck->id == $id) {
         //     $deck->update($data);
@@ -139,7 +139,7 @@ class DeckController extends Controller
                 ->orderBy(['id' => 'desc'])
                 ->get();
             $playedCardModel = new PlayedCard();
-            $totalPlayedCards = sizeof($playedCardModel->findAllByParams(['user_id' => $user->id, 'deck_id' => $id]));
+            $totalPlayedCards = sizeof($playedCardModel->findAllByParams(['user_id' => $user['id'], 'deck_id' => $id]));
             return $this->view(
                 'deck/show.twig',
                 [
@@ -219,7 +219,7 @@ class DeckController extends Controller
     public function playBack(Request $request, int $deckId, int $cardId)
     {
         $user = (new User())->getCurrentUser();
-        // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId, 'id' => $cardId]);
+        // $card = (new Card())->findOneByParams(['user_id' => $user['id'], 'deck_id' => $deckId, 'id' => $cardId]);
         $card = (new Card())->findOneByParams(['deck_id' => $deckId, 'id' => $cardId]);
         $deck = (new Deck())->findOneByParams(['id' => $deckId]);
         $playedCard = (new PlayedCard())->where(['card_id', '=', $cardId])->orderBy(['id' => 'desc'])->limit(1)->get();
@@ -255,7 +255,7 @@ class DeckController extends Controller
         $cardModel = new Card();
 
 
-        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? and playedcard.was_deleted = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user->id, 0]);
+        $cardsToPlayAgainData = $cardModel->exec('select * from (SELECT card.*, playedcard.nextshow, playedcard.id as playId FROM card RIGHT JOIN playedcard on card.id = playedcard.card_id  WHERE playedcard.id IN (SELECT MAX(playedcard.id) FROM card right join playedcard on card.id = playedcard.card_id where card.deck_id = ? and playedcard.user_id = ? and playedcard.was_deleted = ? GROUP BY card_id)) as d where d.nextshow < NOW() ORDER by d.nextshow', [$deckId, $user['id'], 0]);
 
         if (sizeof($cardsToPlayAgainData)) {
             $card = $cardsToPlayAgainData[0];
@@ -375,7 +375,7 @@ class DeckController extends Controller
     //     )->orderBy(['nextshow_reverse', 'asc'])
     //         ->limit(1)
     //         ->get();
-    //     // $card = (new Card())->findOneByParams(['user_id' => $user->id, 'deck_id' => $deckId]);
+    //     // $card = (new Card())->findOneByParams(['user_id' => $user['id'], 'deck_id' => $deckId]);
     //     $deck = (new Deck())->findOneByParams(['id' => $deckId]);
 
     //     if (sizeof($cards)) {
@@ -418,7 +418,7 @@ class DeckController extends Controller
         )->get();
 
         $playedCardModel = new PlayedCard();
-        $playedCardModel->exec("update playedcard set was_deleted = true where deck_id = ? and user_id = ?", [$deckId, $user->id]);
+        $playedCardModel->exec("update playedcard set was_deleted = true where deck_id = ? and user_id = ?", [$deckId, $user['id']]);
         header("Location: /baralhos/{$deckId}/visualizar");
     }
 

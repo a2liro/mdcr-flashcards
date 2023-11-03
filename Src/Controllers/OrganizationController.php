@@ -58,11 +58,11 @@ class OrganizationController extends Controller
         $card->audio64 = $audio64;
 
         $decks = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
         )->get();
 
         $currentDeck = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $deckId]
         )->get()[0];
 
@@ -96,7 +96,7 @@ class OrganizationController extends Controller
         $user = new User();
         $user = $user->getCurrentUser();
         $organization = new Card();
-        $organization = $organization->findOneByParams(['user_id' => $user->id, 'id' => $id]);
+        $organization = $organization->findOneByParams(['user_id' => $user['id'], 'id' => $id]);
         /* $organization->update($data); */
         if ($organization->id == $id) {
             $organization->update($data);
@@ -127,7 +127,7 @@ class OrganizationController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         return $this->view('organization/exclude.twig', ['card' => $cards[0], 'deckId' => $deckId]);
@@ -138,7 +138,7 @@ class OrganizationController extends Controller
 
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
 
@@ -156,7 +156,7 @@ class OrganizationController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty);
@@ -166,7 +166,7 @@ class OrganizationController extends Controller
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshow,
@@ -183,7 +183,7 @@ class OrganizationController extends Controller
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
@@ -193,7 +193,7 @@ class OrganizationController extends Controller
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshowReverse,

@@ -12,7 +12,7 @@ class StoreCardService
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = CalcNoteService::run($note, $cards[0]->difficulty); //$this->calcNote($note, $cards[0]->difficulty);
@@ -22,7 +22,7 @@ class StoreCardService
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshow,

@@ -69,11 +69,11 @@ public function apiIndex(Request $request)
         $card->audio64 = $audio64;
 
         $decks = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
         )->get();
 
         $currentDeck = (new Deck())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $deckId]
         )->get()[0];
 
@@ -107,7 +107,7 @@ public function apiIndex(Request $request)
         $user = new User();
         $user = $user->getCurrentUser();
         $course = new Card();
-        $course = $course->findOneByParams(['user_id' => $user->id, 'id' => $id]);
+        $course = $course->findOneByParams(['user_id' => $user['id'], 'id' => $id]);
         /* $course->update($data); */
         if ($course->id == $id) {
             $course->update($data);
@@ -156,7 +156,7 @@ public function apiIndex(Request $request)
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         return $this->view('course/exclude.twig', ['card' => $cards[0], 'deckId' => $deckId]);
@@ -167,7 +167,7 @@ public function apiIndex(Request $request)
 
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
 
@@ -185,7 +185,7 @@ public function apiIndex(Request $request)
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty);
@@ -195,7 +195,7 @@ public function apiIndex(Request $request)
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshow,
@@ -212,7 +212,7 @@ public function apiIndex(Request $request)
     {
         $user = (new User())->getCurrentUser();
         $cards = (new Card())->where(
-            ['user_id', '=', $user->id],
+            ['user_id', '=', $user['id']],
             ['id', '=', $cardId]
         )->get();
         $timeToNextShow = $this->calcNote($note, $cards[0]->difficulty_reverse);
@@ -222,7 +222,7 @@ public function apiIndex(Request $request)
 
         $cards[0]->update();
         $noteData = [
-            'user_id' => $user->id,
+            'user_id' => $user['id'],
             'card_id' => $cardId,
             'note' => $note,
             'showdate' => $cards[0]->lastshowReverse,

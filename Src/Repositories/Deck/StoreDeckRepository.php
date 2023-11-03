@@ -11,7 +11,7 @@ class StoreDeckRepository
     {
         $user = new User();
         $user->getCurrentUser();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['is_english'] = $data['isEnglish'] === 'on';

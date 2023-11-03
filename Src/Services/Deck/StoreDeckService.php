@@ -14,7 +14,7 @@ class StoreDeckService
         $storeDeckRepository = new StoreDeckRepository();
         $user = new User();
         $user->getCurrentUser();
-        $data['user_id'] = $user->id;
+        $data['user_id'] = $user['id'];
         if ($_FILES['thumbnail']['size']) {
             $data['thumbnail'] = File::save($_FILES['thumbnail'], 'decks');
         }

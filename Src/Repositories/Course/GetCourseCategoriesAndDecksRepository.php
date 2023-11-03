@@ -59,7 +59,7 @@ class GetCourseCategoriesAndDecksRepository
             and playedcard.deck_id = ?
             and was_deleted = 0
             GROUP by playedcard.card_id) as t where t.nextshowmax < ?;",
-                    [$user->id, $deck['id'], date('Y-m-d H:i:s')]
+                    [$user['id'], $deck['id'], date('Y-m-d H:i:s')]
                 );
             $decks[$key]['totalCardsToPlayAgain'] = sizeof($totalCardsToPlayAgain);
 

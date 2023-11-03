@@ -13,6 +13,6 @@ class GetOrganizationsByLoggedUser
         $user = new User();
         $user = $user->getCurrentUser();
         $organizations = new Course();
-        return $course->findAllByParams(['user_id' => $user->id, 'organization_id' => $organizationId]);
+        return $course->findAllByParams(['user_id' => $user['id'], 'organization_id' => $organizationId]);
     }
 }
