@@ -22,7 +22,9 @@ namespace App\Controllers;
 // }
 
 
+use App\Services\User\ApiLoginService;
 use App\Services\User\AuthenticUserByToken;
+use App\Services\User\StoreUserService;
 use MDCR\core\Request;
 use MDCR\Models\User;
 use Google_Client;
@@ -146,28 +148,23 @@ class AuthController extends Controller
     {
 
         $data = $request->all();
-        // var_dump($data);
-        $user = new User(); // \R::findOne('user', 'email = ?', [$data['email']]);
-
-        $user = $user->findOneByParams(['email' => $data['email']]);
-        $authenticad = password_verify($data['password'], $user->password);
-        $userData = array();
-        if ($authenticad) {
-            $envFile = parse_ini_file(dirname(__DIR__) . "/../.env");
-            $key = $envFile["SECRET_KEY"];
-            $payload = [
-                "password" => $user->password,
-                "name" => $user->name,
-                "email" => $user->email
-            ];
-
-            $token = JWT::encode($payload, $key, 'HS256');
-            $decoded = JWT::decode($token, new Key($key, 'HS256'));
-
-            $userData['user'] = $user->toArray();
-            $userData['user']['token'] = $token;
-            unset($userData['user']['password']);
-        }
+        $userData = ApiLoginService::run($data);
         $this->json($userData);
+    }
+
+
+    public function apiCreate(Request $request)
+    {
+        $user = new User();
+        $data = $request->all();
+        $data['type'] = 'student';
+        $data['organization_id'] = 1;
+        $userResult = StoreUserService::run($data);
+
+        if (sizeof($userResult) > 0) {
+            return $this->json($userResult);
+        }
+
+        return $this->json([]);
     }
 }
