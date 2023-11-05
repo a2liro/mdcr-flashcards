@@ -144,8 +144,12 @@ public function apiIndex(Request $request)
         $categories = $category->findAllByParams(['course_id' => $id]);
         $data = $getCourseCategoriesAndDecksService->run(courseId: $id);
 
+        $course = new Course();
+        $course = $course->findOneByParams(['id' => $id]);
+
         return $this->json(
             [
+                'course' => $course,
                 'decks' => $data,
                 'categories' => $categories,
             ]
