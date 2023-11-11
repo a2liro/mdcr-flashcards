@@ -13,7 +13,7 @@ class StoreDeckService
     {
         $storeDeckRepository = new StoreDeckRepository();
         $user = new User();
-        $user->getCurrentUser();
+        $user = $user->getCurrentUser();
         $data['user_id'] = $user['id'];
         if ($_FILES['thumbnail']['size']) {
             $data['thumbnail'] = File::save($_FILES['thumbnail'], 'decks');
@@ -22,8 +22,6 @@ class StoreDeckService
             $data['audiofile'] = File::save($_FILES['audiofile'], 'decks');
         }
         $deck = $storeDeckRepository->run($data, $user);
-        $user->ownDeckList[] = $deck;
-        $user->store();
 
         $category = new Category();
         $categoryModel = $category->findOneByParams(['id' => $data['category_id']]);
