@@ -10,7 +10,7 @@ class StoreDeckRepository
     public function run($data, $user)
     {
         $user = new User();
-        $user->getCurrentUser();
+        $user = $user->getCurrentUser();
         $data['user_id'] = $user['id'];
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] = date('Y-m-d H:i:s');
@@ -18,8 +18,6 @@ class StoreDeckRepository
 
         $deck = new Deck();
         $deck->create($data);
-        $user->ownDeckList[] = $deck;
-        $user->store();
         return $deck;
     }
 }
