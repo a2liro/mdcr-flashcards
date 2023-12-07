@@ -18,8 +18,8 @@ $router->get(['/home', 'HelloController@home']);
 $router->get(['/contact', 'HelloController@contact']);
 
 
-$router->get(['/organizacoes', 'OrganizationController@index', 'middleware' => ['auth']]);
-$router->get(['/organizacoes/criar', 'OrganizationController@create', 'middleware' => ['auth']]);
+$router->get(['/organizacoes', 'OrganizationController@index', 'middleware' => ['auth']]); // refatorado
+$router->get(['/organizacoes/criar', 'OrganizationController@create', 'middleware' => ['auth']]); // refatorando
 $router->post(['/organizacoes/criar', 'OrganizationController@store', 'middleware' => ['auth']]);
 $router->get(['/organizacoes/{id}/visualizar', 'OrganizationController@show', 'middleware' => ['auth']]);
 
