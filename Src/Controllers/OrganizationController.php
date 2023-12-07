@@ -27,8 +27,6 @@ class OrganizationController extends Controller
 
     public function create(Request $request)
     {
-        $user = new User();
-        $user = $user->getCurrentUser();
         return $this->view('organization/create.twig', []);
     }
 

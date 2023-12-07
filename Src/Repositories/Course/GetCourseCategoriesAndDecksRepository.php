@@ -39,6 +39,10 @@ class GetCourseCategoriesAndDecksRepository
         shuffle($decks);
 
         usort($decks, function ($a, $b) {
+            return $a['totalNewCards'] < $b['totalNewCards'];
+        });
+
+        usort($decks, function ($a, $b) {
             return $a['totalCardsToPlayAgain'] < $b['totalCardsToPlayAgain'];
         });
         return $decks;
