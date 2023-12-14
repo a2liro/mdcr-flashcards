@@ -611,3 +611,7 @@ ins {
   margin-top: 0.6em;
   font-size: 1.3em;
 }
+
+#google-play-badge {
+  max-width: 9em;
+}
