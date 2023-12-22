@@ -107,6 +107,8 @@ $router->get(['/api/courses', 'CourseController@apiIndex', 'middleware' => ['aut
 $router->get(['/api/courses/show/{id}', 'CourseController@apiShow', 'middleware' => ['auth_api']]);
 $router->get(['/api/decks/play/{deckId}', 'DeckController@apiPlayAllAudios', 'middleware' => ['auth_pai']]);
 $router->get(['/api/decks/{deckId}/cards/{cardId}/note/{note}', 'CardController@apiNote', 'middleware' => ['auth_pai']]);
+$router->get(['/api/reports/overview', 'ReportController@apiOverview', 'middleware' => ['auth_api']]);
+
 
 
 
