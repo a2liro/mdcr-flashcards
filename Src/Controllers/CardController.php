@@ -64,11 +64,12 @@ class CardController extends Controller
 
     public function storePublic(Request $request, int $deckId)
     {
+
         $imagePath = File::save($_FILES['image'], 'cards');
         $audioPath = File::save($_FILES['audiofile'], 'cards');
 
         $data = $request->all();
-        $data['user_id'] = 2;
+        $data['user_id'] = 1;
         $data['deck_id'] = $deckId;
         $data['difficulty'] = 5;
         $data['lastshow'] = date('Y-m-d H:i:s');
