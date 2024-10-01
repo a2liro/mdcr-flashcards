@@ -19,7 +19,7 @@ class OverviewRepository
         // $hasOnlyOne = $model->exec("select * from (select count(id) as total, YEAR(nextshow) as year, MONTH(nextshow) as month, DAY(nextshow) as day, playedcard.* from playedcard where user_id = ? group by card_id) as t where t.total = 1", [$user['id']]);
         // $resultPlayed = array_merge($hasMoreThanOne, $hasOnlyOne);
 
-        $toPlay = $model->exec("select count(p1.id)as total, YEAR(nextshow) as year, MONTH(nextshow) as month, DAY(nextshow) as day, p1.created_at, p1.nextshow from playedcard p1 where p1.deleted_at is NULL and deck_id IS NOT NULL AND user_id = ? and id = (select MAX(p2.id) from playedcard p2 where p1.deleted_at is NULL and p1.card_id = p2.card_id limit 1) group by YEAR(nextshow), MONTH(nextshow), DAY(nextshow)", [$user['id']]);
+        $toPlay = $model->exec("select count(p1.id)as total, YEAR(nextshow) as year, MONTH(nextshow) as month, DAY(nextshow) as day, p1.created_at, p1.nextshow from playedcard p1 where p1.was_deleted = 0 and deck_id IS NOT NULL AND user_id = ? and id = (select MAX(p2.id) from playedcard p2 where p1.was_deleted = 0 and p1.card_id = p2.card_id limit 1) group by YEAR(nextshow), MONTH(nextshow), DAY(nextshow)", [$user['id']]);
 
         return ['played' => $hasMoreThanOne, 'to_play' => $toPlay];
     }
